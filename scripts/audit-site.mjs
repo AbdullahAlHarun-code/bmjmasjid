@@ -88,6 +88,11 @@ try {
     await page.locator('main button').first().click();
     await page.getByRole('dialog').waitFor();await page.keyboard.press('ArrowRight');
     await page.setViewportSize({width:568,height:320});
+    // Browser dynamic viewport units settle on a later rendering frame after rotation.
+    await page.waitForFunction(() => {
+      const box = document.querySelector('[role="dialog"]')?.getBoundingClientRect();
+      return box && box.top >= 0 && box.bottom <= innerHeight;
+    }, undefined, {timeout:10_000});
     const dialogBounds=await page.getByRole('dialog').evaluate(dialog=>({
       controls:[...dialog.querySelectorAll('button')].map(e=>{const b=e.getBoundingClientRect();return {text:e.textContent.trim(),top:b.top,bottom:b.bottom};}),height:innerHeight,
     }));
