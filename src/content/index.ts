@@ -26,5 +26,6 @@ export type {
   ContactContent,
   PrivacyContent,
   DonationPolicyContent,
+  PhotoDateCopy,
   ShareContent,
 } from "./types";

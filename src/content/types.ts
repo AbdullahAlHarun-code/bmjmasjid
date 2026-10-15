@@ -271,6 +271,11 @@ export type DonationPolicyContent = {
   linkSupport: string;
 };
 
+export type PhotoDateCopy = {
+  takenLabel: string;
+  verifiedLabel: string;
+};
+
 export type ShellContent = {
   footerNote: string;
   stepPlaceholder: string;
@@ -296,5 +301,6 @@ export type SiteContent = {
   contact: ContactContent;
   privacy: PrivacyContent;
   donationPolicy: DonationPolicyContent;
+  photoDates: PhotoDateCopy;
   shell: ShellContent;
 };

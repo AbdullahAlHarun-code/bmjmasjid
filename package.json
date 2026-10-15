@@ -15,7 +15,8 @@
     "check:interactions": "node scripts/check-interactions.mjs",
     "capture:step4": "node scripts/capture-step4-screenshots.mjs",
     "db:migrate": "node --env-file-if-exists=.env.local scripts/db-migrate.mjs",
-    "test:donation-storage": "node scripts/test-donation-storage.mjs"
+    "test:donation-storage": "node scripts/test-donation-storage.mjs",
+    "test:photo-dates": "node --experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning scripts/test-photo-dates.mjs"
   },
   "dependencies": {
     "mysql2": "^3.24.6",

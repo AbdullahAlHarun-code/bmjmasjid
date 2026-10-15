@@ -80,6 +80,8 @@ Shared chrome: logo header, language switch (Bangla default), accessible mobile 
 
 Project photos/logo mapping: `src/config/assets.ts` (optimized web copies in `public/images/`; originals stay in `collections/`).
 
+Photo capture and condition-check dates are optional fields on those construction photographs. Edit them only in `src/config/assets.ts`. See [docs/photo-dates.md](docs/photo-dates.md).
+
 ## GitHub status
 
 Connected to: [AbdullahAlHarun-code/bmjmasjid](https://github.com/AbdullahAlHarun-code/bmjmasjid)

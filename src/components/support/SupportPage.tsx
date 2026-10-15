@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { BkashDonateCard } from "@/components/BkashDonateCard";
+import { PhotoMeta } from "@/components/PhotoMeta";
 import { ShareProject } from "@/components/ShareProject";
 import { DonationReportForm } from "@/components/support/DonationReportForm";
 import { projectAssets } from "@/config/assets";
@@ -50,9 +51,17 @@ export function SupportPage({ locale, content }: SupportPageProps) {
               style={{ objectPosition: photo.objectPosition }}
               priority
             />
-            <p className="p-4 text-sm leading-relaxed text-[color:var(--bm-text-secondary)]">
-              {t(photo.caption, locale)}
-            </p>
+            <div className="p-4">
+              <p className="text-sm leading-relaxed text-[color:var(--bm-text-secondary)]">
+                {t(photo.caption, locale)}
+              </p>
+              <PhotoMeta
+                asset={photo}
+                locale={locale}
+                labels={content.photoDates}
+                className="mt-2"
+              />
+            </div>
           </div>
           <div>
             <p className="text-[1.125rem] leading-[1.7] text-[color:var(--bm-text)]">

@@ -9,17 +9,19 @@ import {
   useState,
   type KeyboardEvent as ReactKeyboardEvent,
 } from "react";
+import { PhotoMeta } from "@/components/PhotoMeta";
 import type { ProjectAsset } from "@/config/assets";
 import { t, type Locale } from "@/config/mosque";
-import type { UpdatesContent } from "@/content";
+import type { PhotoDateCopy, UpdatesContent } from "@/content/types";
 
 type PhotoGalleryProps = {
   locale: Locale;
   photos: readonly ProjectAsset[];
   copy: UpdatesContent;
+  photoDates: PhotoDateCopy;
 };
 
-export function PhotoGallery({ locale, photos, copy }: PhotoGalleryProps) {
+export function PhotoGallery({ locale, photos, copy, photoDates }: PhotoGalleryProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const triggerRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -148,6 +150,12 @@ export function PhotoGallery({ locale, photos, copy }: PhotoGalleryProps) {
                 <span className="block text-sm leading-relaxed text-[color:var(--bm-text-secondary)]">
                   {t(photo.caption, locale)}
                 </span>
+                <PhotoMeta
+                  asset={photo}
+                  locale={locale}
+                  labels={photoDates}
+                  className="mt-2"
+                />
                 <span className="mt-3 inline-flex min-h-11 items-center text-sm font-semibold text-[color:var(--bm-primary)]">
                   {copy.openImage}
                 </span>
@@ -215,6 +223,12 @@ export function PhotoGallery({ locale, photos, copy }: PhotoGalleryProps) {
               <p className="text-sm leading-relaxed text-[color:var(--bm-text)]">
                 {t(activePhoto.caption, locale)}
               </p>
+              <PhotoMeta
+                asset={activePhoto}
+                locale={locale}
+                labels={photoDates}
+                className="mt-2"
+              />
               <div className="mt-3 flex flex-wrap gap-2">
                 <button
                   type="button"
