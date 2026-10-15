@@ -112,3 +112,24 @@ body {
   background: var(--bm-surface);
   box-shadow: var(--bm-shadow);
 }
+
+/* Keep photographs useful without losing controls on short landscape phones. */
+@media (max-height: 480px) and (min-width: 480px) {
+  .photo-viewer-panel {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+  .photo-viewer-header { grid-column: 1 / -1; }
+  .photo-viewer-image { padding: 0.5rem; }
+  .photo-viewer-details {
+    display: flex;
+    min-height: 0;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .photo-viewer-caption {
+    min-height: 0;
+    max-height: none;
+    flex: 1;
+  }
+}

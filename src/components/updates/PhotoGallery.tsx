@@ -172,10 +172,10 @@ export function PhotoGallery({ locale, photos, copy }: PhotoGalleryProps) {
             role="dialog"
             aria-modal="true"
             aria-labelledby={titleId}
-            className="relative grid h-[min(96dvh,56rem)] max-h-[calc(100dvh-1.5rem)] w-full max-w-5xl grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden rounded-[var(--bm-radius)] bg-[color:var(--bm-surface)] shadow-[var(--bm-shadow)]"
+            className="photo-viewer-panel relative grid h-[min(96dvh,56rem)] max-h-[calc(100dvh-1.5rem)] w-full max-w-5xl grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden rounded-[var(--bm-radius)] bg-[color:var(--bm-surface)] shadow-[var(--bm-shadow)]"
             onKeyDown={onDialogKeyDown}
           >
-            <div className="flex items-center justify-between gap-3 border-b border-[color:var(--bm-border)] px-4 py-3">
+            <div className="photo-viewer-header flex items-center justify-between gap-3 border-b border-[color:var(--bm-border)] px-4 py-3">
               <p
                 id={titleId}
                 className="min-w-0 truncate text-sm font-semibold text-[color:var(--bm-primary)]"
@@ -198,7 +198,7 @@ export function PhotoGallery({ locale, photos, copy }: PhotoGalleryProps) {
               </button>
             </div>
 
-            <div className="relative flex min-h-0 items-center justify-center overflow-hidden bg-[color:var(--bm-background)] px-2 py-4 sm:px-4">
+            <div className="photo-viewer-image relative flex min-h-0 items-center justify-center overflow-hidden bg-[color:var(--bm-background)] px-2 py-4 sm:px-4">
               <Image
                 src={activePhoto.src}
                 alt={t(activePhoto.alt, locale)}
@@ -211,11 +211,11 @@ export function PhotoGallery({ locale, photos, copy }: PhotoGalleryProps) {
               />
             </div>
 
-            <div className="border-t border-[color:var(--bm-border)] px-4 py-3">
-              <p className="max-h-[25dvh] overflow-y-auto text-sm leading-relaxed text-[color:var(--bm-text)]">
+            <div className="photo-viewer-details border-t border-[color:var(--bm-border)] px-4 py-3">
+              <p className="photo-viewer-caption max-h-[25dvh] overflow-y-auto text-sm leading-relaxed text-[color:var(--bm-text)]">
                 {t(activePhoto.caption, locale)}
               </p>
-              <div className="mt-3 flex flex-wrap gap-2">
+              <div className="mt-3 flex shrink-0 flex-wrap gap-2">
                 <button
                   type="button"
                   onClick={showPrevious}
