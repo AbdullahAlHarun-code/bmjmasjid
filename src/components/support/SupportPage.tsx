@@ -73,7 +73,7 @@ export function SupportPage({ locale, content }: SupportPageProps) {
         </div>
       </section>
 
-      <section className="bg-[color:var(--bm-surface)] py-10 sm:py-12">
+      <section id="donation-options" className="scroll-mt-24 bg-[color:var(--bm-surface)] py-10 sm:py-12">
         <div className="site-container max-w-3xl">
           <h2 className="text-2xl font-semibold text-[color:var(--bm-primary)]">
             {page.statusTitle}

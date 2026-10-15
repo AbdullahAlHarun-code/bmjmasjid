@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { BrandMark } from "@/components/BrandMark";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -11,7 +11,6 @@ import {
   useState,
   type KeyboardEvent as ReactKeyboardEvent,
 } from "react";
-import { projectAssets } from "@/config/assets";
 import { mosqueConfig, t, type Locale } from "@/config/mosque";
 import { legalNav, primaryNav } from "@/config/navigation";
 import type { SiteContent } from "@/content";
@@ -34,7 +33,6 @@ export function Header({ locale, content }: HeaderProps) {
   const menuId = useId();
   const buttonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  const logo = projectAssets.logo;
 
   if (menuPath !== pathname) {
     setMenuPath(pathname);
@@ -106,16 +104,9 @@ export function Header({ locale, content }: HeaderProps) {
           href="/"
           className="flex min-h-12 min-w-0 flex-1 items-center gap-2 rounded-[var(--bm-radius-sm)] py-1 pr-1 sm:gap-2.5 sm:pr-2"
         >
-          <Image
-            src={logo.src}
-            alt={t(logo.alt, locale)}
-            width={40}
-            height={53}
-            className="h-11 w-auto shrink-0"
-            priority
-          />
+          <BrandMark locale={locale} className="h-12 w-12 sm:h-16 sm:w-16" />
           <span className="min-w-0">
-            <span className="block truncate text-sm font-semibold leading-snug text-[color:var(--bm-primary)] sm:text-base">
+            <span className="block text-[0.8rem] font-semibold leading-snug text-[color:var(--bm-primary)] sm:text-base">
               {t(mosqueConfig.shortName, locale)}
             </span>
             <span className="hidden text-xs text-[color:var(--bm-text-secondary)] sm:block">
