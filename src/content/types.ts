@@ -3,6 +3,11 @@ export type PageCopy = {
   summary: string;
 };
 
+export type FaqItem = {
+  question: string;
+  answer: string;
+};
+
 export type HomeContent = {
   title: string;
   locationLine: string;
@@ -110,6 +115,99 @@ export type UpdatesContent = {
   };
 };
 
+export type ShareContent = {
+  title: string;
+  intro: string;
+  nativeShare: string;
+  whatsapp: string;
+  copyLink: string;
+  copied: string;
+  copyError: string;
+  /** Short message for WhatsApp / native share; `{url}` placeholder. */
+  message: string;
+};
+
+export type SupportContent = {
+  title: string;
+  description: string;
+  intro: string;
+  appeal: string;
+  targetLabel: string;
+  targetClarification: string;
+  statusTitle: string;
+  statusBody: string;
+  localTitle: string;
+  localBody: string;
+  abroadTitle: string;
+  abroadBody: string;
+  actionsTitle: string;
+  linkConstruction: string;
+  linkPhotos: string;
+  faqTitle: string;
+  faqs: FaqItem[];
+  share: ShareContent;
+};
+
+export type TransparencyContent = {
+  title: string;
+  description: string;
+  intro: string;
+  purposeTitle: string;
+  purposeBody: string;
+  targetLabel: string;
+  targetClarification: string;
+  unknownTitle: string;
+  unknownBody: string;
+  reportingTitle: string;
+  reportingBody: string;
+  founderTitle: string;
+  founderBody: string;
+  reportsTitle: string;
+  reportsEmpty: string;
+  linksTitle: string;
+  linkConstruction: string;
+  linkPhotos: string;
+  linkDonationPolicy: string;
+};
+
+export type ContactContent = {
+  title: string;
+  description: string;
+  intro: string;
+  addressLabel: string;
+  noticeTitle: string;
+  noticeBody: string;
+  mapSearchLabel: string;
+  mapSearchNote: string;
+  linksTitle: string;
+  linkAbout: string;
+  linkConstruction: string;
+  linkSupport: string;
+  share: ShareContent;
+};
+
+export type PrivacyContent = {
+  title: string;
+  description: string;
+  intro: string;
+  sections: Array<{
+    title: string;
+    body: string;
+  }>;
+};
+
+export type DonationPolicyContent = {
+  title: string;
+  description: string;
+  intro: string;
+  sections: Array<{
+    title: string;
+    body: string;
+  }>;
+  linkTransparency: string;
+  linkSupport: string;
+};
+
 export type ShellContent = {
   footerNote: string;
   stepPlaceholder: string;
@@ -129,11 +227,11 @@ export type SiteContent = {
   home: HomeContent;
   about: AboutContent;
   construction: ConstructionContent;
-  support: PageCopy;
+  support: SupportContent;
   updates: UpdatesContent;
-  transparency: PageCopy;
-  contact: PageCopy;
-  privacy: PageCopy;
-  donationPolicy: PageCopy;
+  transparency: TransparencyContent;
+  contact: ContactContent;
+  privacy: PrivacyContent;
+  donationPolicy: DonationPolicyContent;
   shell: ShellContent;
 };

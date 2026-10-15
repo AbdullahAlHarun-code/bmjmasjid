@@ -19,4 +19,10 @@ export type {
   AboutContent,
   ConstructionContent,
   UpdatesContent,
+  SupportContent,
+  TransparencyContent,
+  ContactContent,
+  PrivacyContent,
+  DonationPolicyContent,
+  ShareContent,
 } from "./types";

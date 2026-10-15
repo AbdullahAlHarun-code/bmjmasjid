@@ -1,13 +1,35 @@
 import type { Metadata } from "next";
-import { LocalizedPageShell } from "@/components/LocalizedPageShell";
+import { Suspense } from "react";
+import { TransparencyPage } from "@/components/transparency/TransparencyPage";
 import { getContent } from "@/content";
 import { getLocale } from "@/lib/get-locale";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
-  return { title: getContent(locale).transparency.title };
+  const transparency = getContent(locale).transparency;
+  return {
+    title: transparency.title,
+    description: transparency.description,
+  };
 }
 
-export default function TransparencyPage() {
-  return <LocalizedPageShell page="transparency" />;
+async function TransparencyContent() {
+  const locale = await getLocale();
+  const content = getContent(locale);
+  return <TransparencyPage locale={locale} content={content} />;
+}
+
+export default function Page() {
+  return (
+    <Suspense
+      fallback={
+        <div className="site-container py-12" aria-hidden>
+          <div className="h-8 w-56 rounded bg-[color:var(--bm-primary)]/10" />
+          <div className="mt-4 h-4 w-full max-w-xl rounded bg-[color:var(--bm-border)]" />
+        </div>
+      }
+    >
+      <TransparencyContent />
+    </Suspense>
+  );
 }

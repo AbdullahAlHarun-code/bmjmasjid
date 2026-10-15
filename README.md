@@ -66,7 +66,9 @@ Editable campaign facts live in `src/config/mosque.ts`. Page copy lives in `src/
 
 - `/` — Step 2 mobile-first homepage (hero through final invitation)
 - `/about`, `/construction`, `/updates` — Step 3A complete bilingual pages
-- `/support`, `/transparency`, `/contact`, `/privacy`, `/donation-policy` — shared shell; later steps
+- `/support`, `/transparency`, `/contact`, `/privacy`, `/donation-policy` — Step 3B complete bilingual pages
+
+Internal readiness notes (not visitor-facing): [docs/site-readiness.md](docs/site-readiness.md).
 
 Shared chrome: logo header, language switch (Bangla default), accessible mobile menu, dark-green footer, mobile support bar.
 

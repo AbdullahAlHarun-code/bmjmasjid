@@ -107,8 +107,62 @@ export const contentEn: SiteContent = {
   },
   support: {
     title: "Support us",
-    summary:
-      "Donation guidance will live here. Online payments are not connected yet.",
+    description:
+      "Support the construction of Baitul Mamur Jame Masjid — first fundraising target and current donation status.",
+    intro:
+      "Well-wishers in Bangladesh and abroad are invited to take part in this construction.",
+    appeal:
+      "We seek your support to advance the construction of this mosque on land donated by the late Nurul Haque Bepari.",
+    targetLabel: "First fundraising target",
+    targetClarification:
+      "This is the first fundraising target for this campaign. It is not a verified total construction cost.",
+    statusTitle: "Current status",
+    statusBody:
+      "Online donation acceptance is not available yet. When it is ready, details will be published on this page.",
+    localTitle: "Supporters in Bangladesh",
+    localBody:
+      "Specific ways to help from inside the country have not been announced yet. When online payments open, they will be listed here. Until then, you can share the project with people you know.",
+    abroadTitle: "Bangladeshis abroad",
+    abroadBody:
+      "Guidance for supporters in Italy, the USA, the Middle East and elsewhere will be added later. International payment support is not claimed as available now.",
+    actionsTitle: "What you can do now",
+    linkConstruction: "See construction progress",
+    linkPhotos: "View project photographs",
+    faqTitle: "Common questions",
+    faqs: [
+      {
+        question: "Where is the mosque?",
+        answer:
+          "Baitul Mamur Jame Masjid is at Pourashava Ward No. 2, College Road, Bhedarganj, Shariatpur, Bangladesh.",
+      },
+      {
+        question: "What is this campaign for?",
+        answer:
+          "It invites Bangladeshis at home and abroad to help advance construction. The first fundraising target is BDT 2 million.",
+      },
+      {
+        question: "Can I donate online now?",
+        answer:
+          "No. Online donation acceptance is not available yet. There is no checkout, donation form, or payment-success message on this site.",
+      },
+      {
+        question: "Where will updates appear?",
+        answer:
+          "Photographs and verified construction updates will appear on Photos and updates. Financial reporting notes will appear on Accounts and transparency.",
+      },
+    ],
+    share: {
+      title: "Share this project",
+      intro:
+        "Use the options below to tell others. No login or personal information is required.",
+      nativeShare: "Share",
+      whatsapp: "Share on WhatsApp",
+      copyLink: "Copy link",
+      copied: "Link copied",
+      copyError: "Could not copy the link. Please copy it from the address bar.",
+      message:
+        "Join the construction of Baitul Mamur Jame Masjid in Bhedarganj, Shariatpur. First fundraising target: BDT 2 million. {url}",
+    },
   },
   updates: {
     title: "Photos and updates",
@@ -130,21 +184,122 @@ export const contentEn: SiteContent = {
     },
   },
   transparency: {
-    title: "Transparency",
-    summary:
-      "Verified donations and spending will be published later. No fundraising totals are shown yet.",
+    title: "Accounts and transparency",
+    description:
+      "Campaign target, purpose, and how financial reporting is intended for Baitul Mamur Jame Masjid.",
+    intro:
+      "This page explains the campaign target and how reporting is intended. Verified received totals and spending are not shown yet.",
+    purposeTitle: "Campaign purpose",
+    purposeBody:
+      "This campaign invites support to advance construction. The amount below is the first fundraising target.",
+    targetLabel: "First fundraising target",
+    targetClarification:
+      "This is the first fundraising target. It is not a verified total construction cost or a promise of full completion.",
+    unknownTitle: "Received donations, spending, and balance",
+    unknownBody:
+      "Verified received donations, expenditure, and balance are not ready to publish. No progress bar, zero amounts, or estimates are shown here.",
+    reportingTitle: "Intended reporting",
+    reportingBody:
+      "Campaign receipts, expenditure, and dated updates are intended to be published here after verification. No audited accounts or published reports are claimed now.",
+    founderTitle: "Earlier founder-funded work",
+    founderBody:
+      "The late Nurul Haque Bepari has personally borne most of the construction costs so far. That earlier funding will be kept separate from this campaign’s collections.",
+    reportsTitle: "Published reports",
+    reportsEmpty:
+      "No verified campaign reports have been published yet. Confirmed figures will be added here when available.",
+    linksTitle: "Related pages",
+    linkConstruction: "Construction needs",
+    linkPhotos: "Photos and updates",
+    linkDonationPolicy: "Donation policy",
   },
   contact: {
     title: "Contact",
-    summary: "Current contact details are not confirmed yet and will be added later.",
+    description:
+      "Name and address of Baitul Mamur Jame Masjid, and the current status of contact details.",
+    intro:
+      "The mosque name and address are shown below. Current contact channels are not confirmed yet.",
+    addressLabel: "Address",
+    noticeTitle: "Contact information",
+    noticeBody:
+      "Current contact information will be added here after confirmation. Phone, email, WhatsApp, and committee names are not shown now.",
+    mapSearchLabel: "Open a general address search",
+    mapSearchNote:
+      "This is a general address-search link. It is not presented as a verified map pin or exact coordinates.",
+    linksTitle: "Project links",
+    linkAbout: "About",
+    linkConstruction: "Construction needs",
+    linkSupport: "Support us",
+    share: {
+      title: "Share this project",
+      intro: "Use the options below to tell others about the project.",
+      nativeShare: "Share",
+      whatsapp: "Share on WhatsApp",
+      copyLink: "Copy link",
+      copied: "Link copied",
+      copyError: "Could not copy the link. Please copy it from the address bar.",
+      message:
+        "Baitul Mamur Jame Masjid, Bhedarganj, Shariatpur. Support the construction: {url}",
+    },
   },
   privacy: {
     title: "Privacy policy",
-    summary: "A privacy policy draft will be added in a later step.",
+    description:
+      "What this Baitul Mamur Jame Masjid website currently uses and does not collect.",
+    intro:
+      "This policy reflects the site’s current behaviour only. It does not invent retention periods, consent systems, or legal-compliance claims.",
+    sections: [
+      {
+        title: "Language preference",
+        body: "The site is available in Bangla and English. When you switch language, a cookie named ‘bm-locale’ is stored in your browser so the same language can be shown next time. That cookie does not store a name, email, or other personal identity.",
+      },
+      {
+        title: "Fonts and images",
+        body: "Text uses Noto Sans Bengali via next/font. Project photographs and the logo are served from this site’s own files.",
+      },
+      {
+        title: "What is not present",
+        body: "This site currently has no analytics tools, third-party embeds, contact forms, or donation forms. No personal-data collection feature is active.",
+      },
+      {
+        title: "Sharing and copy link",
+        body: "Share and copy-link actions run on your own device. This site does not collect personal information from those actions or run tracking for them.",
+      },
+      {
+        title: "Hosting and future changes",
+        body: "The site is not publicly launched yet. When hosting is chosen, ordinary server logs for that environment may apply. If online donations or forms are added later, this policy will be updated.",
+      },
+    ],
   },
   donationPolicy: {
     title: "Donation policy",
-    summary: "Donation acceptance and use policy will be added in a later step.",
+    description:
+      "Current donation availability, campaign purpose, and reporting status for Baitul Mamur Jame Masjid.",
+    intro:
+      "This policy matches current functionality. It does not invent refund deadlines, receipt guarantees, fees, or international payment support.",
+    sections: [
+      {
+        title: "Current donation acceptance",
+        body: "Online donation acceptance is not available yet. This site has no checkout, donation form, or payment gateway.",
+      },
+      {
+        title: "Campaign purpose",
+        body: "Support is invited to advance mosque construction. The first fundraising target is BDT 2 million. That amount is not claimed as the full construction cost.",
+      },
+      {
+        title: "Reporting and transparency",
+        body: "Verified received donations, spending, and balances are not published yet. The intended reporting approach is described on Accounts and transparency.",
+      },
+      {
+        title: "What is not claimed",
+        body: "This site does not claim zakat eligibility, tax deductibility, registered charity status, or a verified charity badge. Historical receipt details are not presented as a current payment destination.",
+      },
+      {
+        title: "Changes",
+        body: "When online donations open, acceptance rules, use of funds, and reporting details on this page will be updated.",
+      },
+    ],
+    linkTransparency: "View accounts and transparency",
+    linkSupport: "Back to Support",
   },
   shell: {
     footerNote: "Bhedarganj, Shariatpur, Bangladesh",

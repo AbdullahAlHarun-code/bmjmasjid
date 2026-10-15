@@ -10,6 +10,24 @@ export type LocalizedString = {
   en: string;
 };
 
+/** Future contact fields — keep null until a current channel is confirmed. */
+export type ContactInfo = {
+  phone: string | null;
+  email: string | null;
+  whatsapp: string | null;
+  officeHours: LocalizedString | null;
+  note: LocalizedString | null;
+};
+
+/** Future committee listing — keep null until identities are confirmed. */
+export type CommitteeInfo = {
+  members: ReadonlyArray<{
+    name: LocalizedString;
+    role: LocalizedString;
+  }> | null;
+  note: LocalizedString | null;
+};
+
 export type MosqueConfig = {
   defaultLocale: Locale;
   name: LocalizedString;
@@ -32,13 +50,16 @@ export type MosqueConfig = {
   };
   audienceNote: LocalizedString;
   /** Unknown until provided by the mosque committee. */
-  committee: null;
+  committee: CommitteeInfo | null;
   /** Unknown until a current contact is confirmed. */
-  contact: null;
+  contact: ContactInfo | null;
   /** Unknown until a construction budget is confirmed. */
   constructionBudgetBdt: number | null;
-  /** Payments are not available in Step 1. */
-  paymentsAvailable: false | null;
+  /**
+   * Online payments are not available until explicitly enabled.
+   * `null` and `false` both mean unavailable to visitors.
+   */
+  paymentsAvailable: boolean | null;
 };
 
 export const mosqueConfig: MosqueConfig = {
@@ -97,4 +118,9 @@ export const mosqueConfig: MosqueConfig = {
 
 export function t(value: LocalizedString, locale: Locale = mosqueConfig.defaultLocale): string {
   return value[locale];
+}
+
+/** True only when online payments are explicitly enabled. */
+export function arePaymentsAvailable(): boolean {
+  return mosqueConfig.paymentsAvailable === true;
 }
