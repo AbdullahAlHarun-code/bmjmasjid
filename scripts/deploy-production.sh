@@ -43,8 +43,9 @@ if ! flock -w 1800 9; then
 fi
 
 if [ -n "${PRODUCTION_NODE_SETUP:-}" ]; then
-  # Activates the existing Node.js install (for example a cPanel nodevenv). Not logged.
+  # Activates the existing cPanel nodevenv. The selector command may cd; return afterwards.
   eval "$PRODUCTION_NODE_SETUP"
+  cd "$APP_DIR"
 fi
 
 if ! command -v node >/dev/null 2>&1 || ! command -v npm >/dev/null 2>&1; then
@@ -117,26 +118,11 @@ restart_app() {
     bash -c "$PRODUCTION_RESTART_COMMAND"
     return
   fi
-  local pm2_name=""
-  if command -v pm2 >/dev/null 2>&1; then
-    pm2_name=$(pm2 jlist 2>/dev/null | node --input-type=module -e '
-      let raw = "";
-      process.stdin.on("data", (chunk) => { raw += chunk; });
-      process.stdin.on("end", () => {
-        let apps = [];
-        try { apps = JSON.parse(raw); } catch { return; }
-        const cwd = process.env.APP_DIR;
-        const match = apps.find((app) => app?.pm2_env?.pm_cwd === cwd || app?.name === "baitul-mamur");
-        if (match?.name) process.stdout.write(String(match.name));
-      });
-    ' || true)
-  fi
-  if [ -n "$pm2_name" ]; then
-    pm2 reload "$pm2_name" --update-env
-    return
-  fi
-  mkdir -p tmp
-  touch tmp/restart.txt
+  # Namecheap shared hosting runs this app under cPanel's Node.js selector
+  # (Phusion Passenger). Passenger reloads when tmp/restart.txt in the
+  # application root changes. A stray pm2 binary must not take this path.
+  mkdir -p "$APP_DIR/tmp"
+  touch "$APP_DIR/tmp/restart.txt"
 }
 
 restore_previous() {

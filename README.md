@@ -95,7 +95,7 @@ CI workflow: `.github/workflows/ci.yml` (typecheck, lint, build, donation-storag
 
 ## Deployment
 
-Pushing `master` deploys that exact commit after CI succeeds. HTTPS, DNS, and the existing server stay as they are. See [docs/deployment.md](docs/deployment.md) for secrets, the one-time server setup, and rollback.
+Pushing `master` deploys that exact commit to the existing Namecheap app after CI succeeds. HTTPS, DNS, the database, and uploaded files stay as they are. SSH is `premium55-5.web-hosting.com` port `21098`. See [docs/deployment.md](docs/deployment.md) for secrets, the one-time server setup, and rollback.
 
 ```bash
 git push origin master

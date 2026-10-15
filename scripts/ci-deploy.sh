@@ -22,7 +22,8 @@ if [ "${#missing[@]}" -gt 0 ]; then
   exit 1
 fi
 
-PRODUCTION_PORT=${PRODUCTION_PORT:-22}
+# This host accepts SSH on 21098. Port 22 does not connect.
+PRODUCTION_PORT=${PRODUCTION_PORT:-21098}
 ROLLBACK_MODE=${ROLLBACK_MODE:-0}
 case "$PRODUCTION_PORT" in
   ''|*[!0-9]*) echo "PRODUCTION_PORT must be a number" >&2; exit 1 ;;
@@ -102,6 +103,7 @@ ssh_opts=(
   -o UserKnownHostsFile="$work/known_hosts"
   -o ServerAliveInterval=30
   -o ServerAliveCountMax=40
+  -o ConnectTimeout=20
 )
 
 remote="${PRODUCTION_USER}@${PRODUCTION_HOST}"

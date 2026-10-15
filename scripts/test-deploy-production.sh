@@ -152,4 +152,29 @@ if APP_DIR="$tmp/not-a-repo" DEPLOY_SHA="$sha_a" bash "$deploy" >"$tmp/nogit.out
 fi
 grep -q 'not a git checkout' "$tmp/nogit.out"
 
+if ! grep -F 'PRODUCTION_PORT=${PRODUCTION_PORT:-21098}' "$ci_deploy" >/dev/null; then
+  echo "ci deploy must default to the Namecheap SSH port 21098" >&2
+  exit 1
+fi
+if ! grep -F 'ConnectTimeout=20' "$ci_deploy" >/dev/null; then
+  echo "ci deploy must fail fast when the SSH port does not connect" >&2
+  exit 1
+fi
+
+cat > "$bin/pm2" <<EOF
+#!/bin/sh
+echo called >> "$tmp/pm2-called"
+exit 0
+EOF
+chmod +x "$bin/pm2"
+rm -f "$tmp/app/tmp/restart.txt" "$tmp/pm2-called"
+mkdir -p "$tmp/elsewhere"
+run_deploy "$tmp/passenger.out" DEPLOY_SHA="$sha_c" PRODUCTION_NODE_SETUP="cd '$tmp/elsewhere'"
+grep -q '^deploy_result=deployed$' "$tmp/passenger.out"
+test -f "$tmp/app/tmp/restart.txt"
+test ! -e "$tmp/elsewhere/tmp"
+test ! -e "$tmp/pm2-called"
+test "$(git -C "$tmp/app" rev-parse HEAD)" = "$sha_c"
+grep -q 'super-secret-db-token' "$tmp/app/.env.local"
+
 echo "deploy guards passed"
