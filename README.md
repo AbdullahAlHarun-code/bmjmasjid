@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Baitul Mamur Jame Masjid — Fundraising Site
 
-## Getting Started
+Foundation (Step 1) for the construction fundraising website of **বাইতুল মামুর জামে মসজিদ** (Baitul Mamur Jame Masjid) in Bhedarganj, Shariatpur, Bangladesh.
 
-First, run the development server:
+Detailed design, content, database, and payments come in later steps. This step only establishes a maintainable Next.js project with route shells and architecture boundaries.
+
+## Stack
+
+| Layer | Choice |
+| --- | --- |
+| Framework | Next.js 16 (App Router) |
+| Language | TypeScript (`strict`) |
+| Styling | Tailwind CSS 4 |
+| Package manager | npm (lockfile retained) |
+| Runtime | Node.js **22 LTS** preferred (Next.js 16 requires ≥ 20.9) |
+| Database | PostgreSQL planned later (not connected) |
+| Payments | SSLCOMMERZ planned first (architecture only) |
+
+## Local setup
 
 ```bash
+# Prerequisites: Node.js 22 LTS (or ≥ 20.9), npm
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Optional environment placeholders:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+cp .env.example .env.local
+```
 
-## Learn More
+Do not commit `.env.local` or any real secrets.
 
-To learn more about Next.js, take a look at the following resources:
+## Commands
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Local development server |
+| `npm run build` | Production build |
+| `npm run start` | Serve production build |
+| `npm run lint` | ESLint |
+| `npm run typecheck` | TypeScript (`tsc --noEmit`) |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project structure
 
-## Deploy on Vercel
+```
+src/
+  app/                 # App Router routes
+  components/          # Shared UI (header, footer, page shell)
+  config/              # Typed mosque + navigation config
+  content/             # Bangla (default) and English copy
+  styles/              # Design tokens
+  server/payments/     # Server-only payment provider boundary (no live integration)
+docs/
+  payments-architecture.md
+collections/           # Existing reference images (preserved)
+.github/workflows/ci.yml
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Editable campaign facts live in `src/config/mosque.ts`. Page copy lives in `src/content/bn.ts` (default) and `src/content/en.ts`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Routes (shells)
+
+- `/` — simple working homepage
+- `/about`, `/construction`, `/support`, `/updates`, `/transparency`
+- `/contact`, `/privacy`, `/donation-policy`
+
+Navigation is wired through the shared header and footer. Final designs are deferred.
+
+## GitHub status
+
+Local git is initialized. **No GitHub remote is configured yet**, and the GitHub CLI (`gh`) is not available in this environment.
+
+To connect this project to GitHub:
+
+1. Create an empty repository on GitHub (do not add a README if you will push existing history).
+2. From this project root:
+
+```bash
+git remote add origin https://github.com/<your-username>/<your-repo>.git
+git push -u origin master
+```
+
+Or connect via Cursor / GitHub Desktop using the same remote. Do not force-push or overwrite history.
+
+CI workflow: `.github/workflows/ci.yml` (runs typecheck, lint, build on Node 22 once the repo is on GitHub).
+
+## Deferred work (not in Step 1)
+
+- PostgreSQL donation records
+- SSLCOMMERZ (or other) live payment integration
+- Credentials, IPN/webhook endpoints, transaction validation
+- Public deployment
+- Final mobile-first visual design and full content
+
+See [docs/payments-architecture.md](docs/payments-architecture.md). Browser redirects alone must never mark donations paid.
+
+## Design tokens (initial)
+
+| Token | Value |
+| --- | --- |
+| Primary | `#0B4F3C` |
+| Background | `#FFFDF8` |
+| Surface | `#FFFFFF` |
+| Text | `#17251F` |
+| Secondary text | `#52645B` |
+| Accent | `#C79A3B` |
+
+Font: **Noto Sans Bengali** via `next/font`, with system sans fallbacks.

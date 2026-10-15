@@ -1,0 +1,22 @@
+/**
+ * Initial design tokens for Baitul Mamur Jame Masjid.
+ * Consumed via CSS variables and Tailwind @theme mapping.
+ */
+:root {
+  --bm-primary: #0b4f3c;
+  --bm-background: #fffdf8;
+  --bm-surface: #ffffff;
+  --bm-text: #17251f;
+  --bm-text-secondary: #52645b;
+  --bm-accent: #c79a3b;
+
+  --color-primary: var(--bm-primary);
+  --color-background: var(--bm-background);
+  --color-surface: var(--bm-surface);
+  --color-text: var(--bm-text);
+  --color-text-secondary: var(--bm-text-secondary);
+  --color-accent: var(--bm-accent);
+
+  --font-sans: var(--font-noto-sans-bengali), "Noto Sans Bengali", "Noto Sans",
+    "Segoe UI", Tahoma, sans-serif;
+}
