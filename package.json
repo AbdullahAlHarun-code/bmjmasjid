@@ -10,11 +10,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "next typegen && tsc --noEmit",
     "check:overflow": "node scripts/check-viewport-overflow.mjs",
     "check:interactions": "node scripts/check-interactions.mjs",
     "capture:step4": "node scripts/capture-step4-screenshots.mjs",
-    "db:migrate": "node scripts/db-migrate.mjs"
+    "db:migrate": "node --env-file-if-exists=.env.local scripts/db-migrate.mjs",
+    "test:donation-storage": "node scripts/test-donation-storage.mjs"
   },
   "dependencies": {
     "next": "16.4.1",

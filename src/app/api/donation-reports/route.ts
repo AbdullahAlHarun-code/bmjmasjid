@@ -4,14 +4,14 @@ import { isDatabaseConfigured } from "@/server/db/pool";
 import { csrfTokensMatch, readCsrfCookie } from "@/server/donation-reports/csrf";
 import { isSameOriginRequest } from "@/server/donation-reports/origin";
 import { hashRateKey, consumeRateLimit } from "@/server/donation-reports/rate-limit";
-import { insertDonationReport } from "@/server/donation-reports/repository";
+import { insertDonationReport, RetryConflictError } from "@/server/donation-reports/repository";
 import { FIELD_LIMITS, type DonationReportInput } from "@/server/donation-reports/types";
 import { validateDonationReport } from "@/server/donation-reports/validate";
 
 function clientIp(request: Request): string {
-  const forwarded = request.headers.get("x-forwarded-for");
-  if (forwarded) return forwarded.split(",")[0]?.trim() || "unknown";
-  return request.headers.get("x-real-ip")?.trim() || "unknown";
+  // Only accept an address supplied by a proxy explicitly trusted by the operator.
+  if (process.env.DONATION_TRUST_PROXY_IP !== "true") return "shared-untrusted";
+  return request.headers.get("x-real-ip")?.trim() || "shared-untrusted";
 }
 
 export async function POST(request: Request) {
@@ -65,7 +65,21 @@ export async function POST(request: Request) {
 
   let body: DonationReportInput;
   try {
-    body = (await request.json()) as DonationReportInput;
+    const reader = request.body?.getReader();
+    if (!reader) throw new Error("Missing body");
+    const chunks: Uint8Array[] = [];
+    let length = 0;
+    while (true) {
+      const chunk = await reader.read();
+      if (chunk.done) break;
+      length += chunk.value.byteLength;
+      if (length > FIELD_LIMITS.bodyMaxBytes) {
+        await reader.cancel();
+        return NextResponse.json({ ok: false, error: "payload_too_large" }, { status: 413 });
+      }
+      chunks.push(chunk.value);
+    }
+    body = JSON.parse(Buffer.concat(chunks).toString("utf8")) as DonationReportInput;
   } catch {
     return NextResponse.json({ ok: false, error: "invalid_json" }, { status: 400 });
   }
@@ -91,7 +105,10 @@ export async function POST(request: Request) {
       status: result.row.status,
       duplicateTrxFlag: result.row.duplicate_trx_flag,
     });
-  } catch {
+  } catch (error) {
+    if (error instanceof RetryConflictError) {
+      return NextResponse.json({ ok: false, error: "retry_conflict" }, { status: 409 });
+    }
     return NextResponse.json({ ok: false, error: "save_failed" }, { status: 503 });
   }
 }

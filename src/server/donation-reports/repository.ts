@@ -42,23 +42,42 @@ export type InsertResult = {
   created: boolean;
 };
 
+export class RetryConflictError extends Error {}
+
+function checkRetry(row: DonationReportRow, input: ValidatedDonationReport): InsertResult {
+  const date = row.transfer_date instanceof Date
+    ? [row.transfer_date.getFullYear(), String(row.transfer_date.getMonth() + 1).padStart(2, "0"), String(row.transfer_date.getDate()).padStart(2, "0")].join("-")
+    : String(row.transfer_date).slice(0, 10);
+  if (String(row.claimed_amount_poisha) !== String(input.claimedAmountPoisha)
+    || row.trx_id_normalized !== input.trxIdNormalized || date !== input.transferDate
+    || row.donor_name !== input.donorName || row.sending_number !== input.sendingNumber
+    || row.reply_contact !== input.replyContact || row.message !== input.message) {
+    throw new RetryConflictError("Retry content changed");
+  }
+  return { row, created: false };
+}
+
 export async function insertDonationReport(params: {
   validated: ValidatedDonationReport;
   idempotencyKey: string;
 }): Promise<InsertResult> {
   const existing = await findByIdempotencyKey(params.idempotencyKey);
   if (existing) {
-    return { row: existing, created: false };
+    return checkRetry(existing, params.validated);
   }
 
   return withTransaction(async (client) => {
+    // Serialize concurrent retries, then claims for the same transaction.
+    await client.query("SELECT pg_advisory_xact_lock(hashtextextended($1, 0))", ["retry:" + params.idempotencyKey]);
     const again = await client.query<DonationReportRow>(
       `SELECT * FROM donation_report_submissions WHERE idempotency_key = $1 LIMIT 1`,
       [params.idempotencyKey],
     );
     if (again.rows[0]) {
-      return { row: again.rows[0], created: false };
+      return checkRetry(again.rows[0], params.validated);
     }
+
+    await client.query("SELECT pg_advisory_xact_lock(hashtextextended($1, 0))", ["trx:" + params.validated.trxIdNormalized]);
 
     const duplicate = await trxAlreadyClaimed(
       client,

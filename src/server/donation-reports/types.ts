@@ -33,7 +33,7 @@ export type DonationReportRow = {
   claimed_amount_poisha: string;
   trx_id_raw: string;
   trx_id_normalized: string;
-  transfer_date: string;
+  transfer_date: string | Date;
   donor_name: string | null;
   sending_number: string | null;
   reply_contact: string | null;

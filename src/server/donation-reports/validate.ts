@@ -27,9 +27,19 @@ function trimOrNull(value: string | undefined, max: number): string | null {
 }
 
 export function validateDonationReport(
-  input: DonationReportInput,
+  value: unknown,
 ): { ok: true; value: ValidatedDonationReport } | { ok: false; errors: FieldErrors } {
   const errors: FieldErrors = {};
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return { ok: false, errors: { form: "invalid" } };
+  }
+  const fields = ["amount", "trxId", "transferDate", "donorName", "sendingNumber", "replyContact", "message"] as const;
+  for (const field of fields) {
+    const entry = (value as Record<string, unknown>)[field];
+    if (entry !== undefined && typeof entry !== "string") errors[field] = "invalid";
+  }
+  if (Object.keys(errors).length) return { ok: false, errors };
+  const input = value as DonationReportInput;
 
   const amountRaw = (input.amount ?? "").trim();
   if (!amountRaw) {
@@ -61,14 +71,13 @@ export function validateDonationReport(
     errors.transferDate = "invalid";
   } else {
     const transfer = new Date(`${dateRaw}T12:00:00.000Z`);
-    if (Number.isNaN(transfer.getTime())) {
+    if (Number.isNaN(transfer.getTime()) || transfer.toISOString().slice(0, 10) !== dateRaw) {
       errors.transferDate = "invalid";
     } else {
-      const today = new Date();
-      const todayUtc = new Date(
-        Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()),
-      );
-      if (transfer.getTime() > todayUtc.getTime()) {
+      const today = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "Asia/Dhaka", year: "numeric", month: "2-digit", day: "2-digit",
+      }).format(new Date());
+      if (dateRaw > today) {
         errors.transferDate = "future";
       }
       const earliest = Date.UTC(2020, 0, 1);

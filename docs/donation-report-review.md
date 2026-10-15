@@ -53,3 +53,14 @@ Server also stores: opaque `public_ref`, `idempotency_key`, `created_at`, recipi
 - Rate limiting and idempotency keys are stored in PostgreSQL.
 - Same-origin + CSRF double-submit cookie required on POST `/api/donation-reports`.
 - Do not create a public JSON dump of submissions.
+
+
+## Storage verification follow-up
+
+`npm run test:donation-storage` boots the production build locally and runs HTTP checks against an explicitly configured disposable PostgreSQL database. It requires `DONATION_TEST_DATABASE_URL` ending in `/donation_test`, refuses a database containing submissions, and removes its labelled test rows. Never point this command at a real donation database. Apply migrations twice and build before running it. CI supplies its own ephemeral PostgreSQL 17 service; no production credential is needed.
+
+Checks cover persistence after acknowledgement, Bangla amounts, today's Bangladesh transfer date, malformed JSON field types, impossible dates, concurrent retries, changed retry conflicts, concurrent duplicate claims, verified-only totals, prevention of double verification, rate limiting, oversized requests and actual database-write failure. Retries with changed content return 409 and never replace a prior submission. Retry requests still count against the existing eight-request fixed-window limit.
+
+Migration 002 adds a partial unique index for verified provider/recipient/TrxID. If older records already contain multiple verified claims, migration fails for private reconciliation rather than modifying them automatically. The migration command loads `.env.local` on Node 22; values must remain server-only.
+
+Rate limits ignore forwarded IP headers by default, using one conservative shared bucket. Only set `DONATION_TRUST_PROXY_IP=true` when the reverse proxy overwrites `X-Real-IP` and blocks direct access to the app. Confirm this hosting arrangement before activation. No paid service, public deployment or payment gateway is enabled by these checks.
