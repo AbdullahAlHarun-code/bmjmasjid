@@ -1,0 +1,1087 @@
+{
+  "base": "http://127.0.0.1:3000",
+  "checkedAt": "2026-10-15T02:48:33.157Z",
+  "rows": [
+    {
+      "route": "/",
+      "locale": "bn",
+      "viewport": {
+        "width": 320,
+        "height": 700
+      },
+      "innerWidth": 320,
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "বাইতুল মামুর জামে মসজিদ"
+    },
+    {
+      "route": "/about",
+      "locale": "bn",
+      "viewport": {
+        "width": 320,
+        "height": 700
+      },
+      "innerWidth": 320,
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "পরিচিতি | বাইতুল মামুর"
+    },
+    {
+      "route": "/construction",
+      "locale": "bn",
+      "viewport": {
+        "width": 320,
+        "height": 700
+      },
+      "innerWidth": 320,
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "নির্মাণের প্রয়োজন | বাইতুল মামুর"
+    },
+    {
+      "route": "/support",
+      "locale": "bn",
+      "viewport": {
+        "width": 320,
+        "height": 700
+      },
+      "innerWidth": 320,
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "সহযোগিতা করুন | বাইতুল মামুর"
+    },
+    {
+      "route": "/updates",
+      "locale": "bn",
+      "viewport": {
+        "width": 320,
+        "height": 700
+      },
+      "innerWidth": 320,
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "ছবি ও আপডেট | বাইতুল মামুর"
+    },
+    {
+      "route": "/transparency",
+      "locale": "bn",
+      "viewport": {
+        "width": 320,
+        "height": 700
+      },
+      "innerWidth": 320,
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "হিসাব ও স্বচ্ছতা | বাইতুল মামুর"
+    },
+    {
+      "route": "/contact",
+      "locale": "bn",
+      "viewport": {
+        "width": 320,
+        "height": 700
+      },
+      "innerWidth": 320,
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "যোগাযোগ | বাইতুল মামুর"
+    },
+    {
+      "route": "/privacy",
+      "locale": "bn",
+      "viewport": {
+        "width": 320,
+        "height": 700
+      },
+      "innerWidth": 320,
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "গোপনীয়তা নীতি | বাইতুল মামুর"
+    },
+    {
+      "route": "/donation-policy",
+      "locale": "bn",
+      "viewport": {
+        "width": 320,
+        "height": 700
+      },
+      "innerWidth": 320,
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "দান নীতি | বাইতুল মামুর"
+    },
+    {
+      "route": "/",
+      "locale": "en",
+      "viewport": {
+        "width": 320,
+        "height": 700
+      },
+      "innerWidth": 320,
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Baitul Mamur Jame Masjid"
+    },
+    {
+      "route": "/about",
+      "locale": "en",
+      "viewport": {
+        "width": 320,
+        "height": 700
+      },
+      "innerWidth": 320,
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "About | Baitul Mamur"
+    },
+    {
+      "route": "/construction",
+      "locale": "en",
+      "viewport": {
+        "width": 320,
+        "height": 700
+      },
+      "innerWidth": 320,
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Construction needs | Baitul Mamur"
+    },
+    {
+      "route": "/support",
+      "locale": "en",
+      "viewport": {
+        "width": 320,
+        "height": 700
+      },
+      "innerWidth": 320,
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Support us | Baitul Mamur"
+    },
+    {
+      "route": "/updates",
+      "locale": "en",
+      "viewport": {
+        "width": 320,
+        "height": 700
+      },
+      "innerWidth": 320,
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Photos and updates | Baitul Mamur"
+    },
+    {
+      "route": "/transparency",
+      "locale": "en",
+      "viewport": {
+        "width": 320,
+        "height": 700
+      },
+      "innerWidth": 320,
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Accounts and transparency | Baitul Mamur"
+    },
+    {
+      "route": "/contact",
+      "locale": "en",
+      "viewport": {
+        "width": 320,
+        "height": 700
+      },
+      "innerWidth": 320,
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Contact | Baitul Mamur"
+    },
+    {
+      "route": "/privacy",
+      "locale": "en",
+      "viewport": {
+        "width": 320,
+        "height": 700
+      },
+      "innerWidth": 320,
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Privacy policy | Baitul Mamur"
+    },
+    {
+      "route": "/donation-policy",
+      "locale": "en",
+      "viewport": {
+        "width": 320,
+        "height": 700
+      },
+      "innerWidth": 320,
+      "clientWidth": 320,
+      "scrollWidth": 320,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Donation policy | Baitul Mamur"
+    },
+    {
+      "route": "/",
+      "locale": "bn",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "innerWidth": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "বাইতুল মামুর জামে মসজিদ"
+    },
+    {
+      "route": "/about",
+      "locale": "bn",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "innerWidth": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "পরিচিতি | বাইতুল মামুর"
+    },
+    {
+      "route": "/construction",
+      "locale": "bn",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "innerWidth": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "নির্মাণের প্রয়োজন | বাইতুল মামুর"
+    },
+    {
+      "route": "/support",
+      "locale": "bn",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "innerWidth": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "সহযোগিতা করুন | বাইতুল মামুর"
+    },
+    {
+      "route": "/updates",
+      "locale": "bn",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "innerWidth": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "ছবি ও আপডেট | বাইতুল মামুর"
+    },
+    {
+      "route": "/transparency",
+      "locale": "bn",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "innerWidth": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "হিসাব ও স্বচ্ছতা | বাইতুল মামুর"
+    },
+    {
+      "route": "/contact",
+      "locale": "bn",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "innerWidth": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "যোগাযোগ | বাইতুল মামুর"
+    },
+    {
+      "route": "/privacy",
+      "locale": "bn",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "innerWidth": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "গোপনীয়তা নীতি | বাইতুল মামুর"
+    },
+    {
+      "route": "/donation-policy",
+      "locale": "bn",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "innerWidth": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "দান নীতি | বাইতুল মামুর"
+    },
+    {
+      "route": "/",
+      "locale": "en",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "innerWidth": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Baitul Mamur Jame Masjid"
+    },
+    {
+      "route": "/about",
+      "locale": "en",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "innerWidth": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "About | Baitul Mamur"
+    },
+    {
+      "route": "/construction",
+      "locale": "en",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "innerWidth": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Construction needs | Baitul Mamur"
+    },
+    {
+      "route": "/support",
+      "locale": "en",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "innerWidth": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Support us | Baitul Mamur"
+    },
+    {
+      "route": "/updates",
+      "locale": "en",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "innerWidth": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Photos and updates | Baitul Mamur"
+    },
+    {
+      "route": "/transparency",
+      "locale": "en",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "innerWidth": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Accounts and transparency | Baitul Mamur"
+    },
+    {
+      "route": "/contact",
+      "locale": "en",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "innerWidth": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Contact | Baitul Mamur"
+    },
+    {
+      "route": "/privacy",
+      "locale": "en",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "innerWidth": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Privacy policy | Baitul Mamur"
+    },
+    {
+      "route": "/donation-policy",
+      "locale": "en",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "innerWidth": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Donation policy | Baitul Mamur"
+    },
+    {
+      "route": "/",
+      "locale": "bn",
+      "viewport": {
+        "width": 768,
+        "height": 900
+      },
+      "innerWidth": 768,
+      "clientWidth": 753,
+      "scrollWidth": 753,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "বাইতুল মামুর জামে মসজিদ"
+    },
+    {
+      "route": "/about",
+      "locale": "bn",
+      "viewport": {
+        "width": 768,
+        "height": 900
+      },
+      "innerWidth": 768,
+      "clientWidth": 753,
+      "scrollWidth": 753,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "পরিচিতি | বাইতুল মামুর"
+    },
+    {
+      "route": "/construction",
+      "locale": "bn",
+      "viewport": {
+        "width": 768,
+        "height": 900
+      },
+      "innerWidth": 768,
+      "clientWidth": 753,
+      "scrollWidth": 753,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "নির্মাণের প্রয়োজন | বাইতুল মামুর"
+    },
+    {
+      "route": "/support",
+      "locale": "bn",
+      "viewport": {
+        "width": 768,
+        "height": 900
+      },
+      "innerWidth": 768,
+      "clientWidth": 753,
+      "scrollWidth": 753,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "সহযোগিতা করুন | বাইতুল মামুর"
+    },
+    {
+      "route": "/updates",
+      "locale": "bn",
+      "viewport": {
+        "width": 768,
+        "height": 900
+      },
+      "innerWidth": 768,
+      "clientWidth": 753,
+      "scrollWidth": 753,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "ছবি ও আপডেট | বাইতুল মামুর"
+    },
+    {
+      "route": "/transparency",
+      "locale": "bn",
+      "viewport": {
+        "width": 768,
+        "height": 900
+      },
+      "innerWidth": 768,
+      "clientWidth": 753,
+      "scrollWidth": 753,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "হিসাব ও স্বচ্ছতা | বাইতুল মামুর"
+    },
+    {
+      "route": "/contact",
+      "locale": "bn",
+      "viewport": {
+        "width": 768,
+        "height": 900
+      },
+      "innerWidth": 768,
+      "clientWidth": 753,
+      "scrollWidth": 753,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "যোগাযোগ | বাইতুল মামুর"
+    },
+    {
+      "route": "/privacy",
+      "locale": "bn",
+      "viewport": {
+        "width": 768,
+        "height": 900
+      },
+      "innerWidth": 768,
+      "clientWidth": 753,
+      "scrollWidth": 753,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "গোপনীয়তা নীতি | বাইতুল মামুর"
+    },
+    {
+      "route": "/donation-policy",
+      "locale": "bn",
+      "viewport": {
+        "width": 768,
+        "height": 900
+      },
+      "innerWidth": 768,
+      "clientWidth": 753,
+      "scrollWidth": 753,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "দান নীতি | বাইতুল মামুর"
+    },
+    {
+      "route": "/",
+      "locale": "en",
+      "viewport": {
+        "width": 768,
+        "height": 900
+      },
+      "innerWidth": 768,
+      "clientWidth": 753,
+      "scrollWidth": 753,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Baitul Mamur Jame Masjid"
+    },
+    {
+      "route": "/about",
+      "locale": "en",
+      "viewport": {
+        "width": 768,
+        "height": 900
+      },
+      "innerWidth": 768,
+      "clientWidth": 753,
+      "scrollWidth": 753,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "About | Baitul Mamur"
+    },
+    {
+      "route": "/construction",
+      "locale": "en",
+      "viewport": {
+        "width": 768,
+        "height": 900
+      },
+      "innerWidth": 768,
+      "clientWidth": 753,
+      "scrollWidth": 753,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Construction needs | Baitul Mamur"
+    },
+    {
+      "route": "/support",
+      "locale": "en",
+      "viewport": {
+        "width": 768,
+        "height": 900
+      },
+      "innerWidth": 768,
+      "clientWidth": 753,
+      "scrollWidth": 753,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Support us | Baitul Mamur"
+    },
+    {
+      "route": "/updates",
+      "locale": "en",
+      "viewport": {
+        "width": 768,
+        "height": 900
+      },
+      "innerWidth": 768,
+      "clientWidth": 753,
+      "scrollWidth": 753,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Photos and updates | Baitul Mamur"
+    },
+    {
+      "route": "/transparency",
+      "locale": "en",
+      "viewport": {
+        "width": 768,
+        "height": 900
+      },
+      "innerWidth": 768,
+      "clientWidth": 753,
+      "scrollWidth": 753,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Accounts and transparency | Baitul Mamur"
+    },
+    {
+      "route": "/contact",
+      "locale": "en",
+      "viewport": {
+        "width": 768,
+        "height": 900
+      },
+      "innerWidth": 768,
+      "clientWidth": 753,
+      "scrollWidth": 753,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Contact | Baitul Mamur"
+    },
+    {
+      "route": "/privacy",
+      "locale": "en",
+      "viewport": {
+        "width": 768,
+        "height": 900
+      },
+      "innerWidth": 768,
+      "clientWidth": 753,
+      "scrollWidth": 753,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Privacy policy | Baitul Mamur"
+    },
+    {
+      "route": "/donation-policy",
+      "locale": "en",
+      "viewport": {
+        "width": 768,
+        "height": 900
+      },
+      "innerWidth": 768,
+      "clientWidth": 753,
+      "scrollWidth": 753,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Donation policy | Baitul Mamur"
+    },
+    {
+      "route": "/",
+      "locale": "bn",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "innerWidth": 1440,
+      "clientWidth": 1425,
+      "scrollWidth": 1425,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "বাইতুল মামুর জামে মসজিদ"
+    },
+    {
+      "route": "/about",
+      "locale": "bn",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "innerWidth": 1440,
+      "clientWidth": 1425,
+      "scrollWidth": 1425,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "পরিচিতি | বাইতুল মামুর"
+    },
+    {
+      "route": "/construction",
+      "locale": "bn",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "innerWidth": 1440,
+      "clientWidth": 1425,
+      "scrollWidth": 1425,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "নির্মাণের প্রয়োজন | বাইতুল মামুর"
+    },
+    {
+      "route": "/support",
+      "locale": "bn",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "innerWidth": 1440,
+      "clientWidth": 1425,
+      "scrollWidth": 1425,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "সহযোগিতা করুন | বাইতুল মামুর"
+    },
+    {
+      "route": "/updates",
+      "locale": "bn",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "innerWidth": 1440,
+      "clientWidth": 1425,
+      "scrollWidth": 1425,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "ছবি ও আপডেট | বাইতুল মামুর"
+    },
+    {
+      "route": "/transparency",
+      "locale": "bn",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "innerWidth": 1440,
+      "clientWidth": 1425,
+      "scrollWidth": 1425,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "হিসাব ও স্বচ্ছতা | বাইতুল মামুর"
+    },
+    {
+      "route": "/contact",
+      "locale": "bn",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "innerWidth": 1440,
+      "clientWidth": 1425,
+      "scrollWidth": 1425,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "যোগাযোগ | বাইতুল মামুর"
+    },
+    {
+      "route": "/privacy",
+      "locale": "bn",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "innerWidth": 1440,
+      "clientWidth": 1425,
+      "scrollWidth": 1425,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "গোপনীয়তা নীতি | বাইতুল মামুর"
+    },
+    {
+      "route": "/donation-policy",
+      "locale": "bn",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "innerWidth": 1440,
+      "clientWidth": 1425,
+      "scrollWidth": 1425,
+      "overflow": false,
+      "clipped": false,
+      "lang": "bn",
+      "title": "দান নীতি | বাইতুল মামুর"
+    },
+    {
+      "route": "/",
+      "locale": "en",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "innerWidth": 1440,
+      "clientWidth": 1425,
+      "scrollWidth": 1425,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Baitul Mamur Jame Masjid"
+    },
+    {
+      "route": "/about",
+      "locale": "en",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "innerWidth": 1440,
+      "clientWidth": 1425,
+      "scrollWidth": 1425,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "About | Baitul Mamur"
+    },
+    {
+      "route": "/construction",
+      "locale": "en",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "innerWidth": 1440,
+      "clientWidth": 1425,
+      "scrollWidth": 1425,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Construction needs | Baitul Mamur"
+    },
+    {
+      "route": "/support",
+      "locale": "en",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "innerWidth": 1440,
+      "clientWidth": 1425,
+      "scrollWidth": 1425,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Support us | Baitul Mamur"
+    },
+    {
+      "route": "/updates",
+      "locale": "en",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "innerWidth": 1440,
+      "clientWidth": 1425,
+      "scrollWidth": 1425,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Photos and updates | Baitul Mamur"
+    },
+    {
+      "route": "/transparency",
+      "locale": "en",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "innerWidth": 1440,
+      "clientWidth": 1425,
+      "scrollWidth": 1425,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Accounts and transparency | Baitul Mamur"
+    },
+    {
+      "route": "/contact",
+      "locale": "en",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "innerWidth": 1440,
+      "clientWidth": 1425,
+      "scrollWidth": 1425,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Contact | Baitul Mamur"
+    },
+    {
+      "route": "/privacy",
+      "locale": "en",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "innerWidth": 1440,
+      "clientWidth": 1425,
+      "scrollWidth": 1425,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Privacy policy | Baitul Mamur"
+    },
+    {
+      "route": "/donation-policy",
+      "locale": "en",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "innerWidth": 1440,
+      "clientWidth": 1425,
+      "scrollWidth": 1425,
+      "overflow": false,
+      "clipped": false,
+      "lang": "en",
+      "title": "Donation policy | Baitul Mamur"
+    }
+  ],
+  "failures": []
+}

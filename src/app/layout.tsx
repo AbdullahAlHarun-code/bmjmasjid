@@ -39,7 +39,11 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   const content = getContent(locale);
 
   return (
-    <html lang={locale} className={`${notoSansBengali.variable} h-full`}>
+    <html
+      lang={locale}
+      data-scroll-behavior="smooth"
+      className={`${notoSansBengali.variable} h-full`}
+    >
       <body className={`${notoSansBengali.className} flex min-h-full flex-col antialiased`}>
         <DocumentLang locale={locale} />
         <a href="#main-content" className="skip-link">

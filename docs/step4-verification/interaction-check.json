@@ -1,0 +1,46 @@
+{
+  "base": "http://127.0.0.1:3000",
+  "checkedAt": "2026-10-15T02:53:19.000Z",
+  "support": {
+    "path": "/",
+    "lang": "en",
+    "title": "127.0.0.1",
+    "brokenImages": 0,
+    "forms": 0,
+    "hasCopy": false,
+    "hasWhatsApp": false,
+    "nativeShareSupported": false
+  },
+  "copy": {
+    "ok": false,
+    "reason": "missing button"
+  },
+  "whatsapp": {
+    "opened": "",
+    "usesCurrentUrl": false,
+    "isWaMe": false
+  },
+  "languageEn": {
+    "path": "/",
+    "lang": "en",
+    "title": "127.0.0.1",
+    "h1": "\n            This site can’t be reached\n          "
+  },
+  "menu": {
+    "focusVisibleStylePresent": true,
+    "bodyPaddingBottom": "0px"
+  },
+  "gallery": {
+    "opened": false,
+    "hasClose": false,
+    "closedAfterEscape": true,
+    "brokenImages": 0
+  },
+  "reducedMotion": {
+    "scrollBehavior": "auto"
+  },
+  "footer": {
+    "href": null
+  },
+  "footerLanded": "/"
+}

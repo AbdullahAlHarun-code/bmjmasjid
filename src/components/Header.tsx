@@ -101,10 +101,10 @@ export function Header({ locale, content }: HeaderProps) {
 
   return (
     <header className="sticky top-0 z-50 border-b border-[color:var(--bm-border)] bg-[color:var(--bm-surface)]/95 backdrop-blur-sm">
-      <div className="site-container flex min-h-[4.5rem] items-center justify-between gap-3 py-2">
+      <div className="site-container flex min-h-[4.5rem] min-w-0 items-center justify-between gap-2 sm:gap-3 py-2">
         <Link
           href="/"
-          className="flex min-h-12 min-w-0 items-center gap-2.5 rounded-[var(--bm-radius-sm)] py-1 pr-2"
+          className="flex min-h-12 min-w-0 flex-1 items-center gap-2 rounded-[var(--bm-radius-sm)] py-1 pr-1 sm:gap-2.5 sm:pr-2"
         >
           <Image
             src={logo.src}
@@ -147,7 +147,7 @@ export function Header({ locale, content }: HeaderProps) {
           })}
         </nav>
 
-        <div className="flex items-center gap-1 sm:gap-2">
+        <div className="flex shrink-0 items-center gap-1 sm:gap-2">
           <LanguageSwitcher
             locale={locale}
             label={content.shell.languageLabel}

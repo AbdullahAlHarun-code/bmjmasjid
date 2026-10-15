@@ -12,6 +12,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* Keep left/right gutters even when a classic vertical scrollbar is present. */
+  scrollbar-gutter: stable;
 }
 
 body {

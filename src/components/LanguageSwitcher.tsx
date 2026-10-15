@@ -50,7 +50,7 @@ export function LanguageSwitcher({
         type="button"
         onClick={() => switchTo("bn")}
         aria-pressed={locale === "bn"}
-        className={`min-h-12 min-w-12 rounded-[var(--bm-radius-sm)] px-3 text-sm font-semibold transition-colors ${
+        className={`min-h-12 min-w-11 rounded-[var(--bm-radius-sm)] px-2.5 text-sm font-semibold transition-colors sm:min-w-12 sm:px-3 ${
           locale === "bn"
             ? "bg-[color:var(--bm-primary)] text-white"
             : "text-[color:var(--bm-text-secondary)] hover:bg-[color:var(--bm-primary)]/8 hover:text-[color:var(--bm-primary)]"
@@ -62,7 +62,7 @@ export function LanguageSwitcher({
         type="button"
         onClick={() => switchTo("en")}
         aria-pressed={locale === "en"}
-        className={`min-h-12 min-w-12 rounded-[var(--bm-radius-sm)] px-3 text-sm font-semibold transition-colors ${
+        className={`min-h-12 min-w-11 rounded-[var(--bm-radius-sm)] px-2.5 text-sm font-semibold transition-colors sm:min-w-12 sm:px-3 ${
           locale === "en"
             ? "bg-[color:var(--bm-primary)] text-white"
             : "text-[color:var(--bm-text-secondary)] hover:bg-[color:var(--bm-primary)]/8 hover:text-[color:var(--bm-primary)]"

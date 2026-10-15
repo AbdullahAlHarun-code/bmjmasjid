@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check:overflow": "node scripts/check-no-horizontal-overflow.mjs"
   },
   "dependencies": {
     "next": "16.4.1",
