@@ -72,21 +72,16 @@ Navigation is wired through the shared header and footer. Final designs are defe
 
 ## GitHub status
 
-Local git is initialized. **No GitHub remote is configured yet**, and the GitHub CLI (`gh`) is not available in this environment.
-
-To connect this project to GitHub:
-
-1. Create an empty repository on GitHub (do not add a README if you will push existing history).
-2. From this project root:
+Connected to: [AbdullahAlHarun-code/bmjmasjid](https://github.com/AbdullahAlHarun-code/bmjmasjid)
 
 ```bash
-git remote add origin https://github.com/<your-username>/<your-repo>.git
-git push -u origin master
+git remote -v
+# origin  https://github.com/AbdullahAlHarun-code/bmjmasjid.git
 ```
 
-Or connect via Cursor / GitHub Desktop using the same remote. Do not force-push or overwrite history.
+Default branch: `master` (tracks `origin/master`).
 
-CI workflow: `.github/workflows/ci.yml` (runs typecheck, lint, build on Node 22 once the repo is on GitHub).
+CI workflow: `.github/workflows/ci.yml` (typecheck, lint, build on Node 22).
 
 ## Deferred work (not in Step 1)
 
