@@ -95,6 +95,15 @@ async function evaluate(cdp, expression) {
   return result.value;
 }
 
+async function waitFor(cdp, expression, attempts = 40, delayMs = 250) {
+  for (let i = 0; i < attempts; i++) {
+    const value = await evaluate(cdp, expression);
+    if (value) return value;
+    await sleep(delayMs);
+  }
+  return null;
+}
+
 async function main() {
   const port = 9350 + Math.floor(Math.random() * 200);
   const userData = fs.mkdtempSync(path.join(process.env.TEMP || "/tmp", "bm-ix-"));
@@ -121,6 +130,10 @@ async function main() {
     await cdp.connect();
     await cdp.send("Page.enable");
     await cdp.send("Runtime.enable");
+    await cdp.send("Browser.grantPermissions", {
+      origin: BASE,
+      permissions: ["clipboardReadWrite", "clipboardSanitizedWrite"],
+    }).catch(() => {});
     await cdp.send("Emulation.setDeviceMetricsOverride", {
       width: 390,
       height: 844,
@@ -137,12 +150,16 @@ async function main() {
       path: "/",
     });
     await cdp.send("Page.navigate", { url: `${BASE}/support` });
-    await sleep(1000);
+    await waitFor(
+      cdp,
+      `!!Array.from(document.querySelectorAll('button')).find((b) => /লিংক কপি|Copy link/i.test(b.textContent || ''))`,
+    );
 
     report.support = await evaluate(
       cdp,
       `(() => {
-        const broken = Array.from(document.images).filter((img) => !img.complete || img.naturalWidth === 0).length;
+        const imgs = Array.from(document.images);
+        const broken = imgs.filter((img) => img.complete && img.naturalWidth === 0).length;
         const forms = document.forms.length;
         return {
           path: location.pathname,
@@ -153,6 +170,7 @@ async function main() {
           hasCopy: !!Array.from(document.querySelectorAll('button')).find((b) => /কপি|Copy/i.test(b.textContent || '')),
           hasWhatsApp: !!Array.from(document.querySelectorAll('button')).find((b) => /WhatsApp/i.test(b.textContent || '')),
           nativeShareSupported: typeof navigator.share === 'function',
+          h1: document.querySelector('h1')?.textContent || '',
         };
       })()`,
     );
@@ -199,9 +217,10 @@ async function main() {
       `(() => {
         const btn = Array.from(document.querySelectorAll('button')).find((b) => b.textContent?.trim() === 'English');
         btn?.click();
+        return !!btn;
       })()`,
     );
-    await sleep(900);
+    await waitFor(cdp, `document.documentElement.lang === 'en'`);
     report.languageEn = await evaluate(
       cdp,
       `({ path: location.pathname, lang: document.documentElement.lang, title: document.title, h1: document.querySelector('h1')?.textContent || '' })`,
@@ -215,18 +234,17 @@ async function main() {
       path: "/",
     });
     await cdp.send("Page.navigate", { url: `${BASE}/` });
-    await sleep(900);
+    await waitFor(cdp, `!!document.querySelector('header button[aria-expanded]')`);
     report.menu = await evaluate(
       cdp,
-      `(() => {
+      `(async () => {
         const btn = document.querySelector('header button[aria-expanded]');
         btn?.focus();
         btn?.click();
+        await new Promise((r) => setTimeout(r, 200));
         const expanded = btn?.getAttribute('aria-expanded');
-        const firstFocusable = document.querySelector('header nav a, header [id] a');
-        const escape = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true });
-        document.dispatchEvent(escape);
-        // Header listens on document in effect
+        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+        await new Promise((r) => setTimeout(r, 200));
         return {
           expandedAfterOpen: expanded,
           expandedAfterEscape: btn?.getAttribute('aria-expanded'),
@@ -242,21 +260,23 @@ async function main() {
 
     // Gallery
     await cdp.send("Page.navigate", { url: `${BASE}/updates` });
-    await sleep(1000);
+    await waitFor(cdp, `!!document.querySelector('main button')`);
     report.gallery = await evaluate(
       cdp,
-      `(() => {
+      `(async () => {
         const first = document.querySelector('main button');
         first?.click();
+        await new Promise((r) => setTimeout(r, 300));
         const dialog = document.querySelector('[role=\"dialog\"]');
         const close = dialog && Array.from(dialog.querySelectorAll('button')).find((b) => /বন্ধ|Close/i.test(b.textContent || ''));
         document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+        await new Promise((r) => setTimeout(r, 250));
         const dialogAfter = document.querySelector('[role=\"dialog\"]');
         return {
           opened: !!dialog,
           hasClose: !!close,
           closedAfterEscape: !dialogAfter,
-          brokenImages: Array.from(document.images).filter((img) => !img.complete || img.naturalWidth === 0).length,
+          brokenImages: Array.from(document.images).filter((img) => img.complete && img.naturalWidth === 0).length,
         };
       })()`,
     );

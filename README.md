@@ -43,6 +43,10 @@ Do not commit `.env.local` or any real secrets.
 | `npm run start` | Serve production build |
 | `npm run lint` | ESLint |
 | `npm run typecheck` | TypeScript (`tsc --noEmit`) |
+| `npm run check:overflow` | Production server required — viewport overflow regression (CDP) |
+| `npm run check:interactions` | Production server required — share/nav/gallery smoke (CDP) |
+
+Step 4 visual QA notes: [docs/step4-verification/REPORT.md](docs/step4-verification/REPORT.md).
 
 ## Project structure
 

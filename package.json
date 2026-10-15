@@ -11,7 +11,9 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "check:overflow": "node scripts/check-no-horizontal-overflow.mjs"
+    "check:overflow": "node scripts/check-viewport-overflow.mjs",
+    "check:interactions": "node scripts/check-interactions.mjs",
+    "capture:step4": "node scripts/capture-step4-screenshots.mjs"
   },
   "dependencies": {
     "next": "16.4.1",
