@@ -29,7 +29,7 @@ Only a successful **server-side** validation may move a record to `verified`.
 ## Flow (future)
 
 1. User chooses an amount on `/support` (UI later).
-2. Server creates a `pending` donation row (PostgreSQL — not connected yet).
+2. Server creates a `pending` donation row (MySQL / MariaDB — not connected yet).
 3. Server calls `PaymentProvider.initiatePayment` (SSLCOMMERZ first).
 4. Browser redirects to the gateway.
 5. Gateway sends IPN/webhook (and/or the app queries the gateway).

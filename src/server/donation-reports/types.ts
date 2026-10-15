@@ -39,10 +39,10 @@ export type DonationReportRow = {
   reply_contact: string | null;
   message: string | null;
   status: DonationReportStatus;
-  duplicate_trx_flag: boolean;
+  duplicate_trx_flag: boolean | 0 | 1;
   verified_amount_poisha: string | null;
   idempotency_key: string;
-  created_at: Date;
+  created_at: string;
 };
 
 export const FIELD_LIMITS = {

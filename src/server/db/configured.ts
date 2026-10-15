@@ -1,4 +1,5 @@
-/** Env check only — safe to import from Server Components without loading `pg`. */
+/** Env check only — safe for Server Components without loading the database driver. */
 export function isDatabaseConfigured(): boolean {
-  return Boolean(process.env.DATABASE_URL?.trim());
+  try { return new URL(process.env.DATABASE_URL?.trim() ?? "").protocol === "mysql:"; }
+  catch { return false; }
 }

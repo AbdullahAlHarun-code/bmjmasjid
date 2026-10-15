@@ -3,15 +3,19 @@ import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
-import pg from 'pg';
+import mysql from 'mysql2/promise';
 
 const database = process.env.DONATION_TEST_DATABASE_URL;
-if (!database || !new URL(database).pathname.endsWith('/donation_test')) {
+if (!database || new URL(database).protocol !== 'mysql:' || new URL(database).pathname !== '/donation_test') {
   throw new Error('Explicit disposable DONATION_TEST_DATABASE_URL ending in /donation_test required.');
 }
-const pool = new pg.Pool({ connectionString: database });
+const driver = mysql.createPool({ uri: database, dateStrings: true, supportBigNumbers: true, bigNumberStrings: true, charset: 'utf8mb4' });
+const pool = {
+  async query(sql, params = []) { const [rows] = await driver.execute(sql, params); return { rows, rowCount: Array.isArray(rows) ? rows.length : rows.affectedRows }; },
+  end: () => driver.end(),
+};
 const existing = await pool.query('SELECT count(*) FROM donation_report_submissions');
-assert.equal(existing.rows[0].count, '0', 'Refuse to test a database containing submissions');
+assert.equal(Number(existing.rows[0].count), 0, 'Refuse to test a database containing submissions');
 const port = '3127';
 const origin = `http://127.0.0.1:${port}`;
 const child = spawn(process.execPath, ['node_modules/next/dist/bin/next', 'start', '-H', '127.0.0.1', '-p', port], {
@@ -55,7 +59,7 @@ try {
   assert.ok(responses.every(r => r.status === 200));
   assert.equal(responses[0].data.publicRef, responses[1].data.publicRef);
   const ref = responses[0].data.publicRef;
-  const stored = await pool.query('SELECT * FROM donation_report_submissions WHERE public_ref=$1', [ref]);
+  const stored = await pool.query('SELECT * FROM donation_report_submissions WHERE public_ref=?', [ref]);
   assert.equal(stored.rowCount, 1);
   assert.equal(stored.rows[0].claimed_amount_poisha, '100025');
   assert.equal(stored.rows[0].status, 'pending_review');
@@ -66,13 +70,13 @@ try {
   passed('changed retry rejected without overwriting original');
   const duplicates = await Promise.all([post(), post()]);
   assert.ok(duplicates.every(r => r.status === 200 && r.data.status === 'duplicate_claim'));
-  const rows = await pool.query('SELECT * FROM donation_report_submissions WHERE trx_id_normalized=$1', [marker.toUpperCase()]);
+  const rows = await pool.query('SELECT * FROM donation_report_submissions WHERE trx_id_normalized=?', [marker.toUpperCase()]);
   assert.equal(rows.rowCount, 3);
-  const total = await pool.query("SELECT coalesce(sum(verified_amount_poisha),0)::text AS total FROM donation_report_submissions WHERE status='verified'");
+  const total = await pool.query("SELECT CAST(coalesce(sum(verified_amount_poisha),0) AS CHAR) AS total FROM donation_report_submissions WHERE status='verified'");
   assert.equal(total.rows[0].total, '0');
   passed('concurrent duplicate review and pending exclusion from verified totals');
-  await pool.query("UPDATE donation_report_submissions SET status='verified', verified_amount_poisha=100025 WHERE public_ref=$1", [ref]);
-  await assert.rejects(pool.query("UPDATE donation_report_submissions SET status='verified', verified_amount_poisha=100025 WHERE public_ref=$1", [duplicates[0].data.publicRef]), { code: '23505' });
+  await pool.query("UPDATE donation_report_submissions SET status='verified', verified_amount_poisha=100025 WHERE public_ref=?", [ref]);
+  await assert.rejects(pool.query("UPDATE donation_report_submissions SET status='verified', verified_amount_poisha=100025 WHERE public_ref=?", [duplicates[0].data.publicRef]), { code: 'ER_DUP_ENTRY' });
   passed('database prevents verifying a transfer twice');
   await resetLimits();
   for (let i = 0; i < 8; i++) assert.equal((await post(input, key)).status, 200);
@@ -91,13 +95,14 @@ try {
     await pool.query('ALTER TABLE donation_report_submissions_failure_test RENAME TO donation_report_submissions');
   }
   passed('database save failure never acknowledges success');
-  console.log(`${checks} PostgreSQL HTTP integration groups passed.`);
+  console.log(`${checks} MySQL/MariaDB HTTP integration groups passed.`);
 } finally {
   child.kill('SIGTERM');
   await stopped;
-  await pool.query('DELETE FROM donation_report_submissions WHERE trx_id_normalized=$1', [marker.toUpperCase()]);
+  await pool.query('DELETE FROM donation_report_submissions WHERE trx_id_normalized=?', [marker.toUpperCase()]);
   await resetLimits();
+  await pool.query('DELETE FROM donation_report_locks');
   const remaining = await pool.query('SELECT count(*) FROM donation_report_submissions');
-  assert.equal(remaining.rows[0].count, '0', 'Test data cleanup');
+  assert.equal(Number(remaining.rows[0].count), 0, 'Test data cleanup');
   await pool.end();
 }

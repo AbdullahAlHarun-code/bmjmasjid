@@ -13,7 +13,7 @@ Detailed design, content, database, and payments come in later steps. This step 
 | Styling | Tailwind CSS 4 |
 | Package manager | npm (lockfile retained) |
 | Runtime | Node.js **22 LTS** preferred (Next.js 16 requires ≥ 20.9) |
-| Database | PostgreSQL for donation-report submissions (`DATABASE_URL`; optional locally) |
+| Database | MySQL / MariaDB for donation-report submissions (`DATABASE_URL`; optional locally) |
 | Payments | Manual bKash interim; SSLCOMMERZ gateway architecture only (inactive) |
 
 ## Local setup
@@ -45,7 +45,7 @@ Do not commit `.env.local` or any real secrets.
 | `npm run typecheck` | TypeScript (`tsc --noEmit`) |
 | `npm run check:overflow` | Production server required — viewport overflow regression (CDP) |
 | `npm run check:interactions` | Production server required — share/nav/gallery smoke (CDP) |
-| `npm run db:migrate` | Apply `db/migrations` (requires `DATABASE_URL`) |
+| `npm run db:migrate` | Apply `db/migrations/mysql` (requires `DATABASE_URL`) |
 
 Step 4 visual QA notes: [docs/step4-verification/REPORT.md](docs/step4-verification/REPORT.md).  
 Donation-report review: [docs/donation-report-review.md](docs/donation-report-review.md).

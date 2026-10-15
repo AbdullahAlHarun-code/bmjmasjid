@@ -360,7 +360,7 @@ export const contentEn: SiteContent = {
       },
       {
         title: "Donation report form",
-        body: "When the database is connected, you may submit amount, TrxID, and transfer date; name, sending number, reply contact, and message are optional. Data is stored server-side in PostgreSQL as pending review. There is no public listing. If WhatsApp reporting is enabled, only details you choose go into a draft message — nothing is auto-saved from WhatsApp.",
+        body: "When the database is connected, you may submit amount, TrxID, and transfer date; name, sending number, reply contact, and message are optional. Data is stored server-side in the private database as pending review. There is no public listing. If WhatsApp reporting is enabled, only details you choose go into a draft message — nothing is auto-saved from WhatsApp.",
       },
       {
         title: "Sharing and copy actions",

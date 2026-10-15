@@ -103,7 +103,7 @@ export async function POST(request: Request) {
       created: result.created,
       publicRef: result.row.public_ref,
       status: result.row.status,
-      duplicateTrxFlag: result.row.duplicate_trx_flag,
+      duplicateTrxFlag: Boolean(result.row.duplicate_trx_flag),
     });
   } catch (error) {
     if (error instanceof RetryConflictError) {

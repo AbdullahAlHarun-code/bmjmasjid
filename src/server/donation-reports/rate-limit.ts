@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import { query } from "@/server/db/pool";
+import { withTransaction } from "@/server/db/pool";
 
 const WINDOW_MS = 15 * 60 * 1000;
 const MAX_HITS = 8;
@@ -15,24 +15,25 @@ export type RateLimitResult = {
 };
 
 /**
- * Persistent sliding-window style limiter stored in PostgreSQL.
+ * Persistent fixed-window limiter stored in MySQL / MariaDB.
  * Fails closed if the database query fails.
  */
 export async function consumeRateLimit(bucketKey: string): Promise<RateLimitResult> {
   const now = Date.now();
   const windowStartMs = now - (now % WINDOW_MS);
-  const windowStart = new Date(windowStartMs).toISOString();
-
-  const result = await query<{ hit_count: number }>(
-    `INSERT INTO request_rate_limits (bucket_key, window_start, hit_count)
-     VALUES ($1, $2::timestamptz, 1)
-     ON CONFLICT (bucket_key, window_start)
-     DO UPDATE SET hit_count = request_rate_limits.hit_count + 1
-     RETURNING hit_count`,
-    [bucketKey, windowStart],
-  );
-
-  const hits = result.rows[0]?.hit_count ?? MAX_HITS + 1;
+  const hits = await withTransaction(async (client) => {
+    await client.query(
+      `INSERT INTO request_rate_limits (bucket_key, window_start, hit_count)
+       VALUES (?, ?, 1)
+       ON DUPLICATE KEY UPDATE hit_count = hit_count + 1`,
+      [bucketKey, windowStartMs],
+    );
+    const result = await client.query<{ hit_count: number }>(
+      "SELECT hit_count FROM request_rate_limits WHERE bucket_key=? AND window_start=?",
+      [bucketKey, windowStartMs],
+    );
+    return Number(result.rows[0]?.hit_count ?? MAX_HITS + 1);
+  });
   const allowed = hits <= MAX_HITS;
   return {
     allowed,

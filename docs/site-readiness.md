@@ -14,7 +14,7 @@ Private checklist for maintainers. Visitor-facing pages should explain current s
 
 - [ ] bKash wallet type (Send Money vs Payment) and registered wallet name
 - [ ] Official/permitted bKash logo asset to replace temporary wordmark
-- [ ] Production PostgreSQL `DATABASE_URL` + applied migrations
+- [ ] Production MySQL / MariaDB `DATABASE_URL` + applied migrations
 - [ ] `CSRF_SECRET` in server environment
 - [ ] WhatsApp report destination (separate from bKash) — currently hidden (`whatsappReport.available: false`)
 - [ ] Receipt arrangements after verification

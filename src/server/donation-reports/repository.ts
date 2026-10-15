@@ -1,7 +1,6 @@
-import { randomBytes } from "node:crypto";
-import type { PoolClient } from "pg";
+import { randomBytes, randomUUID } from "node:crypto";
 import { mosqueConfig } from "@/config/mosque";
-import { query, withTransaction } from "@/server/db/pool";
+import { query, withTransaction, lockReportKey, type SqlClient } from "@/server/db/pool";
 import type {
   DonationReportRow,
   DonationReportStatus,
@@ -16,20 +15,20 @@ export async function findByIdempotencyKey(
   key: string,
 ): Promise<DonationReportRow | null> {
   const result = await query<DonationReportRow>(
-    `SELECT * FROM donation_report_submissions WHERE idempotency_key = $1 LIMIT 1`,
+    `SELECT * FROM donation_report_submissions WHERE idempotency_key = ? LIMIT 1`,
     [key],
   );
   return result.rows[0] ?? null;
 }
 
 async function trxAlreadyClaimed(
-  client: PoolClient,
+  client: SqlClient,
   trxIdNormalized: string,
 ): Promise<boolean> {
   const result = await client.query(
     `SELECT 1
        FROM donation_report_submissions
-      WHERE trx_id_normalized = $1
+      WHERE trx_id_normalized = ?
         AND status IN ('pending_review', 'verified', 'duplicate_claim')
       LIMIT 1`,
     [trxIdNormalized],
@@ -68,16 +67,16 @@ export async function insertDonationReport(params: {
 
   return withTransaction(async (client) => {
     // Serialize concurrent retries, then claims for the same transaction.
-    await client.query("SELECT pg_advisory_xact_lock(hashtextextended($1, 0))", ["retry:" + params.idempotencyKey]);
+    await lockReportKey(client, "retry:" + params.idempotencyKey);
     const again = await client.query<DonationReportRow>(
-      `SELECT * FROM donation_report_submissions WHERE idempotency_key = $1 LIMIT 1`,
+      `SELECT * FROM donation_report_submissions WHERE idempotency_key = ? LIMIT 1`,
       [params.idempotencyKey],
     );
     if (again.rows[0]) {
       return checkRetry(again.rows[0], params.validated);
     }
 
-    await client.query("SELECT pg_advisory_xact_lock(hashtextextended($1, 0))", ["trx:" + params.validated.trxIdNormalized]);
+    await lockReportKey(client, "trx:" + params.validated.trxIdNormalized);
 
     const duplicate = await trxAlreadyClaimed(
       client,
@@ -87,8 +86,10 @@ export async function insertDonationReport(params: {
       ? "duplicate_claim"
       : "pending_review";
 
-    const inserted = await client.query<DonationReportRow>(
+    const publicRef = opaquePublicRef();
+    await client.query(
       `INSERT INTO donation_report_submissions (
+         id,
          public_ref,
          provider,
          recipient_number_digits,
@@ -104,11 +105,11 @@ export async function insertDonationReport(params: {
          duplicate_trx_flag,
          idempotency_key
        ) VALUES (
-         $1, 'bkash', $2, $3, $4, $5, $6::date, $7, $8, $9, $10, $11, $12, $13
-       )
-       RETURNING *`,
+         ?, ?, 'bkash', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+       )`,
       [
-        opaquePublicRef(),
+        randomUUID(),
+        publicRef,
         mosqueConfig.manualBkash.numberDigits,
         params.validated.claimedAmountPoisha,
         params.validated.trxIdRaw,
@@ -124,6 +125,7 @@ export async function insertDonationReport(params: {
       ],
     );
 
+    const inserted = await client.query<DonationReportRow>("SELECT * FROM donation_report_submissions WHERE public_ref=?", [publicRef]);
     return { row: inserted.rows[0], created: true };
   });
 }
@@ -131,12 +133,12 @@ export async function insertDonationReport(params: {
 /** Verified totals only — pending and duplicate claims are excluded. */
 export async function sumVerifiedReceivedPoisha(): Promise<number | null> {
   const result = await query<{ total: string | null }>(
-    `SELECT COALESCE(SUM(verified_amount_poisha), 0)::text AS total
+    `SELECT CAST(COALESCE(SUM(verified_amount_poisha), 0) AS CHAR) AS total
        FROM donation_report_submissions
       WHERE status = 'verified'
         AND verified_amount_poisha IS NOT NULL`,
   );
   const total = Number.parseInt(result.rows[0]?.total ?? "0", 10);
-  if (!Number.isFinite(total)) return null;
+  if (!Number.isSafeInteger(total)) return null;
   return total;
 }
