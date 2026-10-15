@@ -368,7 +368,7 @@ export const contentEn: SiteContent = {
       },
       {
         title: "Hosting and future changes",
-        body: "The site is not publicly launched yet. When hosting is chosen, ordinary server logs for that environment may apply. If an online gateway or forms are added later, this policy will be updated.",
+        body: "The site is publicly available. Ordinary logs from its hosting environment may exist. An online payment gateway is not active. If one is added later, this policy will be updated.",
       },
     ],
   },

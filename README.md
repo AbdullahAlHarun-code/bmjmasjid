@@ -91,14 +91,21 @@ git remote -v
 
 Default branch: `master` (tracks `origin/master`).
 
-CI workflow: `.github/workflows/ci.yml` (typecheck, lint, build on Node 22).
+CI workflow: `.github/workflows/ci.yml` (typecheck, lint, build, donation-storage tests, then production deploy on `master` only).
+
+## Deployment
+
+Pushing `master` deploys that exact commit after CI succeeds. HTTPS, DNS, and the existing server stay as they are. See [docs/deployment.md](docs/deployment.md) for secrets, the one-time server setup, and rollback.
+
+```bash
+git push origin master
+```
 
 ## Deferred / prerequisites
 
-- Production `DATABASE_URL` + `npm run db:migrate` for donation-report persistence
+- Server-side `DATABASE_URL` in an existing env file (never committed). Deploy runs `npm run db:migrate` against that database and does not replace donor rows.
 - Confirmed WhatsApp report destination (separate from bKash)
-- SSLCOMMERZ (or other) live payment gateway integration
-- Public deployment
+- SSLCOMMERZ (or other) live payment gateway integration — not part of deployment
 - Official bKash logo asset (temporary wordmark in use)
 
 See [docs/payments-architecture.md](docs/payments-architecture.md). Browser redirects alone must never mark donations paid. Pending form claims never increase public totals.

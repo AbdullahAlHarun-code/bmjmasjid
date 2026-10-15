@@ -30,6 +30,9 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Deploy script checks
+        run: bash scripts/test-deploy-production.sh
+
       - name: Production build
         run: npm run build
 
@@ -76,3 +79,58 @@ jobs:
       - run: npm run db:migrate
       - run: npm run build
       - run: npm run test:donation-storage
+
+  deploy:
+    name: Deploy production
+    needs: [checks, donation-storage]
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    environment: production
+    concurrency:
+      group: production-bmjmasjid
+      cancel-in-progress: false
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy exact commit
+        id: deploy
+        env:
+          PRODUCTION_HOST: ${{ secrets.PRODUCTION_HOST }}
+          PRODUCTION_PORT: ${{ secrets.PRODUCTION_PORT }}
+          PRODUCTION_USER: ${{ secrets.PRODUCTION_USER }}
+          PRODUCTION_SSH_KEY: ${{ secrets.PRODUCTION_SSH_KEY }}
+          PRODUCTION_PATH: ${{ secrets.PRODUCTION_PATH }}
+          PRODUCTION_URL: ${{ secrets.PRODUCTION_URL }}
+          PRODUCTION_KNOWN_HOSTS: ${{ secrets.PRODUCTION_KNOWN_HOSTS }}
+          PRODUCTION_NODE_SETUP: ${{ secrets.PRODUCTION_NODE_SETUP }}
+          PRODUCTION_RESTART_COMMAND: ${{ secrets.PRODUCTION_RESTART_COMMAND }}
+          GITHUB_SHA: ${{ github.sha }}
+        run: bash scripts/ci-deploy.sh
+
+      - name: Verify public HTTPS site
+        id: health
+        if: steps.deploy.outputs.result == 'deployed'
+        env:
+          PRODUCTION_URL: ${{ steps.deploy.outputs.url }}
+          EXPECTED_SHA: ${{ github.sha }}
+        run: bash scripts/ci-health.sh
+
+      - name: Roll back production
+        if: failure() && steps.deploy.outputs.result == 'deployed' && steps.health.outcome == 'failure'
+        env:
+          PRODUCTION_HOST: ${{ secrets.PRODUCTION_HOST }}
+          PRODUCTION_PORT: ${{ secrets.PRODUCTION_PORT }}
+          PRODUCTION_USER: ${{ secrets.PRODUCTION_USER }}
+          PRODUCTION_SSH_KEY: ${{ secrets.PRODUCTION_SSH_KEY }}
+          PRODUCTION_PATH: ${{ secrets.PRODUCTION_PATH }}
+          PRODUCTION_URL: ${{ secrets.PRODUCTION_URL }}
+          PRODUCTION_KNOWN_HOSTS: ${{ secrets.PRODUCTION_KNOWN_HOSTS }}
+          PRODUCTION_NODE_SETUP: ${{ secrets.PRODUCTION_NODE_SETUP }}
+          PRODUCTION_RESTART_COMMAND: ${{ secrets.PRODUCTION_RESTART_COMMAND }}
+          GITHUB_SHA: ${{ steps.deploy.outputs.previous }}
+          ROLLBACK_MODE: "1"
+        run: bash scripts/ci-deploy.sh
