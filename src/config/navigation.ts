@@ -11,7 +11,7 @@ export const primaryNav: NavItem[] = [
   { href: "/", label: { bn: "হোম", en: "Home" } },
   { href: "/about", label: { bn: "পরিচিতি", en: "About" } },
   { href: "/construction", label: { bn: "নির্মাণ", en: "Construction" } },
-  { href: "/support", label: { bn: "সহায়তা", en: "Support" } },
+  { href: "/support", label: { bn: "সহযোগিতা", en: "Support" } },
   { href: "/updates", label: { bn: "আপডেট", en: "Updates" } },
   { href: "/transparency", label: { bn: "স্বচ্ছতা", en: "Transparency" } },
   { href: "/contact", label: { bn: "যোগাযোগ", en: "Contact" } },

@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
-import { PageShell } from "@/components/PageShell";
-import { mosqueConfig } from "@/config/mosque";
+import { LocalizedPageShell } from "@/components/LocalizedPageShell";
 import { getContent } from "@/content";
+import { getLocale } from "@/lib/get-locale";
 
-const content = getContent(mosqueConfig.defaultLocale);
-
-export const metadata: Metadata = {
-  title: content.contact.title,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  return { title: getContent(locale).contact.title };
+}
 
 export default function ContactPage() {
-  return (
-    <PageShell title={content.contact.title} summary={content.contact.summary} />
-  );
+  return <LocalizedPageShell page="contact" />;
 }

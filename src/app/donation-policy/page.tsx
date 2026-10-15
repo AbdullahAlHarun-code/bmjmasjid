@@ -1,19 +1,13 @@
 import type { Metadata } from "next";
-import { PageShell } from "@/components/PageShell";
-import { mosqueConfig } from "@/config/mosque";
+import { LocalizedPageShell } from "@/components/LocalizedPageShell";
 import { getContent } from "@/content";
+import { getLocale } from "@/lib/get-locale";
 
-const content = getContent(mosqueConfig.defaultLocale);
-
-export const metadata: Metadata = {
-  title: content.donationPolicy.title,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  return { title: getContent(locale).donationPolicy.title };
+}
 
 export default function DonationPolicyPage() {
-  return (
-    <PageShell
-      title={content.donationPolicy.title}
-      summary={content.donationPolicy.summary}
-    />
-  );
+  return <LocalizedPageShell page="donationPolicy" />;
 }

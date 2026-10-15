@@ -62,13 +62,15 @@ collections/           # Existing reference images (preserved)
 
 Editable campaign facts live in `src/config/mosque.ts`. Page copy lives in `src/content/bn.ts` (default) and `src/content/en.ts`.
 
-## Routes (shells)
+## Routes
 
-- `/` — simple working homepage
+- `/` — Step 2 mobile-first homepage (hero through final invitation)
 - `/about`, `/construction`, `/support`, `/updates`, `/transparency`
-- `/contact`, `/privacy`, `/donation-policy`
+- `/contact`, `/privacy`, `/donation-policy` — shared shell styling; detailed content in Step 3
 
-Navigation is wired through the shared header and footer. Final designs are deferred.
+Shared chrome: logo header, language switch (Bangla default), accessible mobile menu, dark-green footer, mobile support bar.
+
+Project photos/logo mapping: `src/config/assets.ts` (optimized web copies in `public/images/`; originals stay in `collections/`).
 
 ## GitHub status
 

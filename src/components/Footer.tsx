@@ -1,30 +1,51 @@
+import Image from "next/image";
 import Link from "next/link";
-import { mosqueConfig, t } from "@/config/mosque";
+import { projectAssets } from "@/config/assets";
+import { mosqueConfig, t, type Locale } from "@/config/mosque";
 import { legalNav, primaryNav } from "@/config/navigation";
-import { getContent } from "@/content";
+import type { SiteContent } from "@/content";
 
-const locale = mosqueConfig.defaultLocale;
-const content = getContent(locale);
+type FooterProps = {
+  locale: Locale;
+  content: SiteContent;
+};
 
-export function Footer() {
+export function Footer({ locale, content }: FooterProps) {
+  const logo = projectAssets.logo;
+
   return (
-    <footer className="mt-auto border-t border-[color:var(--color-primary)]/15 bg-[color:var(--color-surface)]">
-      <div className="mx-auto flex w-full max-w-5xl flex-col gap-4 px-4 py-8 sm:px-6">
+    <footer className="mt-auto bg-[color:var(--bm-primary-deep)] text-[#F4F7F5]">
+      <div className="site-container grid gap-8 py-10 md:grid-cols-[1.3fr_1fr_1fr]">
         <div>
-          <p className="font-semibold text-[color:var(--color-primary)]">
-            {t(mosqueConfig.name, locale)}
-          </p>
-          <p className="mt-1 text-sm text-[color:var(--color-text-secondary)]">
-            {t(mosqueConfig.address, locale)}
-          </p>
+          <div className="flex items-start gap-3">
+            <Image
+              src={logo.src}
+              alt={t(logo.alt, locale)}
+              width={48}
+              height={64}
+              className="h-14 w-auto rounded bg-white p-1"
+            />
+            <div>
+              <p className="text-lg font-semibold leading-snug">
+                {t(mosqueConfig.name, locale)}
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-[#C9D6CF]">
+                {t(mosqueConfig.address, locale)}
+              </p>
+            </div>
+          </div>
         </div>
-        <nav aria-label="Footer">
-          <ul className="flex flex-wrap gap-x-3 gap-y-1 text-sm">
-            {[...primaryNav, ...legalNav].map((item) => (
+
+        <nav aria-label={content.shell.footerNavLabel}>
+          <p className="text-sm font-semibold text-[color:var(--bm-accent)]">
+            {locale === "bn" ? "দ্রুত লিংক" : "Quick links"}
+          </p>
+          <ul className="mt-3 space-y-1">
+            {primaryNav.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="text-[color:var(--color-text-secondary)] hover:text-[color:var(--color-primary)]"
+                  className="inline-flex min-h-11 items-center text-sm text-[#E4EBE7] hover:text-white"
                 >
                   {item.label[locale]}
                 </Link>
@@ -32,7 +53,27 @@ export function Footer() {
             ))}
           </ul>
         </nav>
-        <p className="text-xs text-[color:var(--color-text-secondary)]">
+
+        <nav aria-label={locale === "bn" ? "নীতিমালা" : "Policies"}>
+          <p className="text-sm font-semibold text-[color:var(--bm-accent)]">
+            {locale === "bn" ? "নীতিমালা" : "Policies"}
+          </p>
+          <ul className="mt-3 space-y-1">
+            {legalNav.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className="inline-flex min-h-11 items-center text-sm text-[#E4EBE7] hover:text-white"
+                >
+                  {item.label[locale]}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+      <div className="border-t border-white/10">
+        <p className="site-container py-4 text-xs text-[#C9D6CF]">
           {content.shell.footerNote}
         </p>
       </div>

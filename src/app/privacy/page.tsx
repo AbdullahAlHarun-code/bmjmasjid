@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
-import { PageShell } from "@/components/PageShell";
-import { mosqueConfig } from "@/config/mosque";
+import { LocalizedPageShell } from "@/components/LocalizedPageShell";
 import { getContent } from "@/content";
+import { getLocale } from "@/lib/get-locale";
 
-const content = getContent(mosqueConfig.defaultLocale);
-
-export const metadata: Metadata = {
-  title: content.privacy.title,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  return { title: getContent(locale).privacy.title };
+}
 
 export default function PrivacyPage() {
-  return (
-    <PageShell title={content.privacy.title} summary={content.privacy.summary} />
-  );
+  return <LocalizedPageShell page="privacy" />;
 }

@@ -21,6 +21,8 @@ export type MosqueConfig = {
     country: LocalizedString;
   };
   founderAndLandDonor: LocalizedString;
+  /** Contribution note supplied for the campaign site — no invented biography. */
+  founderContribution: LocalizedString;
   campaign: {
     /** Target amount in BDT (integer taka). */
     targetAmountBdt: number;
@@ -70,6 +72,10 @@ export const mosqueConfig: MosqueConfig = {
   founderAndLandDonor: {
     bn: "মরহুম নুরুল হক বেপারী",
     en: "Late Nurul Haque Bepari",
+  },
+  founderContribution: {
+    bn: "তিনি এই মসজিদের প্রতিষ্ঠাতা ও জমি দাতা। এ পর্যন্ত নির্মাণ ব্যয়ের বড় অংশও তার অবদানে সম্পন্ন হয়েছে।",
+    en: "He is the founder and land donor of this mosque. He has also covered most of the construction costs so far.",
   },
   campaign: {
     targetAmountBdt: 2_000_000,

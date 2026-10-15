@@ -1,19 +1,13 @@
 import type { Metadata } from "next";
-import { PageShell } from "@/components/PageShell";
-import { mosqueConfig } from "@/config/mosque";
+import { LocalizedPageShell } from "@/components/LocalizedPageShell";
 import { getContent } from "@/content";
+import { getLocale } from "@/lib/get-locale";
 
-const content = getContent(mosqueConfig.defaultLocale);
-
-export const metadata: Metadata = {
-  title: content.transparency.title,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  return { title: getContent(locale).transparency.title };
+}
 
 export default function TransparencyPage() {
-  return (
-    <PageShell
-      title={content.transparency.title}
-      summary={content.transparency.summary}
-    />
-  );
+  return <LocalizedPageShell page="transparency" />;
 }

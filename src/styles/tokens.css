@@ -1,14 +1,24 @@
 /**
- * Initial design tokens for Baitul Mamur Jame Masjid.
- * Consumed via CSS variables and Tailwind @theme mapping.
+ * Design tokens for Baitul Mamur Jame Masjid.
  */
 :root {
   --bm-primary: #0b4f3c;
+  --bm-primary-deep: #083d2e;
   --bm-background: #fffdf8;
   --bm-surface: #ffffff;
   --bm-text: #17251f;
   --bm-text-secondary: #52645b;
   --bm-accent: #c79a3b;
+  --bm-accent-text: #17251f;
+  --bm-border: rgb(11 79 60 / 14%);
+  --bm-shadow: 0 1px 2px rgb(23 37 31 / 6%), 0 8px 24px rgb(23 37 31 / 6%);
+  --bm-radius: 0.75rem;
+  --bm-radius-sm: 0.5rem;
+  --bm-content: 70rem;
+  --bm-body-size: 1.125rem;
+  --bm-line-height: 1.7;
+  --bm-header-offset: 4.5rem;
+  --bm-mobile-bar: 4.75rem;
 
   --color-primary: var(--bm-primary);
   --color-background: var(--bm-background);
@@ -19,4 +29,15 @@
 
   --font-sans: var(--font-noto-sans-bengali), "Noto Sans Bengali", "Noto Sans",
     "Segoe UI", Tahoma, sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
