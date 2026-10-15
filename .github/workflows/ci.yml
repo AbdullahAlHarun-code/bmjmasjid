@@ -80,9 +80,29 @@ jobs:
       - run: npm run build
       - run: npm run test:donation-storage
 
+  site-audit:
+    name: Bilingual mobile and content audit
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - run: npm run audit:site
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bilingual-mobile-audit
+          path: docs/site-audit/
+
   deploy:
     name: Deploy production
-    needs: [checks, donation-storage]
+    needs: [checks, donation-storage, site-audit]
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-latest
     timeout-minutes: 40

@@ -1,6 +1,5 @@
-import Image from "next/image";
+import { BrandMark } from "@/components/BrandMark";
 import Link from "next/link";
-import { projectAssets } from "@/config/assets";
 import { mosqueConfig, t, type Locale } from "@/config/mosque";
 import { legalNav, primaryNav } from "@/config/navigation";
 import type { SiteContent } from "@/content";
@@ -11,20 +10,13 @@ type FooterProps = {
 };
 
 export function Footer({ locale, content }: FooterProps) {
-  const logo = projectAssets.logo;
 
   return (
     <footer className="mt-auto bg-[color:var(--bm-primary-deep)] text-[#F4F7F5]">
       <div className="site-container grid gap-8 py-10 md:grid-cols-[1.3fr_1fr_1fr]">
         <div>
           <div className="flex items-start gap-3">
-            <Image
-              src={logo.src}
-              alt={t(logo.alt, locale)}
-              width={48}
-              height={64}
-              className="h-14 w-auto rounded bg-white p-1"
-            />
+            <BrandMark locale={locale} className="h-16 w-16" />
             <div>
               <p className="text-lg font-semibold leading-snug">
                 {t(mosqueConfig.name, locale)}

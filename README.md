@@ -122,3 +122,7 @@ See [docs/payments-architecture.md](docs/payments-architecture.md). Browser redi
 | Accent | `#C79A3B` |
 
 Font: **Noto Sans Bengali** via `next/font`, with system sans fallbacks.
+
+### Whole-site browser audit
+
+After `npm run build`, run `npm run audit:site` (install Chromium with `npx playwright install chromium` first). This checks both languages, all pages and mobile/landscape/desktop layouts without touching real donation data. See [audit notes](docs/site-content-mobile-audit.md).

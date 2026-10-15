@@ -15,7 +15,7 @@ Private checklist for maintainers. Visitor-facing pages should explain current s
 - [ ] bKash wallet type (Send Money vs Payment) and registered wallet name
 - [ ] Official/permitted bKash logo asset to replace temporary wordmark
 - [ ] Production MySQL / MariaDB `DATABASE_URL` + applied migrations
-- [ ] `CSRF_SECRET` in server environment
+- [ ] `CSRF_SECRET` and exact HTTPS `APP_ORIGIN` in server environment
 - [ ] WhatsApp report destination (separate from bKash) — currently hidden (`whatsappReport.available: false`)
 - [ ] Receipt arrangements after verification
 - [ ] Private reviewer/admin access (no public listing)
@@ -57,3 +57,5 @@ Private checklist for maintainers. Visitor-facing pages should explain current s
 | Public hosting | Live over existing HTTPS. Deploy does not change the host, DNS, or certificates. |
 
 See also [donation-report-review.md](./donation-report-review.md).
+
+See [content, logo and mobile audit](./site-content-mobile-audit.md) for the latest research comparison and repeatable browser checks.
