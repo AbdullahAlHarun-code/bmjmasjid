@@ -15,7 +15,7 @@ assert.equal(existing.rows[0].count, '0', 'Refuse to test a database containing 
 const port = '3127';
 const origin = `http://127.0.0.1:${port}`;
 const child = spawn(process.execPath, ['node_modules/next/dist/bin/next', 'start', '-H', '127.0.0.1', '-p', port], {
-  env: { ...process.env, DATABASE_URL: database, CSRF_SECRET: randomUUID() + randomUUID() },
+  env: { ...process.env, DATABASE_URL: database, CSRF_SECRET: randomUUID() + randomUUID(), APP_ORIGIN: origin },
   stdio: ['ignore', 'ignore', 'inherit'],
 });
 const stopped = once(child, 'exit');
@@ -45,7 +45,8 @@ try {
   assert.equal((await post(input, randomUUID(), { 'x-csrf-token': 'bad' })).status, 403);
   passed('origin and CSRF rejection');
   for (const bad of [null, [], { ...input, amount: 100 }, { ...input, donorName: {} }, { ...input, transferDate: '2026-02-30' }, { ...input, transferDate: '2999-01-01' }, { ...input, amount: '1.001' }]) {
-    assert.equal((await post(bad)).status, 400);
+    const result = await post(bad);
+    assert.equal(result.status, 400, JSON.stringify(result.data));
   }
   passed('malformed field types, impossible dates, future dates and fractional poisha');
   await resetLimits();

@@ -3,7 +3,11 @@
  * Accepts matching Origin, or a same-host Referer when Origin is absent.
  */
 export function isSameOriginRequest(request: Request): boolean {
-  const url = new URL(request.url);
+  const configured = process.env.APP_ORIGIN?.trim();
+  if (!configured && process.env.NODE_ENV === "production") return false;
+  let url: URL;
+  try { url = new URL(configured || request.url); } catch { return false; }
+  if (request.headers.get("sec-fetch-site") === "cross-site") return false;
   const origin = request.headers.get("origin");
   if (origin) {
     try {

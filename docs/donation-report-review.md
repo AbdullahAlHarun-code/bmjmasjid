@@ -64,3 +64,5 @@ Checks cover persistence after acknowledgement, Bangla amounts, today's Banglade
 Migration 002 adds a partial unique index for verified provider/recipient/TrxID. If older records already contain multiple verified claims, migration fails for private reconciliation rather than modifying them automatically. The migration command loads `.env.local` on Node 22; values must remain server-only.
 
 Rate limits ignore forwarded IP headers by default, using one conservative shared bucket. Only set `DONATION_TRUST_PROXY_IP=true` when the reverse proxy overwrites `X-Real-IP` and blocks direct access to the app. Confirm this hosting arrangement before activation. No paid service, public deployment or payment gateway is enabled by these checks.
+
+Production also requires `APP_ORIGIN`, the exact public browser origin (scheme, host, optional port). Origin checks use this configured value because Next.js/proxy internal URLs can differ. Missing configuration fails closed in production. Local development may use the request URL. The test runner sets its isolated local origin explicitly.
