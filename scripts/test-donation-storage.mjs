@@ -14,7 +14,7 @@ const pool = {
   async query(sql, params = []) { const [rows] = await driver.execute(sql, params); return { rows, rowCount: Array.isArray(rows) ? rows.length : rows.affectedRows }; },
   end: () => driver.end(),
 };
-const existing = await pool.query('SELECT count(*) FROM donation_report_submissions');
+const existing = await pool.query('SELECT count(*) AS count FROM donation_report_submissions');
 assert.equal(Number(existing.rows[0].count), 0, 'Refuse to test a database containing submissions');
 const port = '3127';
 const origin = `http://127.0.0.1:${port}`;
@@ -102,7 +102,7 @@ try {
   await pool.query('DELETE FROM donation_report_submissions WHERE trx_id_normalized=?', [marker.toUpperCase()]);
   await resetLimits();
   await pool.query('DELETE FROM donation_report_locks');
-  const remaining = await pool.query('SELECT count(*) FROM donation_report_submissions');
+  const remaining = await pool.query('SELECT count(*) AS count FROM donation_report_submissions');
   assert.equal(Number(remaining.rows[0].count), 0, 'Test data cleanup');
   await pool.end();
 }
