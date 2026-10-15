@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { BkashDonateCard } from "@/components/BkashDonateCard";
 import { ShareProject } from "@/components/ShareProject";
+import { DonationReportForm } from "@/components/support/DonationReportForm";
 import { projectAssets } from "@/config/assets";
 import {
   isManualBkashAvailable,
@@ -10,6 +11,7 @@ import {
   type Locale,
 } from "@/config/mosque";
 import type { SiteContent } from "@/content";
+import { isDatabaseConfigured } from "@/server/db/configured";
 
 type SupportPageProps = {
   locale: Locale;
@@ -20,6 +22,7 @@ export function SupportPage({ locale, content }: SupportPageProps) {
   const page = content.support;
   const photo = projectAssets.previewEntrance;
   const showManualBkash = isManualBkashAvailable();
+  const databaseConfigured = isDatabaseConfigured();
 
   return (
     <article>
@@ -81,6 +84,14 @@ export function SupportPage({ locale, content }: SupportPageProps) {
           {showManualBkash ? (
             <div className="mt-8">
               <BkashDonateCard locale={locale} copy={page.bkash} />
+            </div>
+          ) : null}
+          {showManualBkash ? (
+            <div className="mt-8">
+              <DonationReportForm
+                copy={page.report}
+                databaseConfigured={databaseConfigured}
+              />
             </div>
           ) : null}
         </div>

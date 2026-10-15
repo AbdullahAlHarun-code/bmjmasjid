@@ -145,6 +145,41 @@ export type BkashSupportCopy = {
   copied: string;
   copyError: string;
   internationalLabel: string;
+  brandWordmark: string;
+  brandNote: string;
+};
+
+export type DonationReportCopy = {
+  heading: string;
+  description: string;
+  amountLabel: string;
+  amountHint: string;
+  trxIdLabel: string;
+  trxIdHint: string;
+  transferDateLabel: string;
+  transferDateHint: string;
+  optionalToggle: string;
+  optionalIntro: string;
+  donorNameLabel: string;
+  donorNameHint: string;
+  sendingNumberLabel: string;
+  sendingNumberHint: string;
+  replyContactLabel: string;
+  replyContactHint: string;
+  messageLabel: string;
+  submit: string;
+  submitting: string;
+  success: string;
+  successRefLabel: string;
+  retryError: string;
+  unavailable: string;
+  validationRequired: string;
+  validationInvalid: string;
+  rateLimited: string;
+  whatsappButton: string;
+  whatsappExplain: string;
+  websiteVsWhatsapp: string;
+  transferSeparate: string;
 };
 
 export type SupportContent = {
@@ -157,6 +192,7 @@ export type SupportContent = {
   statusTitle: string;
   statusBody: string;
   bkash: BkashSupportCopy;
+  report: DonationReportCopy;
   localTitle: string;
   localBody: string;
   abroadTitle: string;

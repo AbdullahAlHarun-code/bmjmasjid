@@ -13,16 +13,19 @@
     "typecheck": "tsc --noEmit",
     "check:overflow": "node scripts/check-viewport-overflow.mjs",
     "check:interactions": "node scripts/check-interactions.mjs",
-    "capture:step4": "node scripts/capture-step4-screenshots.mjs"
+    "capture:step4": "node scripts/capture-step4-screenshots.mjs",
+    "db:migrate": "node scripts/db-migrate.mjs"
   },
   "dependencies": {
     "next": "16.4.1",
+    "pg": "^8.23.1",
     "react": "19.3.0",
     "react-dom": "19.3.0"
   },
   "devDependencies": {
     "@tailwindcss/turbopack": "^4",
     "@types/node": "^20",
+    "@types/pg": "^8.23.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",

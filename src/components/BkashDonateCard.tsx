@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useState } from "react";
+import { BkashWordmark } from "@/components/BkashWordmark";
 import { mosqueConfig, t, type Locale } from "@/config/mosque";
 import type { SupportContent } from "@/content";
 import { copyText } from "@/lib/clipboard";
@@ -40,12 +41,16 @@ export function BkashDonateCard({ locale, copy }: BkashDonateCardProps) {
       aria-labelledby={headingId}
       className="rounded-[var(--bm-radius)] border-2 border-[color:var(--bm-primary)]/25 bg-[color:var(--bm-background)] p-5 shadow-[var(--bm-shadow)] sm:p-7"
     >
-      <h2
-        id={headingId}
-        className="text-2xl font-semibold text-[color:var(--bm-primary)] sm:text-3xl"
-      >
-        {copy.heading}
-      </h2>
+      <div className="flex flex-wrap items-center gap-3">
+        <BkashWordmark label={copy.brandWordmark} />
+        <h2
+          id={headingId}
+          className="text-2xl font-semibold text-[color:var(--bm-primary)] sm:text-3xl"
+        >
+          {copy.heading}
+        </h2>
+      </div>
+      <p className="mt-2 text-sm text-[color:var(--bm-text-secondary)]">{copy.brandNote}</p>
 
       <p className="mt-4 text-[1.125rem] leading-[1.7] text-[color:var(--bm-text)]">
         {copy.explanation}

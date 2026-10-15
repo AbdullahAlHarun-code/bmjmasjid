@@ -7,23 +7,28 @@ Private checklist for maintainers. Visitor-facing pages should explain current s
 - [x] Current caretaker: Rayhan Ahmed (Shishir) / রায়হান আহমেদ (শিশির)
 - [x] Interim personal bKash number for manual donations: `01913331811` (display `01913-331811`)
 - [x] Manual bKash availability kept separate from online gateway (`paymentsAvailable: false`)
+- [x] Support-page donation report form UI (stores only when `DATABASE_URL` is configured)
+- [x] Temporary bKash wordmark text “বিকাশ” (see `docs/assets/bkash-branding.md`)
 
 ## Confirmed still missing / private follow-up
 
-- [ ] bKash wallet type (Send Money vs Payment) and registered wallet name — keep private until confirmed
-- [ ] Receipt arrangements and reconciliation process details
-- [ ] General contact channels (email, office hours, WhatsApp) — do not assume WhatsApp on the bKash number
-- [ ] Committee / representative identities and titles (only after confirmation)
+- [ ] bKash wallet type (Send Money vs Payment) and registered wallet name
+- [ ] Official/permitted bKash logo asset to replace temporary wordmark
+- [ ] Production PostgreSQL `DATABASE_URL` + applied migrations
+- [ ] `CSRF_SECRET` in server environment
+- [ ] WhatsApp report destination (separate from bKash) — currently hidden (`whatsappReport.available: false`)
+- [ ] Receipt arrangements after verification
+- [ ] Private reviewer/admin access (no public listing)
+- [ ] General contact channels (email, office hours)
+- [ ] Committee / representative identities and titles
 - [ ] Online payment provider configuration and live IPN/webhook validation
 - [ ] Verified received donation totals for the campaign
 - [ ] Verified expenditure and balance figures
 - [ ] Dated construction updates with verified dates
 - [ ] Confirmed next-work construction plan and cost estimates
 - [ ] Public deployment host, custom domain, and HTTPS
-- [ ] Hosting-specific privacy notes (server logs, CDN, email delivery) after a host is chosen
-- [ ] Privacy and donation-policy updates when an online gateway or forms go live
-- [ ] Database for donation records (deferred)
-- [ ] Authentication for any admin/reporting tools (deferred)
+- [ ] Hosting-specific privacy notes after a host is chosen
+- [ ] Authentication for any admin/reporting tools
 
 ## Do not publish until confirmed
 
@@ -31,24 +36,24 @@ Private checklist for maintainers. Visitor-facing pages should explain current s
 - Zakat eligibility, tax deductibility, or registered/verified charity claims
 - Map pins or coordinates presented as verified exact locations
 - Progress bars or “0 received” widgets while totals are unknown
-- Contact forms without a working delivery/storage backend
-- Payment QR codes, deep links, fees, automatic receipts, or transfer verification
+- Payment QR codes, deep links, fees, automatic receipts, or auto-verification
 - Institutional/merchant account claims for the interim personal bKash number
 - Avatar, username, or screenshot from bKash profile
+- WhatsApp linked to the bKash number without explicit confirmation
 
 ## Privacy inspection notes
 
 | Area | Current behaviour |
 | --- | --- |
 | Language cookie | `bm-locale` — Path `/`, Max-Age 1 year, SameSite=Lax, Secure on HTTPS |
+| CSRF cookie | `bm_csrf` — httpOnly, SameSite=Lax, used for donation-report POST |
 | Fonts | Noto Sans Bengali via `next/font` |
 | Images | Local project assets under `/public/images` |
 | Analytics | None |
-| Third-party embeds | None (address search opens Google Maps search in a new tab when used) |
-| Forms | None |
 | Online donation checkout | Inactive (`paymentsAvailable: false`) |
-| Manual bKash | Number published on Support/Contact; transfers happen in bKash; site does not collect transaction details |
-| Personal-data collection | None |
+| Manual bKash | Number on Support/Contact; transfers in bKash app |
+| Donation report form | UI present; persistence requires `DATABASE_URL` |
+| Public submission listing | None |
 | Public hosting | Not deployed |
 
-Update this file when a host or payment path is selected.
+See also [donation-report-review.md](./donation-report-review.md).

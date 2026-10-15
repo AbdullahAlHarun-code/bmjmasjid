@@ -51,6 +51,16 @@ export type ManualBkashInfo = {
   numberInternational: string;
 };
 
+/**
+ * Separate from the bKash wallet number.
+ * Keep `available: false` until the project owner confirms a WhatsApp destination.
+ */
+export type WhatsappReportConfig = {
+  available: boolean;
+  /** Digits only for wa.me, e.g. 8801XXXXXXXXX — null until confirmed. */
+  e164Digits: string | null;
+};
+
 export type MosqueConfig = {
   defaultLocale: Locale;
   name: LocalizedString;
@@ -65,6 +75,8 @@ export type MosqueConfig = {
   founderContribution: LocalizedString;
   caretaker: CaretakerInfo;
   manualBkash: ManualBkashInfo;
+  /** Donation-report WhatsApp alternative — not the bKash number. */
+  whatsappReport: WhatsappReportConfig;
   campaign: {
     targetAmountBdt: number;
     targetDisplay: LocalizedString;
@@ -124,6 +136,10 @@ export const mosqueConfig: MosqueConfig = {
     numberDisplay: "01913-331811",
     numberInternational: "+880 1913-331811",
   },
+  whatsappReport: {
+    available: false,
+    e164Digits: null,
+  },
   campaign: {
     targetAmountBdt: 2_000_000,
     targetDisplay: { bn: "৳২০,০০,০০০", en: "BDT 2,000,000" },
@@ -149,4 +165,12 @@ export function arePaymentsAvailable(): boolean {
 
 export function isManualBkashAvailable(): boolean {
   return mosqueConfig.manualBkash.available === true;
+}
+
+/** True only when a WhatsApp destination has been explicitly confirmed. */
+export function isWhatsappReportAvailable(): boolean {
+  return (
+    mosqueConfig.whatsappReport.available === true &&
+    Boolean(mosqueConfig.whatsappReport.e164Digits)
+  );
 }

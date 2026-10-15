@@ -50,7 +50,19 @@ Only a successful **server-side** validation may move a record to `verified`.
 | `src/server/payments` | Provider interface + SSLCOMMERZ (later) adapter |
 | Route handlers / Server Actions | Initiation + IPN endpoints (later) |
 
+## Manual bKash reports (current interim path)
+
+Separate from gateway checkout:
+
+1. Donor transfers in the bKash app to the published personal number.
+2. Donor may submit amount / TrxID / transfer date via `/support` → `POST /api/donation-reports`.
+3. Row is stored as `pending_review` (or `duplicate_claim` if TrxID already seen).
+4. An authorized reviewer matches against the receiving account’s real history.
+5. Only `verified` rows with `verified_amount_poisha` may feed published totals.
+
+Requires `DATABASE_URL` and `npm run db:migrate`. Without the database, the form shows an honest unavailable state.
+
 ## Credentials
 
 Placeholders only in `.env.example`. Real keys stay in local/host secrets and
-are never committed. Database and payment accounts are out of scope for Step 1.
+are never committed.

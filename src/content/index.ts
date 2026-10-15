@@ -20,6 +20,8 @@ export type {
   ConstructionContent,
   UpdatesContent,
   SupportContent,
+  BkashSupportCopy,
+  DonationReportCopy,
   TransparencyContent,
   ContactContent,
   PrivacyContent,

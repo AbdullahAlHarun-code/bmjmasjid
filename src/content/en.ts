@@ -144,6 +144,51 @@ export const contentEn: SiteContent = {
       copied: "Number copied: 01913331811",
       copyError: "Could not copy the number. Please copy 01913331811 manually.",
       internationalLabel: "International format",
+      brandWordmark: "বিকাশ",
+      brandNote:
+        "Temporary bKash wordmark. It does not imply merchant certification, partnership, or an integrated payment gateway.",
+    },
+    report: {
+      heading: "Already sent a donation? Tell us",
+      description:
+        "After sending money in bKash, enter the details below. Your donation will be recorded after it is matched to a received transaction.",
+      amountLabel: "Amount sent (৳)",
+      amountHint:
+        "Enter only the BDT amount transferred for this donation. Do not enter EUR/USD or amounts that include unrelated fees. Bangla or Latin digits are accepted.",
+      trxIdLabel: "bKash TrxID",
+      trxIdHint:
+        "TrxID appears in the transaction details or confirmation message. It is not the Reference you typed as the sender.",
+      transferDateLabel: "Transaction date",
+      transferDateHint:
+        "Use the actual transfer date. Today’s date is not substituted when the transfer date is unknown.",
+      optionalToggle: "Add more details — optional",
+      optionalIntro:
+        "Optional contact details help resolve matching questions. The sending wallet number and a reply contact serve different purposes.",
+      donorNameLabel: "Name (optional)",
+      donorNameHint: "Bangla or English is fine. Leaving this blank is allowed.",
+      sendingNumberLabel: "Sending bKash number (optional)",
+      sendingNumberHint: "The number you sent from.",
+      replyContactLabel: "Reply contact — phone or email (optional)",
+      replyContactHint: "Only if we need to reach you about matching.",
+      messageLabel: "Short message (optional)",
+      submit: "Submit details",
+      submitting: "Submitting…",
+      success: "Your details have been submitted. The donation is awaiting verification.",
+      successRefLabel: "Reference",
+      retryError:
+        "Could not save your details. Your entries are still here — please retry. Do not transfer the money again.",
+      unavailable:
+        "The donation-report database is not connected yet. Submitting transfer details is unavailable right now.",
+      validationRequired: "Please fill in the required fields.",
+      validationInvalid: "Some details look incorrect. Check the fields and submit again.",
+      rateLimited: "Too many attempts. Please try again in a little while.",
+      whatsappButton: "Report via WhatsApp",
+      whatsappExplain:
+        "Opening WhatsApp prepares a draft message. It does not automatically send, verify, or save anything to our database.",
+      websiteVsWhatsapp:
+        "Website submission stores the information in our database. WhatsApp is a separate option. If you submit on the website, you do not also need to report via WhatsApp.",
+      transferSeparate:
+        "Sending money and reporting a transfer are separate steps. This form does not charge a payment.",
     },
     localTitle: "Supporters in Bangladesh",
     localBody:
@@ -172,9 +217,19 @@ export const contentEn: SiteContent = {
           "For now, support is accepted by manual transfer to the published bKash number on this page. Online payment gateway checkout is not active yet.",
       },
       {
+        question: "Where do I find the TrxID?",
+        answer:
+          "TrxID appears in the bKash transaction details or confirmation message. It is not the Reference you entered as sender. After transferring, enter it in the ‘Already sent a donation?’ form.",
+      },
+      {
         question: "Does this website automatically verify bKash transfers?",
         answer:
-          "No. Transfers happen in bKash. This website does not auto-verify payments or issue receipts. Published totals will include transfers only after reconciliation.",
+          "No. Transfers happen in bKash. Submitted reports stay pending review. An authorized reviewer matches them to received transactions before any amount appears in published totals.",
+      },
+      {
+        question: "Do I need both the website and WhatsApp?",
+        answer:
+          "No. Website submission stores details in our database. WhatsApp is only offered if a destination is confirmed. Opening WhatsApp does not send or save automatically.",
       },
       {
         question: "Where will updates appear?",
@@ -234,7 +289,7 @@ export const contentEn: SiteContent = {
       "Campaign receipts, expenditure, and dated updates are intended to be published here after verification. No audited accounts or published reports are claimed now.",
     manualTitle: "Manual bKash donations",
     manualBody:
-      "Manual bKash transfers are accepted for now. Those donations will appear in published totals only after reconciliation and verification. Verified totals are not published yet.",
+      "Manual bKash transfers are accepted for now. Pending form claims do not increase published fundraising totals. Amounts appear in published totals only after reconciliation and verification. Verified totals are not published yet.",
     founderTitle: "Earlier founder-funded work",
     founderBody:
       "The late Nurul Haque Bepari has personally borne most of the construction costs so far. That earlier funding will be kept separate from this campaign’s collections.",
@@ -301,7 +356,11 @@ export const contentEn: SiteContent = {
       },
       {
         title: "Manual bKash transfers",
-        body: "A personal bKash number is published on the Support page. Transfers happen in the bKash app. This website does not collect, store, or automatically verify transaction details.",
+        body: "A personal bKash number is published on the Support page. Transfers happen in the bKash app.",
+      },
+      {
+        title: "Donation report form",
+        body: "When the database is connected, you may submit amount, TrxID, and transfer date; name, sending number, reply contact, and message are optional. Data is stored server-side in PostgreSQL as pending review. There is no public listing. If WhatsApp reporting is enabled, only details you choose go into a draft message — nothing is auto-saved from WhatsApp.",
       },
       {
         title: "Sharing and copy actions",
@@ -334,7 +393,7 @@ export const contentEn: SiteContent = {
       },
       {
         title: "Reporting and transparency",
-        body: "Manual transfers are intended to appear in published totals only after reconciliation and verification. Verified received donations, spending, and balances are not published yet.",
+        body: "Manual transfers and pending form claims do not increase published totals. Verified amounts are included only after reconciliation. Verified received donations, spending, and balances are not published yet.",
       },
       {
         title: "What is not claimed",

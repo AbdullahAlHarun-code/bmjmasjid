@@ -13,8 +13,8 @@ Detailed design, content, database, and payments come in later steps. This step 
 | Styling | Tailwind CSS 4 |
 | Package manager | npm (lockfile retained) |
 | Runtime | Node.js **22 LTS** preferred (Next.js 16 requires ≥ 20.9) |
-| Database | PostgreSQL planned later (not connected) |
-| Payments | SSLCOMMERZ planned first (architecture only) |
+| Database | PostgreSQL for donation-report submissions (`DATABASE_URL`; optional locally) |
+| Payments | Manual bKash interim; SSLCOMMERZ gateway architecture only (inactive) |
 
 ## Local setup
 
@@ -45,8 +45,10 @@ Do not commit `.env.local` or any real secrets.
 | `npm run typecheck` | TypeScript (`tsc --noEmit`) |
 | `npm run check:overflow` | Production server required — viewport overflow regression (CDP) |
 | `npm run check:interactions` | Production server required — share/nav/gallery smoke (CDP) |
+| `npm run db:migrate` | Apply `db/migrations` (requires `DATABASE_URL`) |
 
-Step 4 visual QA notes: [docs/step4-verification/REPORT.md](docs/step4-verification/REPORT.md).
+Step 4 visual QA notes: [docs/step4-verification/REPORT.md](docs/step4-verification/REPORT.md).  
+Donation-report review: [docs/donation-report-review.md](docs/donation-report-review.md).
 
 ## Project structure
 
@@ -91,15 +93,15 @@ Default branch: `master` (tracks `origin/master`).
 
 CI workflow: `.github/workflows/ci.yml` (typecheck, lint, build on Node 22).
 
-## Deferred work (not in Step 1)
+## Deferred / prerequisites
 
-- PostgreSQL donation records
-- SSLCOMMERZ (or other) live payment integration
-- Credentials, IPN/webhook endpoints, transaction validation
+- Production `DATABASE_URL` + `npm run db:migrate` for donation-report persistence
+- Confirmed WhatsApp report destination (separate from bKash)
+- SSLCOMMERZ (or other) live payment gateway integration
 - Public deployment
-- Final mobile-first visual design and full content
+- Official bKash logo asset (temporary wordmark in use)
 
-See [docs/payments-architecture.md](docs/payments-architecture.md). Browser redirects alone must never mark donations paid.
+See [docs/payments-architecture.md](docs/payments-architecture.md). Browser redirects alone must never mark donations paid. Pending form claims never increase public totals.
 
 ## Design tokens (initial)
 
