@@ -1,6 +1,7 @@
 /**
  * Single typed source for editable mosque and campaign information.
- * Unknown values stay null — do not invent committee, contact, totals, or payment status.
+ * Unknown values stay null — do not invent committee titles, wallet type,
+ * receipt guarantees, or payment-gateway availability.
  */
 
 export type Locale = "bn" | "en";
@@ -28,6 +29,28 @@ export type CommitteeInfo = {
   note: LocalizedString | null;
 };
 
+export type CaretakerInfo = {
+  name: LocalizedString;
+  nickname: LocalizedString;
+  displayName: LocalizedString;
+  role: LocalizedString;
+  relationship: LocalizedString;
+};
+
+/**
+ * Interim personal bKash details for manual transfers.
+ * Kept separate from online gateway availability (`paymentsAvailable`).
+ */
+export type ManualBkashInfo = {
+  available: boolean;
+  /** Digits only — used for copy/clipboard. */
+  numberDigits: string;
+  /** Local display with hyphen, e.g. 01913-331811. */
+  numberDisplay: string;
+  /** International display, e.g. +880 1913-331811. */
+  numberInternational: string;
+};
+
 export type MosqueConfig = {
   defaultLocale: Locale;
   name: LocalizedString;
@@ -39,25 +62,21 @@ export type MosqueConfig = {
     country: LocalizedString;
   };
   founderAndLandDonor: LocalizedString;
-  /** Contribution note supplied for the campaign site — no invented biography. */
   founderContribution: LocalizedString;
+  caretaker: CaretakerInfo;
+  manualBkash: ManualBkashInfo;
   campaign: {
-    /** Target amount in BDT (integer taka). */
     targetAmountBdt: number;
     targetDisplay: LocalizedString;
-    /** Verified received total — unknown until donation records exist. */
     receivedAmountBdt: number | null;
   };
   audienceNote: LocalizedString;
-  /** Unknown until provided by the mosque committee. */
   committee: CommitteeInfo | null;
-  /** Unknown until a current contact is confirmed. */
   contact: ContactInfo | null;
-  /** Unknown until a construction budget is confirmed. */
   constructionBudgetBdt: number | null;
   /**
-   * Online payments are not available until explicitly enabled.
-   * `null` and `false` both mean unavailable to visitors.
+   * Online payment gateway checkout — inactive until explicitly enabled.
+   * Separate from interim manual bKash (`manualBkash.available`).
    */
   paymentsAvailable: boolean | null;
 };
@@ -77,18 +96,9 @@ export const mosqueConfig: MosqueConfig = {
     en: "Pourashava Ward No. 2, College Road, Bhedarganj, Shariatpur, Bangladesh",
   },
   location: {
-    upazila: {
-      bn: "ভেদরগঞ্জ",
-      en: "Bhedarganj",
-    },
-    district: {
-      bn: "শরীয়তপুর",
-      en: "Shariatpur",
-    },
-    country: {
-      bn: "বাংলাদেশ",
-      en: "Bangladesh",
-    },
+    upazila: { bn: "ভেদরগঞ্জ", en: "Bhedarganj" },
+    district: { bn: "শরীয়তপুর", en: "Shariatpur" },
+    country: { bn: "বাংলাদেশ", en: "Bangladesh" },
   },
   founderAndLandDonor: {
     bn: "মরহুম নুরুল হক বেপারী",
@@ -98,12 +108,25 @@ export const mosqueConfig: MosqueConfig = {
     bn: "মরহুম নুরুল হক বেপারী বাইতুল মামুর জামে মসজিদের প্রতিষ্ঠাতা ও জমিদাতা। তিনি এখন পর্যন্ত নির্মাণের বেশির ভাগ ব্যয় নিজে বহন করেছেন।",
     en: "The late Nurul Haque Bepari is the founder and land donor of Baitul Mamur Jame Masjid. He has personally borne most of the construction costs so far.",
   },
+  caretaker: {
+    name: { bn: "রায়হান আহমেদ", en: "Rayhan Ahmed" },
+    nickname: { bn: "শিশির", en: "Shishir" },
+    displayName: { bn: "রায়হান আহমেদ (শিশির)", en: "Rayhan Ahmed (Shishir)" },
+    role: { bn: "বর্তমান তত্ত্বাবধায়ক", en: "Current caretaker" },
+    relationship: {
+      bn: "মরহুম প্রতিষ্ঠাতা ও জমিদাতা নুরুল হক বেপারীর ছেলে",
+      en: "Son of the late founder and land donor, Nurul Haque Bepari",
+    },
+  },
+  manualBkash: {
+    available: true,
+    numberDigits: "01913331811",
+    numberDisplay: "01913-331811",
+    numberInternational: "+880 1913-331811",
+  },
   campaign: {
     targetAmountBdt: 2_000_000,
-    targetDisplay: {
-      bn: "৳২০,০০,০০০",
-      en: "BDT 2,000,000",
-    },
+    targetDisplay: { bn: "৳২০,০০,০০০", en: "BDT 2,000,000" },
     receivedAmountBdt: null,
   },
   audienceNote: {
@@ -113,14 +136,17 @@ export const mosqueConfig: MosqueConfig = {
   committee: null,
   contact: null,
   constructionBudgetBdt: null,
-  paymentsAvailable: null,
+  paymentsAvailable: false,
 };
 
 export function t(value: LocalizedString, locale: Locale = mosqueConfig.defaultLocale): string {
   return value[locale];
 }
 
-/** True only when online payments are explicitly enabled. */
 export function arePaymentsAvailable(): boolean {
   return mosqueConfig.paymentsAvailable === true;
+}
+
+export function isManualBkashAvailable(): boolean {
+  return mosqueConfig.manualBkash.available === true;
 }

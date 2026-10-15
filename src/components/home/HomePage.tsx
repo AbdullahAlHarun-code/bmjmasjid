@@ -179,7 +179,26 @@ export function HomePage({ locale, content }: HomePageProps) {
             {home.supporters.intro}
           </p>
         </div>
-        <div className="mt-8 grid gap-4 md:grid-cols-2">
+        <Link
+          href="/support"
+          className="mt-8 flex flex-col gap-3 rounded-[var(--bm-radius)] border-2 border-[color:var(--bm-primary)]/25 bg-[color:var(--bm-surface)] p-6 shadow-[var(--bm-shadow)] transition hover:border-[color:var(--bm-primary)]/45 focus-visible:border-[color:var(--bm-primary)] sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div className="max-w-2xl">
+            <h3 className="text-xl font-semibold text-[color:var(--bm-primary)]">
+              {home.supporters.bkashTitle}
+            </h3>
+            <p className="mt-2 text-[color:var(--bm-text-secondary)]">
+              {home.supporters.bkashBody}
+            </p>
+          </div>
+          <span className="inline-flex min-h-12 shrink-0 items-center font-semibold text-[color:var(--bm-text)]">
+            {home.supporters.bkashLinkLabel}
+            <span aria-hidden className="ms-2">
+              →
+            </span>
+          </span>
+        </Link>
+        <div className="mt-4 grid gap-4 md:grid-cols-2">
           <Link
             href="/support"
             className="surface-card block p-6 transition hover:border-[color:var(--bm-primary)]/35 focus-visible:border-[color:var(--bm-primary)]"

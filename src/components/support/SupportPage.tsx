@@ -1,8 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
+import { BkashDonateCard } from "@/components/BkashDonateCard";
 import { ShareProject } from "@/components/ShareProject";
 import { projectAssets } from "@/config/assets";
-import { mosqueConfig, t, type Locale } from "@/config/mosque";
+import {
+  isManualBkashAvailable,
+  mosqueConfig,
+  t,
+  type Locale,
+} from "@/config/mosque";
 import type { SiteContent } from "@/content";
 
 type SupportPageProps = {
@@ -13,6 +19,7 @@ type SupportPageProps = {
 export function SupportPage({ locale, content }: SupportPageProps) {
   const page = content.support;
   const photo = projectAssets.previewEntrance;
+  const showManualBkash = isManualBkashAvailable();
 
   return (
     <article>
@@ -71,6 +78,11 @@ export function SupportPage({ locale, content }: SupportPageProps) {
           <p className="mt-4 rounded-[var(--bm-radius)] border border-[color:var(--bm-border)] bg-[color:var(--bm-background)] p-5 text-[1.125rem] leading-[1.7] text-[color:var(--bm-text)]">
             {page.statusBody}
           </p>
+          {showManualBkash ? (
+            <div className="mt-8">
+              <BkashDonateCard locale={locale} copy={page.bkash} />
+            </div>
+          ) : null}
         </div>
       </section>
 

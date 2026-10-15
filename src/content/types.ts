@@ -48,6 +48,9 @@ export type HomeContent = {
     abroadTitle: string;
     abroadBody: string;
     linkLabel: string;
+    bkashTitle: string;
+    bkashBody: string;
+    bkashLinkLabel: string;
   };
   projectInfo: {
     title: string;
@@ -70,6 +73,8 @@ export type AboutContent = {
   addressLabel: string;
   founderTitle: string;
   founderBody: string;
+  caretakerTitle: string;
+  caretakerBody: string;
   campaignTitle: string;
   campaignBody: string;
   targetLabel: string;
@@ -127,6 +132,21 @@ export type ShareContent = {
   message: string;
 };
 
+export type BkashSupportCopy = {
+  heading: string;
+  numberLabel: string;
+  caretakerLabel: string;
+  explanation: string;
+  gatewayPending: string;
+  verifyBeforeConfirm: string;
+  notAutoVerified: string;
+  abroadNote: string;
+  copyNumber: string;
+  copied: string;
+  copyError: string;
+  internationalLabel: string;
+};
+
 export type SupportContent = {
   title: string;
   description: string;
@@ -136,6 +156,7 @@ export type SupportContent = {
   targetClarification: string;
   statusTitle: string;
   statusBody: string;
+  bkash: BkashSupportCopy;
   localTitle: string;
   localBody: string;
   abroadTitle: string;
@@ -160,6 +181,8 @@ export type TransparencyContent = {
   unknownBody: string;
   reportingTitle: string;
   reportingBody: string;
+  manualTitle: string;
+  manualBody: string;
   founderTitle: string;
   founderBody: string;
   reportsTitle: string;
@@ -175,6 +198,10 @@ export type ContactContent = {
   description: string;
   intro: string;
   addressLabel: string;
+  caretakerTitle: string;
+  caretakerRoleLabel: string;
+  bkashLabel: string;
+  bkashNote: string;
   noticeTitle: string;
   noticeBody: string;
   mapSearchLabel: string;

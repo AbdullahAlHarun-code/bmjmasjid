@@ -77,15 +77,25 @@ export function TransparencyPage({ locale, content }: TransparencyPageProps) {
       <section className="bg-[color:var(--bm-surface)] py-10 sm:py-12">
         <div className="site-container max-w-3xl">
           <h2 className="text-2xl font-semibold text-[color:var(--bm-primary)]">
-            {page.founderTitle}
+            {page.manualTitle}
           </h2>
           <p className="mt-4 text-[1.125rem] leading-[1.7] text-[color:var(--bm-text)]">
-            {page.founderBody}
+            {page.manualBody}
           </p>
         </div>
       </section>
 
       <section className="site-container max-w-3xl py-10 sm:py-12">
+          <h2 className="text-2xl font-semibold text-[color:var(--bm-primary)]">
+            {page.founderTitle}
+          </h2>
+          <p className="mt-4 text-[1.125rem] leading-[1.7] text-[color:var(--bm-text)]">
+            {page.founderBody}
+          </p>
+      </section>
+
+      <section className="bg-[color:var(--bm-surface)] py-10 sm:py-12">
+        <div className="site-container max-w-3xl">
         <h2 className="text-2xl font-semibold text-[color:var(--bm-primary)]">
           {page.reportsTitle}
         </h2>
@@ -124,10 +134,10 @@ export function TransparencyPage({ locale, content }: TransparencyPageProps) {
             ))}
           </ul>
         )}
+        </div>
       </section>
 
-      <section className="bg-[color:var(--bm-surface)] py-10 sm:py-12">
-        <div className="site-container max-w-3xl">
+      <section className="site-container max-w-3xl py-10 sm:py-12">
           <h2 className="text-2xl font-semibold text-[color:var(--bm-primary)]">
             {page.linksTitle}
           </h2>
@@ -160,7 +170,6 @@ export function TransparencyPage({ locale, content }: TransparencyPageProps) {
               </Link>
             </li>
           </ul>
-        </div>
       </section>
     </article>
   );

@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { ShareProject } from "@/components/ShareProject";
-import { mosqueConfig, t, type Locale } from "@/config/mosque";
+import {
+  isManualBkashAvailable,
+  mosqueConfig,
+  t,
+  type Locale,
+} from "@/config/mosque";
 import type { SiteContent } from "@/content";
 
 type ContactPageProps = {
@@ -16,6 +21,8 @@ function addressSearchHref(locale: Locale) {
 export function ContactPage({ locale, content }: ContactPageProps) {
   const page = content.contact;
   const contact = mosqueConfig.contact;
+  const caretaker = mosqueConfig.caretaker;
+  const showManualBkash = isManualBkashAvailable();
 
   return (
     <article>
@@ -58,6 +65,49 @@ export function ContactPage({ locale, content }: ContactPageProps) {
       <section className="bg-[color:var(--bm-surface)] py-10 sm:py-12">
         <div className="site-container max-w-3xl">
           <h2 className="text-2xl font-semibold text-[color:var(--bm-primary)]">
+            {page.caretakerTitle}
+          </h2>
+          <p className="mt-3 text-xl font-medium text-[color:var(--bm-text)]">
+            {t(caretaker.displayName, locale)}
+          </p>
+          <dl className="mt-5 space-y-4">
+            <div>
+              <dt className="text-sm font-medium text-[color:var(--bm-text-secondary)]">
+                {page.caretakerRoleLabel}
+              </dt>
+              <dd className="mt-1 text-[1.125rem] text-[color:var(--bm-text)]">
+                {t(caretaker.role, locale)}
+              </dd>
+            </div>
+            {showManualBkash ? (
+              <div>
+                <dt className="text-sm font-medium text-[color:var(--bm-text-secondary)]">
+                  {page.bkashLabel}
+                </dt>
+                <dd className="mt-1 font-mono text-xl font-semibold tracking-wide text-[color:var(--bm-text)]">
+                  {mosqueConfig.manualBkash.numberDisplay}
+                </dd>
+              </div>
+            ) : null}
+          </dl>
+          {showManualBkash ? (
+            <p className="mt-4 text-sm text-[color:var(--bm-text-secondary)]">
+              {page.bkashNote}
+            </p>
+          ) : null}
+          <p className="mt-6">
+            <Link
+              href="/support"
+              className="inline-flex min-h-12 items-center font-semibold text-[color:var(--bm-primary)] underline-offset-4 hover:underline"
+            >
+              {page.linkSupport}
+            </Link>
+          </p>
+        </div>
+      </section>
+
+      <section className="site-container max-w-3xl py-10 sm:py-12">
+          <h2 className="text-2xl font-semibold text-[color:var(--bm-primary)]">
             {page.noticeTitle}
           </h2>
           <p className="mt-4 text-[1.125rem] leading-[1.7] text-[color:var(--bm-text)]">
@@ -70,7 +120,6 @@ export function ContactPage({ locale, content }: ContactPageProps) {
               {contact.whatsapp ? <li>{contact.whatsapp}</li> : null}
             </ul>
           ) : null}
-        </div>
       </section>
 
       <section className="site-container max-w-3xl py-10 sm:py-12">

@@ -74,8 +74,21 @@ export function AboutPage({ locale, content }: AboutPageProps) {
 
       <section className="site-container max-w-3xl py-10 sm:py-12">
         <h2 className="text-2xl font-semibold text-[color:var(--bm-primary)]">
-          {about.campaignTitle}
+          {about.caretakerTitle}
         </h2>
+        <p className="mt-3 text-xl font-medium text-[color:var(--bm-text)]">
+          {t(mosqueConfig.caretaker.displayName, locale)}
+        </p>
+        <p className="mt-4 text-[1.125rem] leading-[1.7] text-[color:var(--bm-text)]">
+          {about.caretakerBody}
+        </p>
+      </section>
+
+      <section className="bg-[color:var(--bm-surface)] py-10 sm:py-12">
+        <div className="site-container max-w-3xl">
+          <h2 className="text-2xl font-semibold text-[color:var(--bm-primary)]">
+            {about.campaignTitle}
+          </h2>
         <p className="mt-4 text-[1.125rem] leading-[1.7] text-[color:var(--bm-text)]">
           {about.campaignBody}
         </p>
@@ -90,13 +103,13 @@ export function AboutPage({ locale, content }: AboutPageProps) {
             {about.targetClarification}
           </p>
         </div>
+        </div>
       </section>
 
-      <section className="bg-[color:var(--bm-surface)] py-10 sm:py-12">
-        <div className="site-container max-w-3xl">
-          <h2 className="text-2xl font-semibold text-[color:var(--bm-primary)]">
-            {about.linksTitle}
-          </h2>
+      <section className="site-container max-w-3xl py-10 sm:py-12">
+        <h2 className="text-2xl font-semibold text-[color:var(--bm-primary)]">
+          {about.linksTitle}
+        </h2>
           <ul className="mt-6 divide-y divide-[color:var(--bm-border)] border-y border-[color:var(--bm-border)]">
             <li>
               <Link
@@ -126,7 +139,6 @@ export function AboutPage({ locale, content }: AboutPageProps) {
               </Link>
             </li>
           </ul>
-        </div>
       </section>
     </article>
   );

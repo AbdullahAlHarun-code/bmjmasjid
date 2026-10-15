@@ -39,14 +39,18 @@ export const contentEn: SiteContent = {
     supporters: {
       title: "Supporters in Bangladesh and abroad",
       intro:
-        "Anyone in Bangladesh or overseas can take part in this construction. Online payments are not connected yet.",
+        "Anyone in Bangladesh or overseas can take part in this construction. Interim help is accepted by manual bKash; online gateway checkout is not active yet.",
       localTitle: "Supporters in Bangladesh",
       localBody:
-        "See the Support page for ways to help from inside the country. Specific payment channels have not been announced yet.",
+        "See the Support page for the published bKash number and guidance for transfers from inside the country.",
       abroadTitle: "Bangladeshis overseas",
       abroadBody:
-        "Guidance for supporters in Italy, the USA, the Middle East and elsewhere will be added on the Support page.",
+        "If you can use bKash, follow the number on the Support page. International card checkout is not available yet.",
       linkLabel: "Go to Support",
+      bkashTitle: "Support via bKash",
+      bkashBody:
+        "For now, construction support is accepted through Rayhan Ahmed (Shishir)'s bKash number.",
+      bkashLinkLabel: "See bKash details",
     },
     projectInfo: {
       title: "Project information",
@@ -65,13 +69,16 @@ export const contentEn: SiteContent = {
   about: {
     title: "About",
     description:
-      "Baitul Mamur Jame Masjid in Bhedarganj, Shariatpur — founder, address, and the first fundraising target.",
+      "Baitul Mamur Jame Masjid in Bhedarganj, Shariatpur — founder, caretaker, address, and the first fundraising target.",
     intro:
       "Baitul Mamur Jame Masjid is located in Bhedarganj, Shariatpur, Bangladesh. This campaign invites Bangladeshis at home and abroad to help advance construction.",
     addressLabel: "Address",
     founderTitle: "Founder and land donor",
     founderBody:
       "The late Nurul Haque Bepari is the founder and land donor of Baitul Mamur Jame Masjid. He has personally borne most of the construction costs so far.",
+    caretakerTitle: "Current caretaker",
+    caretakerBody:
+      "Rayhan Ahmed (Shishir) is the son of the late founder and land donor, Nurul Haque Bepari. He currently looks after the mosque.",
     campaignTitle: "This campaign",
     campaignBody:
       "Support is invited from Bangladeshis in Bangladesh and overseas to help move construction forward. The amount below is the first fundraising target for this campaign.",
@@ -108,7 +115,7 @@ export const contentEn: SiteContent = {
   support: {
     title: "Support us",
     description:
-      "Support the construction of Baitul Mamur Jame Masjid — first fundraising target and current donation status.",
+      "Support the construction of Baitul Mamur Jame Masjid — first fundraising target and current bKash guidance.",
     intro:
       "Well-wishers in Bangladesh and abroad are invited to take part in this construction.",
     appeal:
@@ -118,13 +125,32 @@ export const contentEn: SiteContent = {
       "This is the first fundraising target for this campaign. It is not a verified total construction cost.",
     statusTitle: "Current status",
     statusBody:
-      "Online donation acceptance is not available yet. When it is ready, details will be published on this page.",
+      "Until an online payment gateway is ready, you can support mosque construction through the bKash number below.",
+    bkash: {
+      heading: "Support via bKash",
+      numberLabel: "bKash number",
+      caretakerLabel: "Caretaker",
+      explanation:
+        "Rayhan Ahmed (Shishir), son of the late founder Nurul Haque Bepari, currently looks after the mosque. For now, construction support is accepted through his bKash number.",
+      gatewayPending:
+        "Until an online payment gateway is ready, you can support mosque construction through the bKash number below.",
+      verifyBeforeConfirm:
+        "Before confirming in bKash, check the number and recipient details. We do not prescribe Send Money versus Payment until the wallet type is confirmed.",
+      notAutoVerified:
+        "Transfers take place through bKash. This website does not automatically verify donations or issue receipts.",
+      abroadNote:
+        "This option is for people who can use bKash. International card checkout is not available yet.",
+      copyNumber: "Copy number",
+      copied: "Number copied: 01913331811",
+      copyError: "Could not copy the number. Please copy 01913331811 manually.",
+      internationalLabel: "International format",
+    },
     localTitle: "Supporters in Bangladesh",
     localBody:
-      "Specific ways to help from inside the country have not been announced yet. When online payments open, they will be listed here. Until then, you can share the project with people you know.",
+      "From inside the country, you can use the bKash number above. Verify the number before confirming.",
     abroadTitle: "Bangladeshis abroad",
     abroadBody:
-      "Guidance for supporters in Italy, the USA, the Middle East and elsewhere will be added later. International payment support is not claimed as available now.",
+      "If you can use bKash, use the number above. International card or gateway checkout is not active yet.",
     actionsTitle: "What you can do now",
     linkConstruction: "See construction progress",
     linkPhotos: "View project photographs",
@@ -141,9 +167,14 @@ export const contentEn: SiteContent = {
           "It invites Bangladeshis at home and abroad to help advance construction. The first fundraising target is BDT 2 million.",
       },
       {
-        question: "Can I donate online now?",
+        question: "How can I support now?",
         answer:
-          "No. Online donation acceptance is not available yet. There is no checkout, donation form, or payment-success message on this site.",
+          "For now, support is accepted by manual transfer to the published bKash number on this page. Online payment gateway checkout is not active yet.",
+      },
+      {
+        question: "Does this website automatically verify bKash transfers?",
+        answer:
+          "No. Transfers happen in bKash. This website does not auto-verify payments or issue receipts. Published totals will include transfers only after reconciliation.",
       },
       {
         question: "Where will updates appear?",
@@ -201,6 +232,9 @@ export const contentEn: SiteContent = {
     reportingTitle: "Intended reporting",
     reportingBody:
       "Campaign receipts, expenditure, and dated updates are intended to be published here after verification. No audited accounts or published reports are claimed now.",
+    manualTitle: "Manual bKash donations",
+    manualBody:
+      "Manual bKash transfers are accepted for now. Those donations will appear in published totals only after reconciliation and verification. Verified totals are not published yet.",
     founderTitle: "Earlier founder-funded work",
     founderBody:
       "The late Nurul Haque Bepari has personally borne most of the construction costs so far. That earlier funding will be kept separate from this campaign’s collections.",
@@ -215,13 +249,18 @@ export const contentEn: SiteContent = {
   contact: {
     title: "Contact",
     description:
-      "Name and address of Baitul Mamur Jame Masjid, and the current status of contact details.",
+      "Name and address of Baitul Mamur Jame Masjid, and the caretaker's bKash number for donations.",
     intro:
-      "The mosque name and address are shown below. Current contact channels are not confirmed yet.",
+      "The mosque name and address are shown below. For construction support, the caretaker's bKash number is published for interim manual transfers.",
     addressLabel: "Address",
-    noticeTitle: "Contact information",
+    caretakerTitle: "Caretaker",
+    caretakerRoleLabel: "Role",
+    bkashLabel: "bKash (donations)",
+    bkashNote:
+      "This number is published for interim manual bKash donations. WhatsApp availability is not assumed.",
+    noticeTitle: "Other contact details",
     noticeBody:
-      "Current contact information will be added here after confirmation. Phone, email, WhatsApp, and committee names are not shown now.",
+      "Email, office hours, and committee member names are not confirmed yet. A separate general phone or WhatsApp channel is not claimed.",
     mapSearchLabel: "Open a general address search",
     mapSearchNote:
       "This is a general address-search link. It is not presented as a verified map pin or exact coordinates.",
@@ -258,15 +297,19 @@ export const contentEn: SiteContent = {
       },
       {
         title: "What is not present",
-        body: "This site currently has no analytics tools, third-party embeds, contact forms, or donation forms. No personal-data collection feature is active.",
+        body: "This site currently has no analytics tools, third-party embeds, contact forms, or online donation forms. No personal-data collection feature is active.",
       },
       {
-        title: "Sharing and copy link",
-        body: "Share and copy-link actions run on your own device. This site does not collect personal information from those actions or run tracking for them.",
+        title: "Manual bKash transfers",
+        body: "A personal bKash number is published on the Support page. Transfers happen in the bKash app. This website does not collect, store, or automatically verify transaction details.",
+      },
+      {
+        title: "Sharing and copy actions",
+        body: "Share, copy-link, and copy-number actions run on your own device. This site does not collect personal information from those actions or run tracking for them.",
       },
       {
         title: "Hosting and future changes",
-        body: "The site is not publicly launched yet. When hosting is chosen, ordinary server logs for that environment may apply. If online donations or forms are added later, this policy will be updated.",
+        body: "The site is not publicly launched yet. When hosting is chosen, ordinary server logs for that environment may apply. If an online gateway or forms are added later, this policy will be updated.",
       },
     ],
   },
@@ -275,11 +318,15 @@ export const contentEn: SiteContent = {
     description:
       "Current donation availability, campaign purpose, and reporting status for Baitul Mamur Jame Masjid.",
     intro:
-      "This policy matches current functionality. It does not invent refund deadlines, receipt guarantees, fees, or international payment support.",
+      "This policy matches current functionality. It does not invent refund deadlines, receipt guarantees, fees, or international card support.",
     sections: [
       {
-        title: "Current donation acceptance",
-        body: "Online donation acceptance is not available yet. This site has no checkout, donation form, or payment gateway.",
+        title: "Manual bKash transfers",
+        body: "For now, support is accepted by manual transfer to the personal bKash number of caretaker Rayhan Ahmed (Shishir). This is not claimed as an institutional merchant account.",
+      },
+      {
+        title: "Online payment gateway",
+        body: "Website checkout and payment-gateway integration are not active yet. Browser redirects alone never mark a donation as paid.",
       },
       {
         title: "Campaign purpose",
@@ -287,15 +334,15 @@ export const contentEn: SiteContent = {
       },
       {
         title: "Reporting and transparency",
-        body: "Verified received donations, spending, and balances are not published yet. The intended reporting approach is described on Accounts and transparency.",
+        body: "Manual transfers are intended to appear in published totals only after reconciliation and verification. Verified received donations, spending, and balances are not published yet.",
       },
       {
         title: "What is not claimed",
-        body: "This site does not claim zakat eligibility, tax deductibility, registered charity status, or a verified charity badge. Historical receipt details are not presented as a current payment destination.",
+        body: "This site does not claim zakat eligibility, tax deductibility, registered charity status, automatic receipts, or refund guarantees. Historical receipt-book bank details are not presented as a current payment destination.",
       },
       {
         title: "Changes",
-        body: "When online donations open, acceptance rules, use of funds, and reporting details on this page will be updated.",
+        body: "When an online gateway opens, or when receipt and reconciliation arrangements are confirmed, this page will be updated.",
       },
     ],
     linkTransparency: "View accounts and transparency",
