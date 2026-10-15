@@ -12,6 +12,8 @@ export type ProjectAsset = {
   original: string;
   /** CSS object-position hint so crops keep the main subject. */
   objectPosition?: string;
+  /** Display-only crop for the compact mosque symbol. */
+  markViewBox?: string;
 };
 
 /**
@@ -21,6 +23,8 @@ export type ProjectAsset = {
 export const projectAssets = {
   logo: {
     id: "logo",
+    // Crop only the circular mosque symbol for compact navigation and favicon.
+    markViewBox: "112 134 257 257",
     src: "/images/logo.webp",
     width: 480,
     height: 640,
