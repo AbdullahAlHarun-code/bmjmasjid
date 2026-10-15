@@ -1,13 +1,35 @@
 import type { Metadata } from "next";
-import { LocalizedPageShell } from "@/components/LocalizedPageShell";
+import { Suspense } from "react";
+import { UpdatesPage } from "@/components/updates/UpdatesPage";
 import { getContent } from "@/content";
 import { getLocale } from "@/lib/get-locale";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
-  return { title: getContent(locale).updates.title };
+  const updates = getContent(locale).updates;
+  return {
+    title: updates.title,
+    description: updates.description,
+  };
 }
 
-export default function UpdatesPage() {
-  return <LocalizedPageShell page="updates" />;
+async function UpdatesContent() {
+  const locale = await getLocale();
+  const content = getContent(locale);
+  return <UpdatesPage locale={locale} content={content} />;
+}
+
+export default function Page() {
+  return (
+    <Suspense
+      fallback={
+        <div className="site-container py-12" aria-hidden>
+          <div className="h-8 w-52 rounded bg-[color:var(--bm-primary)]/10" />
+          <div className="mt-4 h-4 w-full max-w-xl rounded bg-[color:var(--bm-border)]" />
+        </div>
+      }
+    >
+      <UpdatesContent />
+    </Suspense>
+  );
 }

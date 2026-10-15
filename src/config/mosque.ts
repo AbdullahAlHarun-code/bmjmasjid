@@ -74,8 +74,8 @@ export const mosqueConfig: MosqueConfig = {
     en: "Late Nurul Haque Bepari",
   },
   founderContribution: {
-    bn: "তিনি এই মসজিদের প্রতিষ্ঠাতা ও জমি দাতা। এ পর্যন্ত নির্মাণ ব্যয়ের বড় অংশও তার অবদানে সম্পন্ন হয়েছে।",
-    en: "He is the founder and land donor of this mosque. He has also covered most of the construction costs so far.",
+    bn: "মরহুম নুরুল হক বেপারী বাইতুল মামুর জামে মসজিদের প্রতিষ্ঠাতা ও জমিদাতা। তিনি এখন পর্যন্ত নির্মাণের বেশির ভাগ ব্যয় নিজে বহন করেছেন।",
+    en: "The late Nurul Haque Bepari is the founder and land donor of Baitul Mamur Jame Masjid. He has personally borne most of the construction costs so far.",
   },
   campaign: {
     targetAmountBdt: 2_000_000,

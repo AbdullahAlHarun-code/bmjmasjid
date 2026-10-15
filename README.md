@@ -65,8 +65,8 @@ Editable campaign facts live in `src/config/mosque.ts`. Page copy lives in `src/
 ## Routes
 
 - `/` — Step 2 mobile-first homepage (hero through final invitation)
-- `/about`, `/construction`, `/support`, `/updates`, `/transparency`
-- `/contact`, `/privacy`, `/donation-policy` — shared shell styling; detailed content in Step 3
+- `/about`, `/construction`, `/updates` — Step 3A complete bilingual pages
+- `/support`, `/transparency`, `/contact`, `/privacy`, `/donation-policy` — shared shell; later steps
 
 Shared chrome: logo header, language switch (Bangla default), accessible mobile menu, dark-green footer, mobile support bar.
 

@@ -6,8 +6,10 @@ export const contentEn: SiteContent = {
     title: "Home",
     locationLine: "Bhedarganj, Shariatpur, Bangladesh",
     heroHeading: "Join the construction of Baitul Mamur Jame Masjid",
+    heroSupportMobile:
+      "Built on land from the late Nurul Haque Bepari in Bhedarganj, Shariatpur, Bangladesh. First fundraising target: BDT 2 million.",
     heroSupport:
-      "We seek your support to advance the construction of this mosque on land donated by the late Nurul Haque Bepari. For well-wishers in Bangladesh and abroad, the first fundraising target is 2 million taka.",
+      "We seek your support to advance the construction of this mosque on land donated by the late Nurul Haque Bepari. For well-wishers in Bangladesh and abroad, the first fundraising target is BDT 2 million.",
     ctaSupport: "Support us",
     ctaConstruction: "See construction progress",
     campaign: {
@@ -16,12 +18,12 @@ export const contentEn: SiteContent = {
       clarification:
         "This is the first fundraising target for this campaign. It is not a verified total construction cost.",
       receivedUnknown:
-        "A verified total of received donations is not ready to publish yet. No progress bar or estimate is shown here.",
+        "A verified total of received donations is not ready to publish yet.",
     },
     founder: {
       title: "Founder and land donor",
       roleLabel: "Founder and land donor",
-      body: "The late Nurul Haque Bepari donated the land for this mosque and has also covered most of the construction costs so far. Honouring his gift, it is our responsibility to carry the construction forward.",
+      body: "The late Nurul Haque Bepari is the founder and land donor of Baitul Mamur Jame Masjid. He has personally borne most of the construction costs so far.",
       linkLabel: "Learn more on the About page",
     },
     construction: {
@@ -62,13 +64,46 @@ export const contentEn: SiteContent = {
   },
   about: {
     title: "About",
-    summary:
-      "History, founder, and purpose — detailed content will be added in a later step.",
+    description:
+      "Baitul Mamur Jame Masjid in Bhedarganj, Shariatpur — founder, address, and the first fundraising target.",
+    intro:
+      "Baitul Mamur Jame Masjid is located in Bhedarganj, Shariatpur, Bangladesh. This campaign invites Bangladeshis at home and abroad to help advance construction.",
+    addressLabel: "Address",
+    founderTitle: "Founder and land donor",
+    founderBody:
+      "The late Nurul Haque Bepari is the founder and land donor of Baitul Mamur Jame Masjid. He has personally borne most of the construction costs so far.",
+    campaignTitle: "This campaign",
+    campaignBody:
+      "Support is invited from Bangladeshis in Bangladesh and overseas to help move construction forward. The amount below is the first fundraising target for this campaign.",
+    targetLabel: "First fundraising target",
+    targetClarification:
+      "This is the first fundraising target. It is not a verified total construction cost, and it does not claim to complete the entire mosque.",
+    linksTitle: "Learn more",
+    linkConstruction: "Construction needs",
+    linkPhotos: "Photos and updates",
+    linkSupport: "Support us",
   },
   construction: {
-    title: "Construction",
-    summary:
-      "Construction phases and photo updates — detailed content will be added in a later step.",
+    title: "Construction needs",
+    description:
+      "Visible exterior condition of Baitul Mamur Jame Masjid, next-work planning note, and the first fundraising target.",
+    intro:
+      "The description and photographs below show the mosque’s visible exterior. No completion percentage or fixed deadline is claimed here.",
+    visibleTitle: "Visible exterior condition",
+    visibleBody:
+      "Exposed brickwork is clearly visible on the exterior walls. Upper arched windows and metal grilles are in place, but the walls are not plastered. The front shows a patterned metal gate and blue doors; surrounding walls and parts of the entrance remain unfinished.",
+    nextWorkTitle: "Next work plan",
+    nextWorkBody:
+      "A detailed next-work plan and cost estimates will be added here after confirmation. Estimated budgets and material quantities are not shown now.",
+    campaignTitle: "First fundraising target",
+    campaignBody:
+      "The first fundraising target for this campaign is BDT 2 million. This amount is not claimed to complete the entire mosque.",
+    targetClarification:
+      "Verified received donations and a total construction budget are not ready to publish yet.",
+    linksTitle: "Related pages",
+    linkUpdates: "Photos and updates",
+    linkTransparency: "Transparency",
+    linkSupport: "Support us",
   },
   support: {
     title: "Support us",
@@ -76,8 +111,23 @@ export const contentEn: SiteContent = {
       "Donation guidance will live here. Online payments are not connected yet.",
   },
   updates: {
-    title: "Updates",
-    summary: "Project news and announcements — detailed content will be added later.",
+    title: "Photos and updates",
+    description:
+      "Project photographs of Baitul Mamur Jame Masjid and verified construction updates.",
+    galleryTitle: "Project photographs",
+    galleryIntro:
+      "These photographs show the mosque’s visible condition. Filenames are not treated as capture dates.",
+    openImage: "View larger image",
+    updatesTitle: "Construction updates",
+    updatesEmpty:
+      "No dated construction updates have been published yet. Confirmed updates will be added here when available.",
+    viewer: {
+      dialogLabel: "Full-size photograph viewer",
+      close: "Close",
+      previous: "Previous image",
+      next: "Next image",
+      position: "{current} / {total}",
+    },
   },
   transparency: {
     title: "Transparency",

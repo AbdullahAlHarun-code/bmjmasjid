@@ -41,7 +41,10 @@ export function HomePage({ locale, content }: HomePageProps) {
               <h1 className="mt-3 text-balance text-2xl font-semibold leading-snug text-[color:var(--bm-text)] sm:text-3xl lg:text-[2.1rem]">
                 {home.heroHeading}
               </h1>
-              <p className="mt-4 text-[1.05rem] leading-[1.75] text-[color:var(--bm-text-secondary)] sm:text-[1.125rem]">
+              <p className="mt-4 text-[1.05rem] leading-[1.75] text-[color:var(--bm-text-secondary)] sm:hidden">
+                {home.heroSupportMobile}
+              </p>
+              <p className="mt-4 hidden text-[1.05rem] leading-[1.75] text-[color:var(--bm-text-secondary)] sm:block sm:text-[1.125rem]">
                 {home.heroSupport}
               </p>
               <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">

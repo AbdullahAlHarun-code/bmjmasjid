@@ -13,4 +13,10 @@ export function getContent(locale: Locale = mosqueConfig.defaultLocale): SiteCon
   return catalogs[locale];
 }
 
-export type { SiteContent, PageCopy } from "./types";
+export type {
+  SiteContent,
+  PageCopy,
+  AboutContent,
+  ConstructionContent,
+  UpdatesContent,
+} from "./types";

@@ -2,9 +2,8 @@ import { Suspense } from "react";
 import { PageShell } from "@/components/PageShell";
 import { getContent } from "@/content";
 import { getLocale } from "@/lib/get-locale";
-import type { SiteContent } from "@/content";
 
-type PageKey = Exclude<keyof SiteContent, "home" | "shell">;
+type PageKey = "support" | "transparency" | "contact" | "privacy" | "donationPolicy";
 
 async function LocalizedShell({ page }: { page: PageKey }) {
   const locale = await getLocale();
