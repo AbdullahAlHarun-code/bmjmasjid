@@ -12,13 +12,28 @@ export type ProjectAsset = {
   original: string;
   /** CSS object-position hint so crops keep the main subject. */
   objectPosition?: string;
+  /**
+   * Calendar date the photograph was captured, `YYYY-MM-DD`.
+   * Set only when a person has confirmed the capture date.
+   * Do not copy this from a WhatsApp filename, upload time, file time, or Git history.
+   */
+  takenAt?: string;
+  /**
+   * Calendar date someone confirmed the photograph still matches the construction’s condition, `YYYY-MM-DD`.
+   * Leave unset until that check actually happens. Do not refresh it to make an old photograph look recent.
+   */
+  lastVerifiedAt?: string;
   /** Display-only crop for the compact mosque symbol. */
   markViewBox?: string;
 };
 
 /**
  * Central mapping of project photos and logo.
- * Captions describe visible content only — filenames are not treated as dates.
+ * Captions describe visible content only.
+ *
+ * `takenAt` and `lastVerifiedAt` are optional ISO dates. Leave both unset
+ * unless the date is confirmed. The logo does not use them.
+ * See docs/photo-dates.md.
  */
 export const projectAssets = {
   logo: {

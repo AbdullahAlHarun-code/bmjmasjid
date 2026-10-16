@@ -1,11 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
+import { PhotoMeta } from "@/components/PhotoMeta";
 import {
   homepagePreviewPhotos,
   projectAssets,
 } from "@/config/assets";
 import { mosqueConfig, t, type Locale } from "@/config/mosque";
 import type { SiteContent } from "@/content";
+import { hasPhotoMeta } from "@/lib/photo-date";
 
 type HomePageProps = {
   locale: Locale;
@@ -16,22 +18,51 @@ export function HomePage({ locale, content }: HomePageProps) {
   const home = content.home;
   const hero = projectAssets.heroExterior;
   const construction = projectAssets.constructionStreet;
+  const showHeroDates = hasPhotoMeta(hero, locale);
 
   return (
     <div>
       {/* A. Hero */}
       <section className="border-b border-[color:var(--bm-border)] bg-[color:var(--bm-surface)]">
         <div className="grid lg:grid-cols-2 lg:items-stretch">
-          <div className="relative min-h-[14rem] overflow-hidden sm:min-h-[18rem] lg:min-h-[28rem] lg:order-2">
-            <Image
-              src={hero.src}
-              alt={t(hero.alt, locale)}
-              width={hero.width}
-              height={hero.height}
-              priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="h-full w-full object-cover"
-            />
+          <div
+            className={
+              showHeroDates
+                ? "flex min-h-[14rem] flex-col sm:min-h-[18rem] lg:order-2 lg:min-h-[28rem]"
+                : "relative min-h-[14rem] overflow-hidden sm:min-h-[18rem] lg:min-h-[28rem] lg:order-2"
+            }
+          >
+            {showHeroDates ? (
+              <div className="relative min-h-0 flex-1 overflow-hidden">
+                <Image
+                  src={hero.src}
+                  alt={t(hero.alt, locale)}
+                  width={hero.width}
+                  height={hero.height}
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            ) : (
+              <Image
+                src={hero.src}
+                alt={t(hero.alt, locale)}
+                width={hero.width}
+                height={hero.height}
+                priority
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="h-full w-full object-cover"
+              />
+            )}
+            {showHeroDates ? (
+              <PhotoMeta
+                asset={hero}
+                locale={locale}
+                labels={content.photoDates}
+                className="border-t border-[color:var(--bm-border)] bg-[color:var(--bm-background)] px-4 py-3"
+              />
+            ) : null}
           </div>
           <div className="flex flex-col justify-center bg-[color:var(--bm-background)] px-4 py-8 sm:px-6 sm:py-10 lg:order-1 lg:px-10 lg:py-14">
             <div className="mx-auto w-full max-w-xl">
@@ -124,6 +155,12 @@ export function HomePage({ locale, content }: HomePageProps) {
             <p className="mt-3 text-sm text-[color:var(--bm-text-secondary)]">
               {t(construction.caption, locale)}
             </p>
+            <PhotoMeta
+              asset={construction}
+              locale={locale}
+              labels={content.photoDates}
+              className="mt-2"
+            />
             <Link href="/construction" className="btn btn-secondary mt-6">
               {home.construction.linkLabel}
             </Link>
@@ -154,9 +191,17 @@ export function HomePage({ locale, content }: HomePageProps) {
                   className="aspect-[4/3] h-auto w-full object-cover"
                   loading="lazy"
                 />
-                <p className="p-4 text-sm leading-relaxed text-[color:var(--bm-text-secondary)]">
-                  {t(photo.caption, locale)}
-                </p>
+                <div className="p-4">
+                  <p className="text-sm leading-relaxed text-[color:var(--bm-text-secondary)]">
+                    {t(photo.caption, locale)}
+                  </p>
+                  <PhotoMeta
+                    asset={photo}
+                    locale={locale}
+                    labels={content.photoDates}
+                    className="mt-2"
+                  />
+                </div>
               </li>
             ))}
           </ul>

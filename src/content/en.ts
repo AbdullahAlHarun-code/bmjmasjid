@@ -415,6 +415,10 @@ export const contentEn: SiteContent = {
     linkTransparency: "View accounts and transparency",
     linkSupport: "Back to Support",
   },
+  photoDates: {
+    takenLabel: "Photo taken",
+    verifiedLabel: "Condition last verified",
+  },
   shell: {
     footerNote: "Bhedarganj, Shariatpur, Bangladesh",
     stepPlaceholder:

@@ -39,6 +39,9 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Photo date formatting
+        run: npm run test:photo-dates
+
       - name: Deploy script checks
         run: bash scripts/test-deploy-production.sh
 

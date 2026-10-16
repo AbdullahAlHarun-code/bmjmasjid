@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { PhotoMeta } from "@/components/PhotoMeta";
 import { constructionPagePhotos } from "@/config/assets";
 import { mosqueConfig, t, type Locale } from "@/config/mosque";
 import type { SiteContent } from "@/content";
@@ -49,9 +50,17 @@ export function ConstructionPage({ locale, content }: ConstructionPageProps) {
                 style={{ objectPosition: photo.objectPosition }}
                 loading="lazy"
               />
-              <p className="p-4 text-sm leading-relaxed text-[color:var(--bm-text-secondary)]">
-                {t(photo.caption, locale)}
-              </p>
+              <div className="p-4">
+                <p className="text-sm leading-relaxed text-[color:var(--bm-text-secondary)]">
+                  {t(photo.caption, locale)}
+                </p>
+                <PhotoMeta
+                  asset={photo}
+                  locale={locale}
+                  labels={content.photoDates}
+                  className="mt-2"
+                />
+              </div>
             </li>
           ))}
         </ul>

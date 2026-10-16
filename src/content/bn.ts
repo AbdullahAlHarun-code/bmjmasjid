@@ -413,6 +413,10 @@ export const contentBn: SiteContent = {
     linkTransparency: "হিসাব ও স্বচ্ছতা দেখুন",
     linkSupport: "সহযোগিতা পাতায় ফিরুন",
   },
+  photoDates: {
+    takenLabel: "ছবি তোলা",
+    verifiedLabel: "সর্বশেষ অবস্থা যাচাই",
+  },
   shell: {
     footerNote: "ভেদরগঞ্জ, শরীয়তপুর, বাংলাদেশ",
     stepPlaceholder: "এই পাতার বিস্তারিত ডিজাইন ও বিষয়বস্তু পরবর্তী ধাপে তৈরি হবে।",

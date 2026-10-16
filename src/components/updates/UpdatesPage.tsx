@@ -42,7 +42,12 @@ export function UpdatesPage({ locale, content }: UpdatesPageProps) {
         >
           {page.galleryTitle}
         </h2>
-        <PhotoGallery locale={locale} photos={galleryPhotos} copy={page} />
+        <PhotoGallery
+          locale={locale}
+          photos={galleryPhotos}
+          copy={page}
+          photoDates={content.photoDates}
+        />
       </section>
 
       <section
