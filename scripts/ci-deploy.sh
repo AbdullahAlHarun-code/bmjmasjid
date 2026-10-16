@@ -134,6 +134,10 @@ if ! load_ssh_key "$work"; then
   exit 1
 fi
 agent_started=1
+if [ -z "${BMJ_IDENTITY_FILE:-}" ] || [ ! -f "$BMJ_IDENTITY_FILE" ]; then
+  echo "SSH identity was not loaded into the agent" >&2
+  exit 1
+fi
 
 write_secret_file "$work/known_hosts" "$PRODUCTION_KNOWN_HOSTS"
 unset PRODUCTION_KNOWN_HOSTS
@@ -153,7 +157,7 @@ EOF
 chmod 600 "$work/deploy.env"
 
 ssh_opts=(
-  -i "$work/id"
+  -i "$BMJ_IDENTITY_FILE"
   -o BatchMode=yes
   -o IdentitiesOnly=yes
   -o ForwardAgent=no
@@ -190,7 +194,7 @@ if [ "$PREFLIGHT" = 1 ]; then
   if [ -s "$work/ssh.err" ]; then
     print_safe_file "$work/ssh.err" >&2 || true
   fi
-  grep -E '^(preflight_result|preflight_head|preflight_node|preflight_env_files|preflight_writable|preflight_passenger)=' "$work/output" || true
+  grep -E '^(preflight_result|preflight_head|preflight_node|preflight_npm|preflight_env_files|preflight_database_url|preflight_remote|preflight_writable|preflight_startup|preflight_restart_file|preflight_disk_kb|preflight_tracked_changes|preflight_passenger)=' "$work/output" || true
   result=$(grep '^preflight_result=' "$work/output" | tail -1 | cut -d= -f2- || true)
   if [ "$result" != "ok" ]; then
     echo "Preflight did not pass (ssh status $ssh_status)" >&2

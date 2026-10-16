@@ -54,9 +54,19 @@ fi
 node -e 'const [major, minor] = process.versions.node.split(".").map(Number); if (major < 20 || (major === 20 && minor < 9)) { console.error("Node.js 20.9 or newer is required, 22 preferred"); process.exit(1); }'
 
 switched=0
+stage_dir=""
 previous=$(gitc rev-parse HEAD)
 env_snapshot=$(mktemp)
-trap 'rm -f "$env_snapshot"' EXIT
+remove_stage() {
+  if [ -z "${stage_dir:-}" ]; then
+    return 0
+  fi
+  if [ -d "$stage_dir" ]; then
+    gitc worktree remove --force "$stage_dir" >/dev/null 2>&1 || rm -rf "$stage_dir"
+  fi
+  stage_dir=""
+}
+trap 'remove_stage; rm -f "$env_snapshot"' EXIT
 
 hash_file() {
   node -e 'const {createHash}=require("node:crypto"); const {readFileSync}=require("node:fs"); process.stdout.write(createHash("sha256").update(readFileSync(process.argv[1])).digest("hex"));' "$1"
@@ -124,26 +134,106 @@ restart_app() {
   touch "$APP_DIR/tmp/restart.txt"
 }
 
-restore_previous() {
-  echo "Restoring previous commit $previous" >&2
-  gitc checkout -f --detach "$previous"
-  write_stamp "$previous"
+assert_production_origin() {
+  if [ "$APP_DIR" != "/home/neurtqox/apps/bmjmasjid" ]; then
+    return 0
+  fi
+  local remote_url
+  remote_url=$(gitc remote get-url origin 2>/dev/null || true)
+  case "$remote_url" in
+    https://github.com/AbdullahAlHarun-code/bmjmasjid|https://github.com/AbdullahAlHarun-code/bmjmasjid.git|git@github.com:AbdullahAlHarun-code/bmjmasjid.git)
+      ;;
+    *)
+      echo "Refusing to deploy: origin is not the public bmjmasjid repository" >&2
+      return 1
+      ;;
+  esac
+}
+
+refuse_tracked_local_changes() {
+  local dirty
+  dirty=$(gitc status --porcelain --untracked-files=no | grep -v 'src/server/deployed-commit.ts' || true)
+  if [ -n "$dirty" ]; then
+    echo "Refusing to deploy: the production checkout has tracked local changes." >&2
+    printf '%s\n' "$dirty" >&2
+    return 1
+  fi
+}
+
+link_env_into_stage() {
+  local file
+  for file in .env .env.local .env.production .env.production.local; do
+    if [ -f "$APP_DIR/$file" ]; then
+      ln -s "$APP_DIR/$file" "$stage_dir/$file"
+    fi
+  done
+}
+
+build_release() {
+  local sha="$1"
+  local parent avail
+  remove_stage
+  parent=$(dirname "$APP_DIR")
+  if [ ! -w "$parent" ]; then
+    parent=${HOME:-/tmp}
+  fi
+  avail=$(df -Pk "$parent" | awk 'NR==2 { print $4 }')
+  if [ -n "${avail:-}" ] && [ "$avail" -lt 512000 ]; then
+    echo "Refusing to deploy: less than 500MB free for a staged build ($avail KB)" >&2
+    return 1
+  fi
+  stage_dir=$(mktemp -d "$parent/bmj-stage.XXXXXX")
+  rmdir "$stage_dir"
+  gitc worktree add --detach "$stage_dir" "$sha"
+  link_env_into_stage
+  pushd "$stage_dir" >/dev/null
+  export npm_config_cache="$stage_dir/npm-cache"
+  write_stamp "$sha"
   npm ci
   run_migrate
   npm run build
-  restart_app
-  printf '%s\n' "$previous" > .deployed-sha
   assert_env_unchanged
+  popd >/dev/null
+  unset npm_config_cache
+  if [ ! -d "$stage_dir/node_modules" ] || [ ! -d "$stage_dir/.next" ]; then
+    echo "Staged build did not produce node_modules and .next" >&2
+    return 1
+  fi
+}
+
+publish_tree() {
+  local sha="$1"
+  cd "$APP_DIR"
+  switched=1
+  gitc checkout -f --detach "$sha"
+  rm -rf "$APP_DIR/node_modules" "$APP_DIR/.next"
+  mv "$stage_dir/node_modules" "$APP_DIR/node_modules"
+  mv "$stage_dir/.next" "$APP_DIR/.next"
+  write_stamp "$sha"
+  assert_env_unchanged
+  restart_app
+  printf '%s\n' "$sha" > "$APP_DIR/.deployed-sha"
+  switched=0
+}
+
+restore_previous() {
+  echo "Restoring previous commit $previous" >&2
+  build_release "$previous"
+  publish_tree "$previous"
+  remove_stage
 }
 
 on_error() {
   local status=$?
   trap - ERR
+  cd "$APP_DIR" || true
   echo "deploy_result=failed"
   echo "deploy_previous_sha=$previous"
   if [ "$ROLLBACK_MODE" = 1 ] || [ "$switched" != 1 ]; then
+    remove_stage
     exit "$status"
   fi
+  remove_stage
   switched=0
   restore_previous || echo "Automatic restore failed. Previous commit was $previous" >&2
   exit "$status"
@@ -152,6 +242,7 @@ trap on_error ERR
 
 snapshot_env
 assert_env_unchanged
+assert_production_origin
 
 if [ -f .git/shallow ]; then
   gitc fetch --unshallow origin
@@ -178,19 +269,11 @@ if [ "$ROLLBACK_MODE" != 1 ] && [ "$tip" != "$DEPLOY_SHA" ]; then
   exit 0
 fi
 
-gitc checkout -f --detach "$DEPLOY_SHA"
-switched=1
+refuse_tracked_local_changes
+build_release "$DEPLOY_SHA"
 assert_env_unchanged
-write_stamp "$DEPLOY_SHA"
-
-npm ci
-run_migrate
-assert_env_unchanged
-npm run build
-assert_env_unchanged
-restart_app
-printf '%s\n' "$DEPLOY_SHA" > .deployed-sha
-switched=0
+publish_tree "$DEPLOY_SHA"
+remove_stage
 
 echo "deploy_result=deployed"
 echo "deploy_sha=$DEPLOY_SHA"

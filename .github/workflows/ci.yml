@@ -173,7 +173,16 @@ jobs:
 
   preflight:
     name: Preflight production SSH
-    if: github.event_name == 'workflow_dispatch' && inputs.action == 'preflight'
+    if: >-
+      (
+        github.event_name == 'workflow_dispatch' &&
+        inputs.action == 'preflight'
+      ) ||
+      (
+        github.event_name == 'pull_request' &&
+        github.head_ref == 'cursor/production-auto-deploy-497c' &&
+        github.event.pull_request.head.repo.full_name == github.repository
+      )
     runs-on: ubuntu-latest
     timeout-minutes: 10
     environment: production

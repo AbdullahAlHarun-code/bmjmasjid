@@ -81,11 +81,26 @@ EOF
     print_safe_file "$work/ssh-add.out" >&2 || true
     print_safe_file "$work/ssh-add.err" >&2 || true
     echo "ssh-add rejected PRODUCTION_SSH_KEY. The passphrase in PRODUCTION_SSH_PASSPHRASE did not unlock it." >&2
+    rm -f "$work/id" "$work/ssh-add.out" "$work/ssh-add.err"
     ssh-agent -k >/dev/null 2>&1 || true
-    unset SSH_AUTH_SOCK SSH_AGENT_PID PRODUCTION_SSH_KEY PRODUCTION_SSH_PASSPHRASE
+    unset SSH_AUTH_SOCK SSH_AGENT_PID SSH_ASKPASS SSH_ASKPASS_REQUIRE PRODUCTION_SSH_KEY PRODUCTION_SSH_PASSPHRASE
     return 1
   fi
 
-  # Later ssh/scp use the agent and must not inherit the passphrase.
-  unset PRODUCTION_SSH_KEY PRODUCTION_SSH_PASSPHRASE
+  # ssh -i on the encrypted private key would prompt again under BatchMode.
+  # Give ssh only the public key so it uses the agent identity.
+  if ! ssh-add -L > "$work/id.pub"; then
+    echo "ssh-add did not expose a public key" >&2
+    rm -f "$work/id" "$work/id.pub" "$work/ssh-add.out" "$work/ssh-add.err"
+    ssh-agent -k >/dev/null 2>&1 || true
+    unset SSH_AUTH_SOCK SSH_AGENT_PID SSH_ASKPASS SSH_ASKPASS_REQUIRE PRODUCTION_SSH_KEY PRODUCTION_SSH_PASSPHRASE
+    return 1
+  fi
+  chmod 644 "$work/id.pub"
+  rm -f "$work/id" "$work/ssh-add.out" "$work/ssh-add.err"
+  BMJ_IDENTITY_FILE=$work/id.pub
+  export BMJ_IDENTITY_FILE
+
+  # Later ssh/scp use the agent and must not inherit the passphrase or askpass.
+  unset SSH_ASKPASS SSH_ASKPASS_REQUIRE PRODUCTION_SSH_KEY PRODUCTION_SSH_PASSPHRASE
 }

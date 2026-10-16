@@ -50,6 +50,10 @@ echo "\$*" >> "$npm_log"
 if [ "\${FAIL_NEXT_BUILD:-}" = 1 ] && [ "\$1" = "run" ] && [ "\$2" = "build" ]; then
   exit 1
 fi
+mkdir -p node_modules .next
+if [ "\$1" = "run" ] && [ "\$2" = "build" ]; then
+  printf '%s\n' built-by-npm > .next/marker
+fi
 exit 0
 EOF
 chmod +x "$bin/npm"
@@ -89,6 +93,7 @@ grep -q "$sha_a" "$tmp/app/src/server/deployed-commit.ts"
 grep -q '^ci$' "$npm_log"
 grep -q '^run build$' "$npm_log"
 test -f "$tmp/app/tmp/restart.txt"
+grep -q '^built-by-npm$' "$tmp/app/.next/marker"
 grep -q 'super-secret-db-token' "$tmp/app/.env.local"
 if grep -q 'super-secret-db-token' "$tmp/a.out" || grep -q 'super-secret-db-token' "$tmp/a.out.err"; then
   echo "deploy output leaked the env file" >&2
@@ -140,6 +145,7 @@ git -C "$tmp/app" -c user.email=deploy-test@example.com -c user.name='Deploy Tes
 git -C "$tmp/app" push origin master >/dev/null
 sha_c=$(git -C "$tmp/app" rev-parse HEAD)
 git -C "$tmp/app" checkout -f --detach "$sha_b" >/dev/null
+printf '%s\n' keep-old > "$tmp/app/.next/marker"
 export FAIL_NEXT_BUILD=1
 if run_deploy "$tmp/fail.out" DEPLOY_SHA="$sha_c"; then
   echo "failed build should fail the deploy" >&2
@@ -147,6 +153,7 @@ if run_deploy "$tmp/fail.out" DEPLOY_SHA="$sha_c"; then
 fi
 unset FAIL_NEXT_BUILD
 test "$(git -C "$tmp/app" rev-parse HEAD)" = "$sha_b"
+grep -q '^keep-old$' "$tmp/app/.next/marker"
 
 run_deploy "$tmp/rollback.out" ROLLBACK_MODE=1 DEPLOY_SHA="$sha_a"
 grep -q '^deploy_result=deployed$' "$tmp/rollback.out"
@@ -219,6 +226,14 @@ grep -q 'not the git work tree root' "$tmp/nested-pre.err"
 run_deploy "$tmp/keep.out" DEPLOY_SHA="$sha_c"
 grep -q '^deploy_result=deployed$' "$tmp/keep.out"
 grep -q 'upload-keep-7f3c' "$tmp/app/upload-keep.txt"
+
+printf '\n%s\n' '// local-only' >> "$tmp/app/scripts/db-migrate.mjs"
+if run_deploy "$tmp/dirty.out" DEPLOY_SHA="$sha_c"; then
+  echo "tracked local changes should be refused" >&2
+  exit 1
+fi
+grep -q 'tracked local changes' "$tmp/dirty.out.err"
+git -C "$tmp/app" checkout -f -- scripts/db-migrate.mjs
 
 printf 'db-password-keep\n' > "$tmp/app/.env.production"
 git -C "$tmp/app" add .env.production
@@ -344,6 +359,8 @@ assert_no_secret "$tmp/bad-pass.out" "$tmp/bad-pass.err" "$ssh_log"
     exit 1
   fi
   ssh-add -l | grep -q 'bmj-test'
+  test ! -e "$kdir/work/id"
+  test -f "$kdir/work/id.pub"
   if env | grep -F -q "$phrase"; then
     echo "passphrase remained in the environment" >&2
     exit 1
@@ -371,6 +388,11 @@ test "$good_pass_status" -ne 0
 test -s "$ssh_log"
 grep -q -- '-o StrictHostKeyChecking=yes' "$ssh_log"
 grep -q -- '-o ForwardAgent=no' "$ssh_log"
+grep -E -q -- '-i [^ ]+\.pub( |$)' "$ssh_log"
+if grep -E -q -- '-i [^ ]+/id( |$)' "$ssh_log"; then
+  echo "ssh was given the encrypted private key file" >&2
+  exit 1
+fi
 assert_no_secret "$tmp/good-pass.out" "$tmp/good-pass.err" "$ssh_log"
 
 echo "deploy guards passed"

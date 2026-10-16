@@ -38,12 +38,11 @@ Trigger: a push to `master`, after the `checks`, `donation-storage`, and `site-a
 
 The runner SSHes to the server and `scripts/deploy-production.sh` does this in `PRODUCTION_PATH`:
 
-1. Fetch `origin/master` and deploy that exact commit. It does not `git pull`. A commit that is not on `origin/master` is refused. If `origin/master` has already moved on, the older job skips so a slower CI run cannot overwrite a newer one.
-2. `npm ci`
-3. `node` with the existing env files, then `scripts/db-migrate.mjs` (the same script as `npm run db:migrate`)
-4. `npm run build`, with the commit written into `src/server/deployed-commit.ts` so `/api/health` reports it
-5. Restart Passenger by touching `tmp/restart.txt` in the application root
-6. From GitHub, request `https://…/` and `https://…/api/health`. Both must return HTTP 200, and the health JSON `sha` must be the deployed commit.
+1. Fetch `origin/master` and deploy that exact commit. It does not `git pull`. A commit that is not on `origin/master` is refused. If `origin/master` has already moved on, the older job skips so a slower CI run cannot overwrite a newer one. Tracked local edits in the live tree, other than the generated commit stamp, also stop the deploy.
+2. Build in a temporary worktree beside the application (`bmj-stage.*`), not inside the live directory. `npm ci`, the migration, and `npm run build` finish there. The live `.next` and `node_modules` stay in place while that build runs. Env files are symlinked, not copied or rewritten.
+3. Only after that build succeeds, check out the commit in the application root, move the new `node_modules` and `.next` into place, and write the commit into `src/server/deployed-commit.ts` so `/api/health` reports it.
+4. Restart Passenger by touching `tmp/restart.txt` in the application root. The stage directory is removed after the move.
+5. From GitHub, request `https://…/` and `https://…/api/health`. Both must return HTTP 200, and the health JSON `sha` must be the deployed commit.
 
 Env files are read in this order, later files overriding earlier ones: `.env`, `.env.production`, `.env.local`, `.env.production.local`. A variable already exported in the SSH session wins. The script checksums those files and stops if a deploy changes them.
 
@@ -75,7 +74,7 @@ ssh-keygen -t ed25519 -f bmj-deploy -C "github-actions-bmj"
 ssh-keyscan -p 21098 -H premium55-5.web-hosting.com
 ```
 
-The key already configured for this account is passphrase-protected. Put that passphrase in `PRODUCTION_SSH_PASSPHRASE`. The runner starts a private `ssh-agent`, sets `SSH_ASKPASS_REQUIRE=force`, and loads the key without printing it. Host checking stays `StrictHostKeyChecking=yes`. Do not put the passphrase in the key file, the workflow, or a log.
+The key already configured for this account is passphrase-protected. Put that passphrase in `PRODUCTION_SSH_PASSPHRASE`. The runner starts a private `ssh-agent`, sets `SSH_ASKPASS_REQUIRE=force`, and loads the key without printing it. After `ssh-add` succeeds, the private key file is deleted and `ssh` is given only the public key, so BatchMode does not ask for the passphrase again. Host checking stays `StrictHostKeyChecking=yes`. Do not put the passphrase in the key file, the workflow, or a log.
 
 Append `bmj-deploy.pub` to `/home/neurtqox/.ssh/authorized_keys`. Put the contents of `bmj-deploy` in `PRODUCTION_SSH_KEY` and the `ssh-keyscan` output in `PRODUCTION_KNOWN_HOSTS`.
 
