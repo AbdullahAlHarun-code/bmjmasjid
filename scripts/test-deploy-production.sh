@@ -244,6 +244,8 @@ if grep -n 'StrictHostKeyChecking=no\|StrictHostKeyChecking=accept-new' "$ci_dep
   exit 1
 fi
 grep -q 'StrictHostKeyChecking=yes' "$ci_deploy"
+grep -q 'PRODUCTION_DEPLOY_ENABLED' "$root/.github/workflows/ci.yml"
+grep -q "inputs.action == 'preflight'" "$root/.github/workflows/ci.yml"
 if grep -n 'PASSPHRASE' "$deploy" "$root/scripts/preflight-remote.sh" "$root/scripts/deploy-remote-entry.sh" "$root/scripts/production-checkout-guard.sh"; then
   echo "remote scripts must not reference the passphrase" >&2
   exit 1

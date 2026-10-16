@@ -26,7 +26,7 @@ git commit -m "Describe the change"
 git push origin master
 ```
 
-GitHub Actions then runs CI. The production job starts only after typecheck, lint, the production build, the bilingual mobile audit, and both MySQL 8.4 and MariaDB 11.4 donation-storage tests succeed. A push to a pull request or to `main` does not deploy.
+GitHub Actions then runs CI. The production job starts only after typecheck, lint, the production build, the bilingual mobile audit, and both MySQL 8.4 and MariaDB 11.4 donation-storage tests succeed, and only when the repository variable `PRODUCTION_DEPLOY_ENABLED` is `true`. A push to a pull request or to `main` does not deploy. Leaving that variable unset keeps a merge from changing the server.
 
 Tracked files in that commit become what the live app runs. That includes `src/config/mosque.ts`, `src/content/bn.ts`, `src/content/en.ts`, images under `public/`, application code, and files in `db/migrations/mysql`. Donor rows and other MySQL data stay in the production database. Schema changes move only through the existing migration script.
 
@@ -34,7 +34,7 @@ Tracked files in that commit become what the live app runs. That includes `src/c
 
 Workflow: `.github/workflows/ci.yml`, job `Deploy production`.
 
-Trigger: a push to `master`, after the `checks`, `donation-storage`, and `site-audit` jobs succeed.
+Trigger: a push to `master`, after the `checks`, `donation-storage`, and `site-audit` jobs succeed, and `PRODUCTION_DEPLOY_ENABLED` is `true`. Until that variable is set, the deploy job is skipped.
 
 The runner SSHes to the server and `scripts/deploy-production.sh` does this in `PRODUCTION_PATH`:
 
@@ -106,7 +106,26 @@ Do not run `git clean`, `git clean -x`, or `git clean -fd`. Ignored files stay i
 4. SSH in as `neurtqox` and run the `PRODUCTION_NODE_SETUP` command, then `node -v` and `npm -v`. The expected Node version is 22.23.3. Non-interactive SSH does not see that Node until the virtual environment is sourced.
 5. From the application root, run `mkdir -p tmp && touch tmp/restart.txt` once by hand and reload the public site. Passenger must come back on the same URL. Leave `PRODUCTION_RESTART_COMMAND` empty after that succeeds.
 6. Add the GitHub secrets above, including `PRODUCTION_SSH_PASSPHRASE`.
-7. Run **Actions → CI → Run workflow** on this branch and wait for **Preflight production SSH**. That job only authenticates and reads the checkout. It does not fetch, build, migrate, or touch `tmp/restart.txt`. Merge to `master` only after that job reports `preflight_result=ok`. A push to `master` is what deploys. `https://bmjmasjid.neuroncosmo.com/api/health` must then return the deployed commit.
+7. From a checkout of this branch, with the private key only on your own machine, run the read-only preflight. `read -s` does not echo the passphrase:
+
+```bash
+export PRODUCTION_HOST=premium55-5.web-hosting.com
+export PRODUCTION_PORT=21098
+export PRODUCTION_USER=neurtqox
+export PRODUCTION_PATH=/home/neurtqox/apps/bmjmasjid
+export PRODUCTION_URL=https://bmjmasjid.neuroncosmo.com
+export PRODUCTION_NODE_SETUP='source /home/neurtqox/nodevenv/apps/bmjmasjid/22/bin/activate'
+export PRODUCTION_KNOWN_HOSTS="$(ssh-keyscan -p 21098 -H premium55-5.web-hosting.com)"
+export PRODUCTION_SSH_KEY="$(cat bmj-deploy)"
+read -r -s -p "Passphrase: " PRODUCTION_SSH_PASSPHRASE
+echo
+export PRODUCTION_SSH_PASSPHRASE
+PREFLIGHT=1 bash scripts/ci-deploy.sh
+unset PRODUCTION_SSH_KEY PRODUCTION_SSH_PASSPHRASE
+```
+
+The command must print `preflight_result=ok`. It does not fetch, build, migrate, or touch `tmp/restart.txt`.
+8. Merge to `master` only after that result. Then set the repository variable `PRODUCTION_DEPLOY_ENABLED` to `true`. The next push to `master` deploys. `https://bmjmasjid.neuroncosmo.com/api/health` must return the deployed commit. While the variable is unset, a merge does not SSH to the server.
 
 `npm run db:migrate` must succeed with the server's existing `DATABASE_URL`. The migration uses a named lock, skips SQL that was already applied, and refuses an edited migration file. It does not drop, truncate, or reseed tables.
 
