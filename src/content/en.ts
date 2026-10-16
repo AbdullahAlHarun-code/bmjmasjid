@@ -33,7 +33,7 @@ export const contentEn: SiteContent = {
     },
     photos: {
       title: "Project photos",
-      intro: "These photos show the mosque as it stands today. Dates are not assumed from filenames.",
+      intro: "These supplied photographs show the mosque’s visible construction condition. Their capture dates have not been confirmed.",
       linkLabel: "Go to Updates",
     },
     supporters: {
@@ -62,7 +62,7 @@ export const contentEn: SiteContent = {
     },
     invite: {
       title: "A respectful invitation",
-      body: "Building this mosque is a shared responsibility. You can offer support, or share this invitation with people you know.",
+      body: "You are welcome to support construction within your means, or share this invitation with people you know.",
       ctaSupport: "Support us",
     },
   },
@@ -119,7 +119,7 @@ export const contentEn: SiteContent = {
     intro:
       "Well-wishers in Bangladesh and abroad are invited to take part in this construction.",
     appeal:
-      "We seek your support to advance the construction of this mosque on land donated by the late Nurul Haque Bepari.",
+      "We seek your support to advance construction on land donated by the late Nurul Haque Bepari. You are welcome to contribute within your means, for yourself or a loved one, with the intention of sadaqah jariyah.",
     targetLabel: "First fundraising target",
     targetClarification:
       "This is the first fundraising target for this campaign. It is not a verified total construction cost.",
@@ -135,7 +135,7 @@ export const contentEn: SiteContent = {
       gatewayPending:
         "Until an online payment gateway is ready, you can support mosque construction through the bKash number below.",
       verifyBeforeConfirm:
-        "Before confirming in bKash, check the number and recipient details. We do not prescribe Send Money versus Payment until the wallet type is confirmed.",
+        "Before confirming in bKash, match the number and the recipient details shown in the app. Do not confirm if anything does not match.",
       notAutoVerified:
         "Transfers take place through bKash. This website does not automatically verify donations or issue receipts.",
       abroadNote:
@@ -146,7 +146,7 @@ export const contentEn: SiteContent = {
       internationalLabel: "International format",
       brandWordmark: "বিকাশ",
       brandNote:
-        "Temporary bKash wordmark. It does not imply merchant certification, partnership, or an integrated payment gateway.",
+        "Use bKash to send the transfer. This is not a website payment checkout.",
     },
     report: {
       heading: "Already sent a donation? Tell us",
@@ -160,7 +160,7 @@ export const contentEn: SiteContent = {
         "TrxID appears in the transaction details or confirmation message. It is not the Reference you typed as the sender.",
       transferDateLabel: "Transaction date",
       transferDateHint:
-        "Use the actual transfer date. Today’s date is not substituted when the transfer date is unknown.",
+        "Check the bKash transaction details and enter the actual date you sent the transfer.",
       optionalToggle: "Add more details — optional",
       optionalIntro:
         "Optional contact details help resolve matching questions. The sending wallet number and a reply contact serve different purposes.",
@@ -340,7 +340,7 @@ export const contentEn: SiteContent = {
     description:
       "What this Baitul Mamur Jame Masjid website currently uses and does not collect.",
     intro:
-      "This policy reflects the site’s current behaviour only. It does not invent retention periods, consent systems, or legal-compliance claims.",
+      "This policy explains what information the site collects, why it is used, and who can access it.",
     sections: [
       {
         title: "Language preference",
@@ -348,19 +348,27 @@ export const contentEn: SiteContent = {
       },
       {
         title: "Fonts and images",
-        body: "Text uses Noto Sans Bengali via next/font. Project photographs and the logo are served from this site’s own files.",
+        body: "Fonts, project photographs and the logo are served by this site. Viewing photographs does not use third-party embeds.",
       },
       {
         title: "What is not present",
-        body: "This site currently has no analytics tools, third-party embeds, contact forms, or online donation forms. No personal-data collection feature is active.",
+        body: "This site has no analytics trackers, advertising pixels or general contact form. Its donation-report form records transfer details; it does not send money or take card payments.",
       },
       {
         title: "Manual bKash transfers",
-        body: "A personal bKash number is published on the Support page. Transfers happen in the bKash app.",
+        body: "Rayhan Ahmed (Shishir)’s bKash number is published on the Support page. Transfers happen in bKash; this site does not ask for a bKash PIN, OTP or card details.",
       },
       {
         title: "Donation report form",
-        body: "When the database is connected, you may submit amount, TrxID, and transfer date; name, sending number, reply contact, and message are optional. Data is stored server-side in the private database as pending review. There is no public listing. If WhatsApp reporting is enabled, only details you choose go into a draft message — nothing is auto-saved from WhatsApp.",
+        body: "When the form is available, it collects amount, TrxID and actual transfer date. Name, sending bKash number, reply contact and message are optional. Details are stored privately to match reports to received transactions. Only authorized reviewers can access them; donor names, contacts and TrxIDs are not published. If the form is unavailable, the site says so.",
+      },
+      {
+        title: "Form security",
+        body: "When the report form is available, it uses a security cookie named ‘bm_csrf’. This does not contain donor names or transaction details. Request counts and hashed identifiers may be stored to limit abuse.",
+      },
+      {
+        title: "Reporting through WhatsApp",
+        body: "A WhatsApp reporting option is shown only for a confirmed destination. If you send the draft, your chosen details go to WhatsApp and the recipient; they are not automatically saved in our database. Sharing the project link is a separate action.",
       },
       {
         title: "Sharing and copy actions",
@@ -368,7 +376,7 @@ export const contentEn: SiteContent = {
       },
       {
         title: "Hosting and future changes",
-        body: "The site is not publicly launched yet. When hosting is chosen, ordinary server logs for that environment may apply. If an online gateway or forms are added later, this policy will be updated.",
+        body: "The site is publicly available. Normal hosting logs may contain request and technical information. An online payment gateway is not active. This policy will be updated when data collection or payment arrangements change.",
       },
     ],
   },
@@ -377,15 +385,15 @@ export const contentEn: SiteContent = {
     description:
       "Current donation availability, campaign purpose, and reporting status for Baitul Mamur Jame Masjid.",
     intro:
-      "This policy matches current functionality. It does not invent refund deadlines, receipt guarantees, fees, or international card support.",
+      "These are the current arrangements for sending construction support, reporting transfers and verifying donations.",
     sections: [
       {
         title: "Manual bKash transfers",
-        body: "For now, support is accepted by manual transfer to the personal bKash number of caretaker Rayhan Ahmed (Shishir). This is not claimed as an institutional merchant account.",
+        body: "For now, construction support can be sent directly to the published bKash number of caretaker Rayhan Ahmed (Shishir). The site does not confirm the registered recipient name or wallet type; check the details shown in bKash before sending.",
       },
       {
         title: "Online payment gateway",
-        body: "Website checkout and payment-gateway integration are not active yet. Browser redirects alone never mark a donation as paid.",
+        body: "Website checkout and payment-gateway integration are not active yet. International card donations through this site are not available.",
       },
       {
         title: "Campaign purpose",
@@ -393,11 +401,11 @@ export const contentEn: SiteContent = {
       },
       {
         title: "Reporting and transparency",
-        body: "Manual transfers and pending form claims do not increase published totals. Verified amounts are included only after reconciliation. Verified received donations, spending, and balances are not published yet.",
+        body: "Sending a transfer or submitting a report does not automatically add it to published totals. Verified amounts are included only after reconciliation. Verified received donations, spending, and balances are not published yet.",
       },
       {
         title: "What is not claimed",
-        body: "This site does not claim zakat eligibility, tax deductibility, registered charity status, automatic receipts, or refund guarantees. Historical receipt-book bank details are not presented as a current payment destination.",
+        body: "This site does not promise zakat eligibility, tax deductibility, registered charity status, automatic receipts or donation refunds. Follow only the current methods published on the Support page.",
       },
       {
         title: "Changes",

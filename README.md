@@ -93,14 +93,21 @@ git remote -v
 
 Default branch: `master` (tracks `origin/master`).
 
-CI workflow: `.github/workflows/ci.yml` (typecheck, lint, build on Node 22).
+CI workflow: `.github/workflows/ci.yml` (typecheck, lint, build, donation-storage tests, then production deploy on `master` only).
+
+## Deployment
+
+Pushing `master` deploys that exact commit to the existing Namecheap app after CI succeeds and `PRODUCTION_DEPLOY_ENABLED` is `true`. Until then the deploy job does not SSH. HTTPS, DNS, the database, and uploaded files stay as they are. SSH is `premium55-5.web-hosting.com` port `21098`, with a passphrase-protected key. See [docs/deployment.md](docs/deployment.md) for secrets, the preflight check, and rollback.
+
+```bash
+git push origin master
+```
 
 ## Deferred / prerequisites
 
-- Production `DATABASE_URL` + `npm run db:migrate` for donation-report persistence
+- Server-side `DATABASE_URL` in an existing env file (never committed). Deploy runs `npm run db:migrate` against that database and does not replace donor rows.
 - Confirmed WhatsApp report destination (separate from bKash)
-- SSLCOMMERZ (or other) live payment gateway integration
-- Public deployment
+- SSLCOMMERZ (or other) live payment gateway integration — not part of deployment
 - Official bKash logo asset (temporary wordmark in use)
 
 See [docs/payments-architecture.md](docs/payments-architecture.md). Browser redirects alone must never mark donations paid. Pending form claims never increase public totals.
@@ -117,3 +124,7 @@ See [docs/payments-architecture.md](docs/payments-architecture.md). Browser redi
 | Accent | `#C79A3B` |
 
 Font: **Noto Sans Bengali** via `next/font`, with system sans fallbacks.
+
+### Whole-site browser audit
+
+After `npm run build`, run `npm run audit:site` (install Chromium with `npx playwright install chromium` first). This checks both languages, all pages and mobile/landscape/desktop layouts without touching real donation data. See [audit notes](docs/site-content-mobile-audit.md).

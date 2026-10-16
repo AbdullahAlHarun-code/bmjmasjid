@@ -21,7 +21,7 @@ Do not add these fields to `logo`.
 
 `takenAt` stays as first entered unless it was wrong and you are correcting it. `lastVerifiedAt` changes only after someone has looked at the real building (or another reliable source) and confirmed that this photograph still shows the current condition. Do not change either date just to make an older photograph look new.
 
-After the edit, commit and push. Publishing still depends on the production deploy workflow being on `master` with its secrets configured. That workflow is not on `master` yet, so a push of this metadata does not by itself update the live site.
+After the edit, commit and push. Merging to `master` publishes through the production deploy workflow. A push to this branch does not update the live site.
 
 ## Example
 

@@ -16,7 +16,8 @@
     "capture:step4": "node scripts/capture-step4-screenshots.mjs",
     "db:migrate": "node --env-file-if-exists=.env.local scripts/db-migrate.mjs",
     "test:donation-storage": "node scripts/test-donation-storage.mjs",
-    "test:photo-dates": "node --experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning scripts/test-photo-dates.mjs"
+    "test:photo-dates": "node --experimental-strip-types --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --disable-warning=ExperimentalWarning scripts/test-photo-dates.mjs",
+    "audit:site": "node scripts/audit-site.mjs"
   },
   "dependencies": {
     "mysql2": "^3.24.6",
@@ -31,6 +32,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.1",
+    "playwright": "^1.64.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

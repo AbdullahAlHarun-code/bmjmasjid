@@ -23,6 +23,8 @@ export type ProjectAsset = {
    * Leave unset until that check actually happens. Do not refresh it to make an old photograph look recent.
    */
   lastVerifiedAt?: string;
+  /** Display-only crop for the compact mosque symbol. */
+  markViewBox?: string;
 };
 
 /**
@@ -36,6 +38,8 @@ export type ProjectAsset = {
 export const projectAssets = {
   logo: {
     id: "logo",
+    // Crop only the circular mosque symbol for compact navigation and favicon.
+    markViewBox: "112 134 257 257",
     src: "/images/logo.webp",
     width: 480,
     height: 640,

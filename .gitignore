@@ -34,9 +34,16 @@ yarn-error.log*
 .env*
 !.env.example
 
+# production deploy bookkeeping (server-only)
+.deployed-sha
+.deploy.lock
+
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Generated browser audit evidence (uploaded as CI artifacts)
+/docs/site-audit/
