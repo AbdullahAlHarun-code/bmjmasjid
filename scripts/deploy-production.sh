@@ -194,7 +194,9 @@ build_release() {
   write_stamp "$sha"
   npm ci
   run_migrate
-  npm run build
+  # Namecheap's glibc is older than Turbopack's native binary. Webpack can
+  # use the WebAssembly bindings that this host is able to load.
+  npm run build -- --webpack
   assert_env_unchanged
   popd >/dev/null
   unset npm_config_cache
