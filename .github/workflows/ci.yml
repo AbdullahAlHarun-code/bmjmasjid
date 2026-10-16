@@ -4,6 +4,15 @@ on:
   push:
     branches: [master, main]
   pull_request:
+  workflow_dispatch:
+    inputs:
+      action:
+        description: Read-only preflight, or deploy after that preflight has passed
+        type: choice
+        options:
+          - preflight
+          - deploy
+        default: preflight
 
 jobs:
   checks:
@@ -29,6 +38,9 @@ jobs:
 
       - name: Lint
         run: npm run lint
+
+      - name: Deploy script checks
+        run: bash scripts/test-deploy-production.sh
 
       - name: Production build
         run: npm run build
@@ -96,3 +108,100 @@ jobs:
         with:
           name: bilingual-mobile-audit
           path: docs/site-audit/
+
+  deploy:
+    name: Deploy production
+    needs: [checks, donation-storage, site-audit]
+    if: >-
+      vars.PRODUCTION_DEPLOY_ENABLED == 'true' &&
+      (
+        (github.event_name == 'push' && github.ref == 'refs/heads/master') ||
+        (github.event_name == 'workflow_dispatch' && inputs.action == 'deploy')
+      )
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    environment: production
+    concurrency:
+      group: production-bmjmasjid
+      cancel-in-progress: false
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy exact commit
+        id: deploy
+        env:
+          PRODUCTION_HOST: ${{ secrets.PRODUCTION_HOST }}
+          PRODUCTION_PORT: ${{ secrets.PRODUCTION_PORT }}
+          PRODUCTION_USER: ${{ secrets.PRODUCTION_USER }}
+          PRODUCTION_SSH_KEY: ${{ secrets.PRODUCTION_SSH_KEY }}
+          PRODUCTION_SSH_PASSPHRASE: ${{ secrets.PRODUCTION_SSH_PASSPHRASE }}
+          PRODUCTION_PATH: ${{ secrets.PRODUCTION_PATH }}
+          PRODUCTION_URL: ${{ secrets.PRODUCTION_URL }}
+          PRODUCTION_KNOWN_HOSTS: ${{ secrets.PRODUCTION_KNOWN_HOSTS }}
+          PRODUCTION_NODE_SETUP: ${{ secrets.PRODUCTION_NODE_SETUP }}
+          PRODUCTION_RESTART_COMMAND: ${{ secrets.PRODUCTION_RESTART_COMMAND }}
+          GITHUB_SHA: ${{ github.sha }}
+        run: bash scripts/ci-deploy.sh
+
+      - name: Verify public HTTPS site
+        id: health
+        if: steps.deploy.outputs.result == 'deployed'
+        env:
+          PRODUCTION_URL: ${{ steps.deploy.outputs.url }}
+          EXPECTED_SHA: ${{ github.sha }}
+        run: bash scripts/ci-health.sh
+
+      - name: Roll back production
+        if: failure() && steps.deploy.outputs.result == 'deployed' && steps.health.outcome == 'failure'
+        env:
+          PRODUCTION_HOST: ${{ secrets.PRODUCTION_HOST }}
+          PRODUCTION_PORT: ${{ secrets.PRODUCTION_PORT }}
+          PRODUCTION_USER: ${{ secrets.PRODUCTION_USER }}
+          PRODUCTION_SSH_KEY: ${{ secrets.PRODUCTION_SSH_KEY }}
+          PRODUCTION_SSH_PASSPHRASE: ${{ secrets.PRODUCTION_SSH_PASSPHRASE }}
+          PRODUCTION_PATH: ${{ secrets.PRODUCTION_PATH }}
+          PRODUCTION_URL: ${{ secrets.PRODUCTION_URL }}
+          PRODUCTION_KNOWN_HOSTS: ${{ secrets.PRODUCTION_KNOWN_HOSTS }}
+          PRODUCTION_NODE_SETUP: ${{ secrets.PRODUCTION_NODE_SETUP }}
+          PRODUCTION_RESTART_COMMAND: ${{ secrets.PRODUCTION_RESTART_COMMAND }}
+          GITHUB_SHA: ${{ steps.deploy.outputs.previous }}
+          ROLLBACK_MODE: "1"
+        run: bash scripts/ci-deploy.sh
+
+  preflight:
+    name: Preflight production SSH
+    if: >-
+      (
+        github.event_name == 'workflow_dispatch' &&
+        inputs.action == 'preflight'
+      ) ||
+      (
+        github.event_name == 'pull_request' &&
+        github.head_ref == 'cursor/production-auto-deploy-497c' &&
+        github.event.pull_request.head.repo.full_name == github.repository
+      )
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: production
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate SSH and the production checkout
+        env:
+          PRODUCTION_HOST: ${{ secrets.PRODUCTION_HOST }}
+          PRODUCTION_PORT: ${{ secrets.PRODUCTION_PORT }}
+          PRODUCTION_USER: ${{ secrets.PRODUCTION_USER }}
+          PRODUCTION_SSH_KEY: ${{ secrets.PRODUCTION_SSH_KEY }}
+          PRODUCTION_SSH_PASSPHRASE: ${{ secrets.PRODUCTION_SSH_PASSPHRASE }}
+          PRODUCTION_PATH: ${{ secrets.PRODUCTION_PATH }}
+          PRODUCTION_URL: ${{ secrets.PRODUCTION_URL }}
+          PRODUCTION_KNOWN_HOSTS: ${{ secrets.PRODUCTION_KNOWN_HOSTS }}
+          PRODUCTION_NODE_SETUP: ${{ secrets.PRODUCTION_NODE_SETUP }}
+          PREFLIGHT: "1"
+        run: bash scripts/ci-deploy.sh

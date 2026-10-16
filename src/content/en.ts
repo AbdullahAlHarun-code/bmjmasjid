@@ -376,7 +376,7 @@ export const contentEn: SiteContent = {
       },
       {
         title: "Hosting and future changes",
-        body: "Normal hosting logs may contain request and technical information. This policy will be updated when data collection or payment arrangements change.",
+        body: "The site is publicly available. Normal hosting logs may contain request and technical information. An online payment gateway is not active. This policy will be updated when data collection or payment arrangements change.",
       },
     ],
   },

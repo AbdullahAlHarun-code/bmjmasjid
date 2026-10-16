@@ -14,7 +14,7 @@ Private checklist for maintainers. Visitor-facing pages should explain current s
 
 - [ ] bKash wallet type (Send Money vs Payment) and registered wallet name
 - [ ] Official/permitted bKash logo asset to replace temporary wordmark
-- [ ] Production MySQL / MariaDB `DATABASE_URL` + applied migrations
+- [ ] Production `DATABASE_URL` left in the existing env file (database name `neurtqox_bmjmasjid`) and migrations applied
 - [ ] `CSRF_SECRET` and exact HTTPS `APP_ORIGIN` in server environment
 - [ ] WhatsApp report destination (separate from bKash) — currently hidden (`whatsappReport.available: false`)
 - [ ] Receipt arrangements after verification
@@ -26,8 +26,8 @@ Private checklist for maintainers. Visitor-facing pages should explain current s
 - [ ] Verified expenditure and balance figures
 - [ ] Dated construction updates with verified dates
 - [ ] Confirmed next-work construction plan and cost estimates
-- [ ] Public deployment host, custom domain, and HTTPS
-- [ ] Hosting-specific privacy notes after a host is chosen
+- [x] Public site is live and HTTPS is already configured. Do not change DNS, certificates, or the web server. Automatic deploy: [deployment.md](./deployment.md)
+- [x] Host is the existing Namecheap shared account (`neurtqox`, Node.js 22.23.3). Privacy copy states the site is public and the payment gateway is inactive.
 - [ ] Authentication for any admin/reporting tools
 
 ## Do not publish until confirmed
@@ -54,7 +54,7 @@ Private checklist for maintainers. Visitor-facing pages should explain current s
 | Manual bKash | Number on Support/Contact; transfers in bKash app |
 | Donation report form | UI present; persistence requires `DATABASE_URL` |
 | Public submission listing | None |
-| Public hosting | Not deployed |
+| Public hosting | Live over existing HTTPS. Deploy does not change the host, DNS, or certificates. |
 
 See also [donation-report-review.md](./donation-report-review.md).
 

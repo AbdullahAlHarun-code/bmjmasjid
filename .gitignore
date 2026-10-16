@@ -34,6 +34,10 @@ yarn-error.log*
 .env*
 !.env.example
 
+# production deploy bookkeeping (server-only)
+.deployed-sha
+.deploy.lock
+
 # vercel
 .vercel
 
