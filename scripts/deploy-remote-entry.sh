@@ -1,15 +1,19 @@
 #!/usr/bin/env bash
-# Reads /tmp/bmj-deploy.env, then runs the deploy script. No secrets are printed.
+# Reads deploy.env beside this script, then runs the deploy. No secrets are printed.
+set +x
 set -euo pipefail
 
+dir=$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 set -a
 # shellcheck disable=SC1091
-. /tmp/bmj-deploy.env
+. "$dir/deploy.env"
 set +a
-rm -f /tmp/bmj-deploy.env
+rm -f "$dir/deploy.env"
 
 PRODUCTION_NODE_SETUP=$(printf '%s' "${NODE_B64:-}" | base64 -d)
 PRODUCTION_RESTART_COMMAND=$(printf '%s' "${RESTART_B64:-}" | base64 -d)
+unset NODE_B64 RESTART_B64
 export PRODUCTION_NODE_SETUP PRODUCTION_RESTART_COMMAND APP_DIR DEPLOY_SHA ROLLBACK_MODE
+export EXPECTED_APP_DIR="${EXPECTED_APP_DIR:-}"
 
-exec bash /tmp/bmj-deploy-production.sh
+exec bash "$dir/deploy-production.sh"

@@ -9,11 +9,14 @@ Confirmed for this account:
 | SSH hostname | `premium55-5.web-hosting.com` |
 | SSH port | `21098` |
 | SSH user | `neurtqox` |
+| Application root | `/home/neurtqox/apps/bmjmasjid` |
+| Node activation | `source /home/neurtqox/nodevenv/apps/bmjmasjid/22/bin/activate` |
 | Public URL | `https://bmjmasjid.neuroncosmo.com` |
-| Node.js | 22.23.3, via the cPanel application virtual environment |
+| Node.js | 22.23.3 |
 | MySQL database | `neurtqox_bmjmasjid` |
+| Process manager | cPanel Phusion Passenger |
 
-`premium55.web-hosting.com` is a different server. Port 22 and port 2222 do not accept SSH on this host. The application root and the `source …/nodevenv/…/bin/activate` command are shown in cPanel under **Setup Node.js App**. Copy them from that screen. Do not invent either path.
+`premium55.web-hosting.com` is a different server. Port 22 and port 2222 do not accept SSH on this host. The runner refuses any host, user, port, path, URL, or Node activation command other than the values above.
 
 Normal workflow:
 
@@ -56,20 +59,23 @@ Add these to the repository or to the `production` environment. Do not commit th
 | --- | --- | --- |
 | `PRODUCTION_HOST` | yes | `premium55-5.web-hosting.com` |
 | `PRODUCTION_USER` | yes | `neurtqox` |
-| `PRODUCTION_SSH_KEY` | yes | Private key for that user. A public deploy key is not required; the GitHub repo is public. |
-| `PRODUCTION_PATH` | yes | cPanel **Application root**, absolute, letters, numbers, `/`, `.`, `_`, and `-` only |
+| `PRODUCTION_SSH_KEY` | yes | Passphrase-protected private key. A public deploy key is not required; the GitHub repo is public. |
+| `PRODUCTION_SSH_PASSPHRASE` | yes | Passphrase for that key. It is given to `ssh-add` through `SSH_ASKPASS` and is never written into the remote env file or the logs. |
+| `PRODUCTION_PATH` | yes | `/home/neurtqox/apps/bmjmasjid` |
 | `PRODUCTION_URL` | yes | `https://bmjmasjid.neuroncosmo.com` |
 | `PRODUCTION_KNOWN_HOSTS` | yes | Output of `ssh-keyscan -p 21098 -H premium55-5.web-hosting.com` |
 | `PRODUCTION_PORT` | yes | `21098`. If the secret is empty, the script uses `21098`. |
-| `PRODUCTION_NODE_SETUP` | yes | cPanel command that starts with `source /home/neurtqox/nodevenv/…/bin/activate`. The script returns to `PRODUCTION_PATH` afterwards. |
+| `PRODUCTION_NODE_SETUP` | yes | `source /home/neurtqox/nodevenv/apps/bmjmasjid/22/bin/activate` |
 | `PRODUCTION_RESTART_COMMAND` | no | Leave empty. Passenger reloads from `tmp/restart.txt`. |
 
 Create the key on your own machine, not in the repository:
 
 ```bash
-ssh-keygen -t ed25519 -f bmj-deploy -C "github-actions-bmj" -N ""
+ssh-keygen -t ed25519 -f bmj-deploy -C "github-actions-bmj"
 ssh-keyscan -p 21098 -H premium55-5.web-hosting.com
 ```
+
+The key already configured for this account is passphrase-protected. Put that passphrase in `PRODUCTION_SSH_PASSPHRASE`. The runner starts a private `ssh-agent`, sets `SSH_ASKPASS_REQUIRE=force`, and loads the key without printing it. Host checking stays `StrictHostKeyChecking=yes`. Do not put the passphrase in the key file, the workflow, or a log.
 
 Append `bmj-deploy.pub` to `/home/neurtqox/.ssh/authorized_keys`. Put the contents of `bmj-deploy` in `PRODUCTION_SSH_KEY` and the `ssh-keyscan` output in `PRODUCTION_KNOWN_HOSTS`.
 
@@ -83,7 +89,7 @@ Host key fingerprints measured on port 21098, so the scan can be checked before 
 
 Do this once on the existing host. Do not recreate the database, replace `.env*`, or edit SSL.
 
-1. In cPanel → **Setup Node.js App**, copy **Application root** into `PRODUCTION_PATH`. That directory is where Passenger watches `tmp/restart.txt`. It may differ from `public_html`. Copy the virtual-environment command into `PRODUCTION_NODE_SETUP`.
+1. The application root is `/home/neurtqox/apps/bmjmasjid`. Passenger watches `tmp/restart.txt` there. It is not `public_html`.
 2. If that application root is not a full git checkout:
 
 ```bash
@@ -99,7 +105,8 @@ Do not run `git clean`, `git clean -x`, or `git clean -fd`. Ignored files stay i
 3. Leave the real `DATABASE_URL`, `APP_ORIGIN`, and `CSRF_SECRET` in one of those env files. `DATABASE_URL` must keep using `neurtqox_bmjmasjid`. `APP_ORIGIN` must be `https://bmjmasjid.neuroncosmo.com`. The deploy reads them and does not copy `.env.example` over them.
 4. SSH in as `neurtqox` and run the `PRODUCTION_NODE_SETUP` command, then `node -v` and `npm -v`. The expected Node version is 22.23.3. Non-interactive SSH does not see that Node until the virtual environment is sourced.
 5. From the application root, run `mkdir -p tmp && touch tmp/restart.txt` once by hand and reload the public site. Passenger must come back on the same URL. Leave `PRODUCTION_RESTART_COMMAND` empty after that succeeds.
-6. Add the GitHub secrets above. Merge this automation to `master` only after those secrets exist and the application root is a git checkout of this repository. Then watch the Actions run. `https://bmjmasjid.neuroncosmo.com/api/health` must return the deployed commit.
+6. Add the GitHub secrets above, including `PRODUCTION_SSH_PASSPHRASE`.
+7. Run **Actions → CI → Run workflow** on this branch and wait for **Preflight production SSH**. That job only authenticates and reads the checkout. It does not fetch, build, migrate, or touch `tmp/restart.txt`. Merge to `master` only after that job reports `preflight_result=ok`. A push to `master` is what deploys. `https://bmjmasjid.neuroncosmo.com/api/health` must then return the deployed commit.
 
 `npm run db:migrate` must succeed with the server's existing `DATABASE_URL`. The migration uses a named lock, skips SQL that was already applied, and refuses an edited migration file. It does not drop, truncate, or reseed tables.
 

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Deploy one exact commit into the existing production directory.
+set +x
 # Invoked over SSH by GitHub Actions. Does not print or replace secrets.
 set -euo pipefail
 
@@ -30,11 +31,9 @@ fi
 
 cd "$APP_DIR"
 gitc() { command git -c safe.directory="$APP_DIR" "$@"; }
-
-if ! gitc rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-  echo "APP_DIR is not a git checkout. Finish the one-time server setup in docs/deployment.md." >&2
-  exit 1
-fi
+# shellcheck source=production-checkout-guard.sh
+source "$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/production-checkout-guard.sh"
+assert_production_checkout
 
 exec 9> .deploy.lock
 if ! flock -w 1800 9; then
