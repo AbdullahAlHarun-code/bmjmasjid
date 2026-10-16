@@ -13,6 +13,7 @@ bash -n "$root/scripts/deploy-remote-entry.sh"
 bash -n "$root/scripts/preflight-remote.sh"
 bash -n "$root/scripts/production-checkout-guard.sh"
 bash -n "$root/scripts/ssh-load-key.sh"
+bash -n "$root/scripts/ci-build-release.sh"
 
 if PRODUCTION_URL=http://example.com EXPECTED_SHA=0123456789abcdef0123456789abcdef01234567 bash "$root/scripts/ci-health.sh" >/tmp/bmj-health-http.out 2>/tmp/bmj-health-http.err; then
   echo "http health check should fail" >&2
