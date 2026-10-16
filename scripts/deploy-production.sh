@@ -42,8 +42,11 @@ if ! flock -w 1800 9; then
 fi
 
 if [ -n "${PRODUCTION_NODE_SETUP:-}" ]; then
-  # Activates the existing cPanel nodevenv. The selector command may cd; return afterwards.
+  # cPanel's activate script reads CL_VIRTUAL_ENV before setting it.
+  # nounset would abort that script, so relax it only for this source.
+  set +u
   eval "$PRODUCTION_NODE_SETUP"
+  set -u
   cd "$APP_DIR"
 fi
 

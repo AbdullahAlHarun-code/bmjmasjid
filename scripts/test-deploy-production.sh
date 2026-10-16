@@ -184,7 +184,7 @@ EOF
 chmod +x "$bin/pm2"
 rm -f "$tmp/app/tmp/restart.txt" "$tmp/pm2-called"
 mkdir -p "$tmp/elsewhere"
-run_deploy "$tmp/passenger.out" DEPLOY_SHA="$sha_c" PRODUCTION_NODE_SETUP="cd '$tmp/elsewhere'"
+run_deploy "$tmp/passenger.out" DEPLOY_SHA="$sha_c" PRODUCTION_NODE_SETUP="printf '%s' \"\$CL_VIRTUAL_ENV\"; cd '$tmp/elsewhere'"
 grep -q '^deploy_result=deployed$' "$tmp/passenger.out"
 test -f "$tmp/app/tmp/restart.txt"
 test ! -e "$tmp/elsewhere/tmp"

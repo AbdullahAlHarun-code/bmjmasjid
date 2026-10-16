@@ -20,8 +20,10 @@ gitc() { command git -c safe.directory="$APP_DIR" "$@"; }
 
 if [ -n "${NODE_B64:-}" ]; then
   PRODUCTION_NODE_SETUP=$(printf '%s' "$NODE_B64" | base64 -d)
-  # shellcheck disable=SC2086
+  # cPanel's activate script reads CL_VIRTUAL_ENV before setting it.
+  set +u
   eval "$PRODUCTION_NODE_SETUP"
+  set -u
   cd "$APP_DIR"
   unset PRODUCTION_NODE_SETUP NODE_B64
 fi
