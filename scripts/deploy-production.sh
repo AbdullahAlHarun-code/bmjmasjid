@@ -188,13 +188,33 @@ build_release() {
   stage_dir=$(mktemp -d "$parent/bmj-stage.XXXXXX")
   rmdir "$stage_dir"
   gitc worktree add --detach "$stage_dir" "$sha"
+  if [ "$(git -C "$stage_dir" config --bool --get core.sparseCheckout 2>/dev/null || true)" = "true" ]; then
+    git -C "$stage_dir" sparse-checkout disable
+  fi
   link_env_into_stage
+  if [ "$APP_DIR" = "/home/neurtqox/apps/bmjmasjid" ]; then
+    for required in package.json package-lock.json next.config.ts tsconfig.json; do
+      if [ ! -f "$stage_dir/$required" ]; then
+        echo "Staged checkout is missing $required" >&2
+        return 1
+      fi
+    done
+  fi
   pushd "$stage_dir" >/dev/null
   export npm_config_cache="$stage_dir/npm-cache"
   write_stamp "$sha"
   npm ci
   run_migrate
-  npm run build
+  if [ -n "${NEXT_TARBALL:-}" ]; then
+    # The runner compiled this commit. This host's glibc cannot run Turbopack.
+    if [ ! -f "$NEXT_TARBALL" ]; then
+      echo "Prebuilt Next.js output is missing" >&2
+      return 1
+    fi
+    tar -xzf "$NEXT_TARBALL" -C "$stage_dir"
+  else
+    npm run build -- --webpack
+  fi
   assert_env_unchanged
   popd >/dev/null
   unset npm_config_cache
@@ -250,7 +270,7 @@ assert_production_origin
 if [ -f .git/shallow ]; then
   gitc fetch --unshallow origin
 fi
-gitc fetch --no-tags origin master
+gitc fetch --no-tags origin '+refs/heads/master:refs/remotes/origin/master'
 if ! gitc cat-file -e "${DEPLOY_SHA}^{commit}" >/dev/null 2>&1; then
   gitc fetch --no-tags origin "$DEPLOY_SHA"
 fi

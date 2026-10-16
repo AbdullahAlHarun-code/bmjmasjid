@@ -203,6 +203,14 @@ if [ "$PREFLIGHT" = 1 ]; then
   exit "$ssh_status"
 fi
 
+if [ -n "${NEXT_BUILD_TAR:-}" ]; then
+  if [ ! -f "$NEXT_BUILD_TAR" ]; then
+    echo "NEXT_BUILD_TAR does not exist" >&2
+    exit 1
+  fi
+  printf '\nNEXT_TARBALL=%s\n' "$remote_dir/next.tgz" >> "$work/deploy.env"
+  copy_remote "$NEXT_BUILD_TAR" "next.tgz"
+fi
 copy_remote "$script_dir/deploy-production.sh" "deploy-production.sh"
 copy_remote "$script_dir/deploy-remote-entry.sh" "deploy-remote-entry.sh"
 copy_remote "$script_dir/production-checkout-guard.sh" "production-checkout-guard.sh"

@@ -133,9 +133,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Build the release on the runner
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          NEXT_BUILD_TAR: ${{ runner.temp }}/next-build.tgz
+        run: bash scripts/ci-build-release.sh
+
       - name: Deploy exact commit
         id: deploy
         env:
+          NEXT_BUILD_TAR: ${{ runner.temp }}/next-build.tgz
           PRODUCTION_HOST: ${{ secrets.PRODUCTION_HOST }}
           PRODUCTION_PORT: ${{ secrets.PRODUCTION_PORT }}
           PRODUCTION_USER: ${{ secrets.PRODUCTION_USER }}
@@ -157,9 +170,17 @@ jobs:
           EXPECTED_SHA: ${{ github.sha }}
         run: bash scripts/ci-health.sh
 
+      - name: Build the previous release
+        if: failure() && steps.deploy.outputs.result == 'deployed' && steps.health.outcome == 'failure'
+        env:
+          GITHUB_SHA: ${{ steps.deploy.outputs.previous }}
+          NEXT_BUILD_TAR: ${{ runner.temp }}/next-rollback.tgz
+        run: bash scripts/ci-build-release.sh
+
       - name: Roll back production
         if: failure() && steps.deploy.outputs.result == 'deployed' && steps.health.outcome == 'failure'
         env:
+          NEXT_BUILD_TAR: ${{ runner.temp }}/next-rollback.tgz
           PRODUCTION_HOST: ${{ secrets.PRODUCTION_HOST }}
           PRODUCTION_PORT: ${{ secrets.PRODUCTION_PORT }}
           PRODUCTION_USER: ${{ secrets.PRODUCTION_USER }}

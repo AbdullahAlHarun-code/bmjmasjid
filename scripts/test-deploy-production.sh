@@ -13,6 +13,7 @@ bash -n "$root/scripts/deploy-remote-entry.sh"
 bash -n "$root/scripts/preflight-remote.sh"
 bash -n "$root/scripts/production-checkout-guard.sh"
 bash -n "$root/scripts/ssh-load-key.sh"
+bash -n "$root/scripts/ci-build-release.sh"
 
 if PRODUCTION_URL=http://example.com EXPECTED_SHA=0123456789abcdef0123456789abcdef01234567 bash "$root/scripts/ci-health.sh" >/tmp/bmj-health-http.out 2>/tmp/bmj-health-http.err; then
   echo "http health check should fail" >&2
@@ -91,7 +92,7 @@ run_deploy "$tmp/a.out" DEPLOY_SHA="$sha_a"
 grep -q '^deploy_result=deployed$' "$tmp/a.out"
 grep -q "$sha_a" "$tmp/app/src/server/deployed-commit.ts"
 grep -q '^ci$' "$npm_log"
-grep -q '^run build$' "$npm_log"
+grep -q '^run build -- --webpack$' "$npm_log"
 test -f "$tmp/app/tmp/restart.txt"
 grep -q '^built-by-npm$' "$tmp/app/.next/marker"
 grep -q 'super-secret-db-token' "$tmp/app/.env.local"
@@ -226,6 +227,12 @@ grep -q 'not the git work tree root' "$tmp/nested-pre.err"
 run_deploy "$tmp/keep.out" DEPLOY_SHA="$sha_c"
 grep -q '^deploy_result=deployed$' "$tmp/keep.out"
 grep -q 'upload-keep-7f3c' "$tmp/app/upload-keep.txt"
+
+git -C "$tmp/app" config --unset-all remote.origin.fetch
+git -C "$tmp/app" update-ref -d refs/remotes/origin/master
+run_deploy "$tmp/refspec.out" DEPLOY_SHA="$sha_c"
+grep -q '^deploy_result=deployed$' "$tmp/refspec.out"
+test "$(git -C "$tmp/app" rev-parse refs/remotes/origin/master)" = "$sha_c"
 
 printf '\n%s\n' '// local-only' >> "$tmp/app/scripts/db-migrate.mjs"
 if run_deploy "$tmp/dirty.out" DEPLOY_SHA="$sha_c"; then
