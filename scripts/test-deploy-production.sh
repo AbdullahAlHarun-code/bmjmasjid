@@ -227,6 +227,12 @@ run_deploy "$tmp/keep.out" DEPLOY_SHA="$sha_c"
 grep -q '^deploy_result=deployed$' "$tmp/keep.out"
 grep -q 'upload-keep-7f3c' "$tmp/app/upload-keep.txt"
 
+git -C "$tmp/app" config --unset-all remote.origin.fetch
+git -C "$tmp/app" update-ref -d refs/remotes/origin/master
+run_deploy "$tmp/refspec.out" DEPLOY_SHA="$sha_c"
+grep -q '^deploy_result=deployed$' "$tmp/refspec.out"
+test "$(git -C "$tmp/app" rev-parse refs/remotes/origin/master)" = "$sha_c"
+
 printf '\n%s\n' '// local-only' >> "$tmp/app/scripts/db-migrate.mjs"
 if run_deploy "$tmp/dirty.out" DEPLOY_SHA="$sha_c"; then
   echo "tracked local changes should be refused" >&2

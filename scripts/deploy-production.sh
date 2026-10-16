@@ -250,7 +250,7 @@ assert_production_origin
 if [ -f .git/shallow ]; then
   gitc fetch --unshallow origin
 fi
-gitc fetch --no-tags origin master
+gitc fetch --no-tags origin '+refs/heads/master:refs/remotes/origin/master'
 if ! gitc cat-file -e "${DEPLOY_SHA}^{commit}" >/dev/null 2>&1; then
   gitc fetch --no-tags origin "$DEPLOY_SHA"
 fi

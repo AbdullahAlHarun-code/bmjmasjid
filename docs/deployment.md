@@ -38,7 +38,7 @@ Trigger: a push to `master`, after the `checks`, `donation-storage`, and `site-a
 
 The runner SSHes to the server and `scripts/deploy-production.sh` does this in `PRODUCTION_PATH`:
 
-1. Fetch `origin/master` and deploy that exact commit. It does not `git pull`. A commit that is not on `origin/master` is refused. If `origin/master` has already moved on, the older job skips so a slower CI run cannot overwrite a newer one. Tracked local edits in the live tree, other than the generated commit stamp, also stop the deploy.
+1. Fetch `refs/heads/master` into `refs/remotes/origin/master` and deploy that exact commit. It does not `git pull`. A commit that is not on `origin/master` is refused. If `origin/master` has already moved on, the older job skips so a slower CI run cannot overwrite a newer one. Tracked local edits in the live tree, other than the generated commit stamp, also stop the deploy.
 2. Build in a temporary worktree beside the application (`bmj-stage.*`), not inside the live directory. `npm ci`, the migration, and `npm run build` finish there. The live `.next` and `node_modules` stay in place while that build runs. Env files are symlinked, not copied or rewritten.
 3. Only after that build succeeds, check out the commit in the application root, move the new `node_modules` and `.next` into place, and write the commit into `src/server/deployed-commit.ts` so `/api/health` reports it.
 4. Restart Passenger by touching `tmp/restart.txt` in the application root. The stage directory is removed after the move.
